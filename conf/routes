@@ -1,0 +1,30 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Application.index()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+GET     /saludo                                     controllers.Application.saludo(nombre: String)
+GET     /usuarios                                   controllers.Usuarios.listaUsuarios()
+GET     /usuarios/nuevo                             controllers.Usuarios.formularioNuevoUsuario()
+POST    /usuarios/nuevo                             controllers.Usuarios.grabaNuevoUsuario()
+POST    /usuarios/modifica                          controllers.Usuarios.grabaUsuarioModificado()
+GET     /usuarios/:id                               controllers.Usuarios.detalleUsuario(id: Integer)
+DELETE  /usuarios/:id                               controllers.Usuarios.borraUsuario(id: Integer)
+GET     /usuarios/:id/editar                        controllers.Usuarios.editarUsuario(id: Integer)
+GET     /registrarse                                controllers.Usuarios.formularioRegUsuario()
+POST    /registrarse                                controllers.Usuarios.registraNuevoUsuario()
+GET     /login                                      controllers.Usuarios.formularioLogin()
+POST    /login                                      controllers.Usuarios.logeaUsuario()
+GET     /salir                                      controllers.Usuarios.cerrarSesion()
+
+GET     /usuarios/:id/tareas                        controllers.Tareas.listaTareas(id: Integer)
+GET     /usuarios/:id/tareas/nueva                  controllers.Tareas.formularioNuevaTarea(id: Integer)
+POST    /tareas/nueva                               controllers.Tareas.grabaNuevaTarea()
+GET     /usuarios/:id_user/tareas/:id_tarea/editar  controllers.Tareas.editarTarea(id_user: Integer,id_tarea: Integer)
+POST    /tareas/modifica                            controllers.Tareas.grabaTareaModificada()
+DELETE  /tareas/:id                                 controllers.Tareas.borraTarea(id: Integer)

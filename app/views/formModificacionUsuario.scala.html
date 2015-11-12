@@ -1,0 +1,29 @@
+@(usuarioForm: Form[Usuario], mensaje: String)
+
+
+@main("Modificar usuario") {
+    <div style="margin:10px 30px">
+        @if(mensaje != "") {
+            <div class="alert alert-danger">
+                @mensaje
+            </div>
+        }
+        <h1>Modificar usuario</h1>
+        @helper.form(action = routes.Usuarios.grabaUsuarioModificado()) {
+            <fieldset>
+            <legend>Usuario @usuarioForm("id").value</legend>
+            <input type="hidden" name="id" value='@usuarioForm("id").value' >
+            <input type="hidden" name="password" value='@usuarioForm("password").value'>
+            @helper.inputText(usuarioForm("login"), '_label -> "Login")
+            @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
+            @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
+            @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
+            @helper.inputText(usuarioForm("fechaNacimiento"), '_label ->
+            "Fecha nacimiento (dd-mm-aaaa)")
+            </fieldset>
+            <input type="submit" class="btn btn-success" value="Guardar cambios">
+            <a class="btn btn-danger"
+                href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
+        }
+    </div>
+}

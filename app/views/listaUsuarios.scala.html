@@ -1,0 +1,60 @@
+@(usuarios: List[Usuario], mensaje: String)
+@scripts = {
+    <script type="text/javascript">
+        function del(urlBorrar) {
+            $.ajax({
+                url: urlBorrar,
+                type: 'DELETE',
+                success: function(results) {
+                    //refresh the page
+                    location.reload();
+                }
+            });
+        }
+    </script>
+}
+
+@main("Listado de usuarios",scripts) {
+    <div style="margin:0px 50px">
+        <h1>Listado de usuarios</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Login</th>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(usuario <- usuarios) {
+                <tr>
+                    <td>@usuario.id</td>
+                    <td>@usuario.login</td>
+                    <td>@usuario.nombre</td>
+                    <td>@usuario.apellidos</td>
+                    <td>
+                        <a class="btn btn-info btn-sm" href="@routes.Usuarios.detalleUsuario(usuario.id)"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></a>
+                        <a class="btn btn-primary btn-sm" href="@routes.Usuarios.editarUsuario(usuario.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a class="btn btn-warning btn-sm" onclick="del('/usuarios/' + '@usuario.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary"
+            href="@routes.Usuarios.formularioNuevoUsuario()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+
+        <p>
+        @if(mensaje!=null && mensaje!="") {
+        <div class="alert alert-success">
+            <span class="glyphicon glyphicon-saved" aria-hidden="true"> @mensaje
+        </div>
+        }
+        </p>
+    </div>
+
+
+}

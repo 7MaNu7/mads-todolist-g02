@@ -1,0 +1,54 @@
+@(tareas: List[Tarea], usuario: Usuario, mensaje: String)
+
+@scripts = {
+    <script type="text/javascript">
+        function del(urlBorrar) {
+            $.ajax({
+                url: urlBorrar,
+                type: 'DELETE',
+                success: function(results) {
+                    //refresh the page
+                    location.reload();
+                }
+            });
+        }
+    </script>
+}
+
+@main("Listado de tareas",scripts) {
+    <div style="margin:0px 50px">
+        <h2>Listado de tareas de @usuario.login</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Descripción</th>
+                  <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for(tarea <- tareas) {
+                <tr>
+                    <td>@tarea.id</td>
+                    <td>@tarea.descripcion</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <a class="btn btn-primary"
+            href="@routes.Tareas.formularioNuevaTarea(usuario.id)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+
+        <p>
+        @if(mensaje!=null && mensaje!="") {
+        <div class="alert alert-success">
+            <span class="glyphicon glyphicon-saved" aria-hidden="true"> @mensaje
+        </div>
+        }
+        </p>
+    </div>
+}

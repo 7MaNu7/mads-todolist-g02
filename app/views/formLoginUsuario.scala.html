@@ -1,0 +1,24 @@
+@(loginForm: DynamicForm, mensaje: String)
+
+
+
+@main("Iniciar sesión") {
+
+    <div style="margin:10px 30px">
+        @if(mensaje!=null && mensaje!="") {
+            <div class="alert alert-danger">
+                @mensaje
+            </div>
+        }
+        <h1>Inicio de sesión</h1>
+        @helper.form(action = routes.Usuarios.logeaUsuario()) {
+            <fieldset>
+                @helper.inputText(loginForm("login"), '_label -> "Login")
+                @helper.inputPassword(loginForm("password"), '_label -> "Contraseña")
+            </fieldset>
+            <p>
+                <input type="submit" class="btn btn-success" value="Iniciar sesión">
+            </p>
+        }
+    </div>
+}

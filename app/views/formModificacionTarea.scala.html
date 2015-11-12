@@ -1,0 +1,23 @@
+@(usuario: Usuario, tarea: Tarea)
+
+@main("Modificar tarea") {
+    <div style="margin:10px 30px">
+        <h1>Modificar tarea @tarea.id del usuario @usuario.login</h1>
+
+        @helper.form(action = routes.Tareas.grabaTareaModificada()) {
+            <fieldset>
+            <legend>Tarea @tarea.id</legend>
+            <input type="hidden" name="id" value='@tarea.id' >
+            <input type="hidden" name="id_usuario" value='@tarea.usuario.id'>
+            <p>
+                <label for="descripcion">Descripción: </label>
+                <input type="text" name="descripcion" value='@tarea.descripcion'>
+            </p>
+            </fieldset>
+            <input type="submit" class="btn btn-success" value="Guardar cambios">
+            <a class="btn btn-danger"
+                href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
+        }
+
+    </div>
+}

@@ -1,0 +1,31 @@
+@(usuarioForm: Form[Usuario], mensaje: String)
+
+
+
+@main("Nuevo usuario") {
+
+    <div style="margin:10px 30px">
+        @if(mensaje!=null && mensaje!="") {
+            <div class="alert alert-danger">
+                @mensaje
+            </div>
+        }
+        <h1>Nuevo usuario</h1>
+        @helper.form(action = routes.Usuarios.registraNuevoUsuario()) {
+            <fieldset>
+                @helper.inputText(usuarioForm("login"), '_label -> "Login")
+                @helper.inputPassword(usuarioForm("password"), '_label -> "Contraseña")
+                @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
+                @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
+                @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
+                @helper.inputText(usuarioForm("fechaNacimiento"), '_label ->
+                "Fecha nacimiento (dd-mm-aaaa)")
+            </fieldset>
+            <p>
+                <input type="submit" class="btn btn-success" value="Guardar">
+                <a class="btn btn-danger"
+                    href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
+            </p>
+        }
+    </div>
+}

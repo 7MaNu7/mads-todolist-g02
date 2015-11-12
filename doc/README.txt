@@ -1,0 +1,1 @@
+Sobre el proyecto mads-todolist - equipo g02
