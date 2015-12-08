@@ -3,7 +3,7 @@ package models;
 import javax.persistence.*;
 import play.data.validation.Constraints;
 import play.data.format.*;
-
+import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -16,7 +16,7 @@ public class Tarea {
         @JoinColumn(name="usuarioId")
         public Usuario usuario;
         @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "tareas-etiquetas")
+        @JoinTable(name = "tagtask")
         public List<Etiqueta> etiquetas;
 
         public String descripcion;
