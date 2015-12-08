@@ -3,7 +3,7 @@ package models;
 import javax.persistence.*;
 import play.data.validation.Constraints;
 import play.data.format.*;
-
+import java.util.List;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -13,7 +13,7 @@ public class Etiqueta {
         @GeneratedValue(strategy=GenerationType.AUTO)
     	public Integer id;
         @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "tareas-etiquetas")
+        @JoinTable(name = "tagtask")
         public List<Tarea> tareas;
 
         @Constraints.Required //no nula
@@ -52,5 +52,10 @@ public class Etiqueta {
             result = prime * result +
                 ((nombre == null) ? 0 : nombre.hashCode());
             return result;
+        }
+
+        public String toString() {
+            return String.format("Etiqueta id: %s nombre: %s",
+                id,nombre);
         }
 }
