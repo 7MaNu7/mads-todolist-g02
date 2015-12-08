@@ -15,8 +15,9 @@ public class Tarea {
         @ManyToOne
         @JoinColumn(name="usuarioId")
         public Usuario usuario;
-        @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "tagtask")
+
+        @ManyToMany(cascade=CascadeType.ALL)
+        @JoinTable(name="tarea_etiqueta", joinColumns=@JoinColumn(name="tarea_id"), inverseJoinColumns=@JoinColumn(name="etiqueta_id"))
         public List<Etiqueta> etiquetas;
 
         public String descripcion;
@@ -31,6 +32,15 @@ public class Tarea {
             //Por defecto el estado es pendiente
             this.estado = "pendiente";
         }
+
+        public Tarea(String descripcion, Usuario usuario,List<Etiqueta> etiquetas) {
+            this.descripcion = descripcion;
+            this.usuario = usuario;
+            this.etiquetas = etiquetas;
+            this.estado = "pendiente";
+        }
+
+
 
         @Override public boolean equals(Object obj) {
             if (obj == this) {
@@ -70,7 +80,11 @@ public class Tarea {
         }
 
         public String toString() {
-            return String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s",
+            String cadena = String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s",
                 id,descripcion,usuario.id,estado);
+            cadena+=" \nEtiquetas:\n";
+            for(Etiqueta e:etiquetas)
+                cadena+=e + "\n";
+            return cadena;
         }
 }

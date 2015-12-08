@@ -12,9 +12,6 @@ public class Etiqueta {
         @Id
         @GeneratedValue(strategy=GenerationType.AUTO)
     	public Integer id;
-        @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "tagtask")
-        public List<Tarea> tareas;
 
         @Constraints.Required //no nula
         @Column(unique=true) //unica
