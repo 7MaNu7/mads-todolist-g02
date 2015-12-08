@@ -15,6 +15,10 @@ public class Tarea {
         @ManyToOne
         @JoinColumn(name="usuarioId")
         public Usuario usuario;
+        @ManyToMany(cascade = CascadeType.ALL)
+        @JoinTable(name = "tareas-etiquetas")
+        public List<Etiqueta> etiquetas;
+
         public String descripcion;
 
         public Tarea() {}
