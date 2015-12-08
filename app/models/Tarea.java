@@ -11,17 +11,21 @@ import java.text.SimpleDateFormat;
 public class Tarea {
         @Id
         @GeneratedValue(strategy=GenerationType.AUTO)
-    	public Integer id;
+    	  public Integer id;
         @ManyToOne
         @JoinColumn(name="usuarioId")
         public Usuario usuario;
         public String descripcion;
+        @Constraints.Required
+        public String estado;
 
         public Tarea() {}
 
         public Tarea(String descripcion, Usuario usuario) {
             this.descripcion = descripcion;
             this.usuario = usuario;
+            //Por defecto el estado es pendiente
+            this.estado = "pendiente";
         }
 
         @Override public boolean equals(Object obj) {
@@ -38,7 +42,8 @@ public class Tarea {
 
             if (id != null && otraTarea.id != null) return (id == otraTarea.id);
             else return (descripcion.equals(otraTarea.descripcion)) &&
-                        (usuario.equals(otraTarea.usuario));
+                        (usuario.equals(otraTarea.usuario)) &&
+                        (estado.equals(otraTarea.estado));
         }
 
         @Override public int hashCode() {
@@ -48,6 +53,8 @@ public class Tarea {
                 ((id == null) ? 0 : id);
             result = prime * result +
                 ((descripcion == null) ? 0 : descripcion.hashCode());
+            result = prime * result +
+                ((estado == null) ? 0 : estado.hashCode());
             return result;
         }
 
@@ -55,10 +62,11 @@ public class Tarea {
         //una tarea en sus atributos
         public void nulificaAtributos() {
             if(descripcion!=null && descripcion.isEmpty()) descripcion=null;
+            if (estado != null && estado.isEmpty()) estado = "pendiente";
         }
 
         public String toString() {
-            return String.format("Tarea id: %s descripcion: %s UsuarioId: %s",
-                id,descripcion,usuario.id);
+            return String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s",
+                id,descripcion,usuario.id,estado);
         }
 }
