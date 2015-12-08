@@ -1,0 +1,6 @@
+/* Para las tareas realizadas */
+
+#realizada {
+  text-decoration: line-through;
+  color: gray !important;
+}
