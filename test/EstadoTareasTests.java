@@ -85,4 +85,36 @@ public class EstadoTareasTests {
            });
          });
     }
+
+    @Test
+    public void testModificarTareaEstadoRealizada() {
+       running (app, () -> {
+           JPA.withTransaction(() -> {
+               Usuario usuario = UsuarioDAO.find(1);
+               Tarea tarea = TareaDAO.find(2);
+               tarea.estado = "realizada";
+               TareaService.modificaTarea(tarea);
+               List<Tarea> tareas = usuario.tareas;
+               assertEquals(tareas.size(), 3);
+               assertTrue(tareas.get(1).estado.equals("realizada"));
+           });
+       });
+    }
+
+    @Test
+    public void testModificarTareaEstado2Cambios() {
+       running (app, () -> {
+           JPA.withTransaction(() -> {
+               Usuario usuario = UsuarioDAO.find(1);
+               Tarea tarea = TareaDAO.find(2);
+               tarea.estado = "realizada";
+               TareaService.modificaTarea(tarea);
+               tarea.estado = "pendiente";
+               TareaService.modificaTarea(tarea);
+               List<Tarea> tareas = usuario.tareas;
+               assertEquals(tareas.size(), 3);
+               assertTrue(tareas.get(1).estado.equals("pendiente"));
+           });
+       });
+    }
 }
