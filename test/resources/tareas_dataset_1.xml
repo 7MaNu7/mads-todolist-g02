@@ -6,4 +6,6 @@
   <Tarea id="2" usuarioId="1" descripcion="Estudiar el parcial de matemáticas" />
   <Tarea id="3" usuarioId="1" descripcion="Leer el libro de inglés" />
   <Tarea id="4" usuarioId="2" descripcion="Salir a correr" />
+  <Etiqueta/>
+  <tarea_etiqueta/>
 </dataset>
