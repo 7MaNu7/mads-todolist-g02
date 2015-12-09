@@ -24,6 +24,8 @@ public class Tarea {
         @Constraints.Required
         public String estado;
 
+        public String anotacion;
+
         public Tarea() {}
 
         public Tarea(String descripcion, Usuario usuario) {
@@ -31,6 +33,7 @@ public class Tarea {
             this.usuario = usuario;
             //Por defecto el estado es pendiente
             this.estado = "pendiente";
+
         }
 
         public Tarea(String descripcion, Usuario usuario,List<Etiqueta> etiquetas) {
@@ -69,6 +72,8 @@ public class Tarea {
                 ((descripcion == null) ? 0 : descripcion.hashCode());
             result = prime * result +
                 ((estado == null) ? 0 : estado.hashCode());
+            result = prime * result +
+                ((anotacion == null) ? 0 : anotacion.hashCode());
             return result;
         }
 
@@ -76,12 +81,13 @@ public class Tarea {
         //una tarea en sus atributos
         public void nulificaAtributos() {
             if(descripcion!=null && descripcion.isEmpty()) descripcion=null;
+            if(anotacion!=null && anotacion.isEmpty()) anotacion=null;
             if (estado != null && estado.isEmpty()) estado = "pendiente";
         }
 
         public String toString() {
-            String cadena = String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s",
-                id,descripcion,usuario.id,estado);
+            String cadena = String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s anotacion %s",
+                id,descripcion,usuario.id,estado, anotacion);
             cadena+=" \nEtiquetas:\n";
             for(Etiqueta e:etiquetas)
                 cadena+=e + "\n";
