@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 import play.libs.ws.*;
 
-public class CrearEtiquetasTests {
+public class EtiquetasTests {
 
     JndiDatabaseTester databaseTester;
     Application app;
@@ -74,6 +74,7 @@ public class CrearEtiquetasTests {
             JPA.withTransaction(() -> {
                 Usuario usuario = UsuarioDAO.find(2);
                 Etiqueta etiqueta = new Etiqueta("Trabajo fin de Grado",usuario);
+                etiqueta = EtiquetaDAO.create(etiqueta);
 
 
 
@@ -89,7 +90,7 @@ public class CrearEtiquetasTests {
             JPA.withTransaction(() -> {
                 Usuario usuario = UsuarioDAO.find(2);
                 Etiqueta etiqueta = new Etiqueta("Cosas",usuario);
-                etiqueta = EtiquetaService.grabaEtiqueta(etiqueta);
+                etiqueta = EtiquetaDAO.create(etiqueta);
                 List<Etiqueta> tags = new ArrayList<Etiqueta>();
                 tags.add(etiqueta);
                 Etiqueta etique = new Etiqueta("Para vacaciones",usuario);
@@ -130,20 +131,50 @@ public class CrearEtiquetasTests {
         });
     }
 
-/*
+
+
+
+
+
     @Test
-    public void testC1() {
+    public void testCreaEtiquetaService() {
         running (app, () -> {
             JPA.withTransaction(() -> {
                 Usuario usuario = UsuarioDAO.find(2);
+                Etiqueta etiqueta = new Etiqueta("Trabajo fin de Grado",usuario);
+                etiqueta = EtiquetaService.grabaEtiqueta(etiqueta);
 
-
-
+                assertEquals(etiqueta.nombre,"Trabajo fin de Grado");
+                assertEquals(etiqueta.usuario.login,"julia");
             });
         });
     }
 
-    */
+    @Test
+    public void testEtiquetaModificarService() {
+        running (app, () -> {
+            JPA.withTransaction(() -> {
+                Etiqueta etiqueta = EtiquetaDAO.find(1);
+                etiqueta.nombre="Deportes";
+                etiqueta = EtiquetaService.modificaEtiqueta(etiqueta);
+                Usuario usuario = UsuarioDAO.find(1);
+                assertEquals(usuario.etiquetas.get(0).nombre,"Deportes");
+            });
+        });
+    }
+
+    @Test
+    public void testEtiquetaBorrarService() {
+        running (app, () -> {
+            JPA.withTransaction(() -> {
+                Etiqueta etiqueta = EtiquetaDAO.find(1);
+                EtiquetaService.deleteEtiqueta(etiqueta.id);
+                Usuario usuario = UsuarioDAO.find(1);
+                assertEquals(0,usuario.etiquetas.size());
+            });
+        });
+    }
+
 
 
 
