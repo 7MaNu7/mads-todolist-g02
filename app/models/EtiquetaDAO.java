@@ -25,4 +25,21 @@ public class EtiquetaDAO {
         Logger.debug(etiqueta.toString());
         return etiqueta;
     }
+
+    public static Etiqueta update(Etiqueta e) {
+        return JPA.em().merge(e);
+    }
+
+    public static void delete(Integer id) {
+        Etiqueta e = JPA.em().getReference(Etiqueta.class, id);
+        JPA.em().remove(e);
+        Logger.debug("Se ha borrado la etiqueta " + id);
+
+        //hacemos un flush y refresh para asegurarnos
+        //de que se actualiza ese borrado en el usuario creador
+        JPA.em().flush();
+        JPA.em().refresh(e.usuario);
+    }
+
+
 }
