@@ -86,4 +86,60 @@ public class AnotacionTareasTests {
          });
     }
 
+    @Test
+    public void testCreaTareaDevuelveTareaAnotacionVacia() {
+        running (app, () -> {
+            JPA.withTransaction(() -> {
+                Usuario usuario = UsuarioDAO.find(1);
+                Tarea tarea = new Tarea("Una tarea muy chula",usuario);
+                tarea = TareaDAO.create(tarea);
+                assertEquals(null,tarea.anotacion);
+            });
+        });
+    }
+
+    @Test
+    public void testTareaServiceCreaTareaDevuelveTareaAnotacionVacia() {
+        running (app, () -> {
+            JPA.withTransaction(() -> {
+                Usuario usuario = UsuarioDAO.find(2);
+                Tarea tarea = new Tarea("Una tarea muy chula",usuario);
+                tarea = TareaService.grabaTarea(tarea);
+                assertEquals(null,tarea.anotacion);
+            });
+        });
+    }
+
+    @Test
+    public void testModificarTareaAnotacion() {
+       running (app, () -> {
+           JPA.withTransaction(() -> {
+               Usuario usuario = UsuarioDAO.find(1);
+               Tarea tarea = TareaDAO.find(2);
+               tarea.anotacion = "Este examen tiene mucha materia";
+               TareaService.modificaTarea(tarea);
+               List<Tarea> tareas = usuario.tareas;
+               assertEquals(tareas.size(), 3);
+               assertTrue(tareas.get(1).anotacion.equals("Este examen tiene mucha materia"));
+           });
+       });
+    }
+
+    @Test
+    public void testModificarTareaAnotacion2Cambios() {
+       running (app, () -> {
+           JPA.withTransaction(() -> {
+               Usuario usuario = UsuarioDAO.find(1);
+               Tarea tarea = TareaDAO.find(2);
+               tarea.anotacion = "Este examen tiene mucha materia";
+               TareaService.modificaTarea(tarea);
+               tarea.anotacion = "Este examen consta de 6 temas";
+               TareaService.modificaTarea(tarea);
+               List<Tarea> tareas = usuario.tareas;
+               assertEquals(tareas.size(), 3);
+               assertTrue(tareas.get(1).anotacion.equals("Este examen consta de 6 temas"));
+           });
+       });
+    }
+
 }

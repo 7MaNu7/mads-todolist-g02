@@ -33,7 +33,7 @@ public class Tarea {
             this.usuario = usuario;
             //Por defecto el estado es pendiente
             this.estado = "pendiente";
-            this.anotacion = "";
+
         }
 
         public Tarea(String descripcion, Usuario usuario,List<Etiqueta> etiquetas) {
