@@ -111,6 +111,8 @@ public class Tareas extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         Integer id_tarea = Integer.parseInt(requestData.get("id"));
         String descripcion = requestData.get("descripcion");
+        String estado = requestData.get("estado");
+
         Integer user_id = -99;
         try {
           user_id = Integer.parseInt(requestData.get("id_usuario"));
@@ -129,6 +131,7 @@ public class Tareas extends Controller {
 
         //se modifica la descripcion
         tarea.descripcion = descripcion;
+        tarea.estado = estado;
 
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");
