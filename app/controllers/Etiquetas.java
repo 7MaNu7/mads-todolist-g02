@@ -68,4 +68,41 @@ public class Etiquetas extends Controller {
         return ok(etiqueta.toString());
     }
 
+    @Transactional
+    public Result grabaEtiquetaModificada()
+    {
+        String tipo = session("tipo");
+        if(tipo==null) //si no esta logeado
+            return ok(formLoginUsuario.render(new DynamicForm(),
+                "¡Necesitas iniciar sesión para acceder a este recurso!"));
+
+        DynamicForm requestData = Form.form().bindFromRequest();
+        Integer id_etiqueta = Integer.parseInt(requestData.get("id"));
+        String nombre = requestData.get("nombre");
+
+        Integer user_id = -99;
+        try {
+          user_id = Integer.parseInt(requestData.get("id_usuario"));
+        } catch(NumberFormatException e) {
+          return badRequest(error.render(BAD_REQUEST,"El id de usuario no puede estar vacío."));
+        }
+
+        Usuario usuario = UsuarioService.findUsuario(user_id);
+        Etiqueta etiqueta = EtiquetaService.findEtiqueta(id_etiqueta);
+        if(usuario==null || etiqueta==null)
+            return badRequest(error.render(BAD_REQUEST,"El usuario y/o la etiqueta proporcionados no existen"));
+
+        if(!tipo.equals("admin")) //el admin modifica las etiquetas que quiera
+            if(Integer.parseInt(tipo)!=user_id) //si el user autenticado no coincide con id
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido modificar etiquetas de otros usuarios"));
+
+        //se modifica el nombre
+        etiqueta.nombre=nombre;
+
+        etiqueta = EtiquetaService.modificaEtiqueta(etiqueta);
+        //flash("grabaTarea","La tarea se ha actualizado correctamente");
+        //return redirect(controllers.routes.Tareas.listaTareas(user_id));
+        return ok(etiqueta.toString());
+    }
+
 }
