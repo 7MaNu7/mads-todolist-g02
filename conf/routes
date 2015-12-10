@@ -32,3 +32,4 @@ DELETE  /tareas/:id                                 controllers.Tareas.borraTare
 GET     /usuarios/:id/etiquetas                     controllers.Etiquetas.listaEtiquetas(id: Integer)
 POST    /etiquetas/nueva                            controllers.Etiquetas.grabaNuevaEtiqueta()
 POST    /etiquetas/modifica                         controllers.Etiquetas.grabaEtiquetaModificada()
+DELETE  /etiquetas/:id                              controllers.Etiquetas.borraEtiqueta(id: Integer)

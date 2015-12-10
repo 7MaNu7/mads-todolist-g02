@@ -80,6 +80,9 @@ public class Etiquetas extends Controller {
         Integer id_etiqueta = Integer.parseInt(requestData.get("id"));
         String nombre = requestData.get("nombre");
 
+        if(nombre==null || nombre.equals(""))
+            return badRequest(error.render(BAD_REQUEST,"Una etiqueta debe tener nombre obligatoriamente."));
+
         Integer user_id = -99;
         try {
           user_id = Integer.parseInt(requestData.get("id_usuario"));
@@ -104,5 +107,31 @@ public class Etiquetas extends Controller {
         //return redirect(controllers.routes.Tareas.listaTareas(user_id));
         return ok(etiqueta.toString());
     }
+
+    @Transactional
+    public Result borraEtiqueta(Integer id) {
+        String tipo = session("tipo");
+        if(tipo==null) //si no esta logeado
+            return ok(formLoginUsuario.render(new DynamicForm(),
+                "¡Necesitas iniciar sesión para acceder a este recurso!"));
+
+        Etiqueta etiqueta = EtiquetaService.findEtiqueta(id);
+        if(etiqueta==null) {
+            return badRequest(error.render(BAD_REQUEST,"La etiqueta con id=" + id + " no existe."));
+        }
+
+        if(!tipo.equals("admin")) //el admin modifica las etiquetas que quiera
+            if(Integer.parseInt(tipo)!=etiqueta.usuario.id) //si el user autenticado no coincide con id
+                return unauthorized(error.render(BAD_REQUEST,"No tienes permitido borrar una etiqueta que no es tuya."));
+        EtiquetaService.deleteEtiqueta(id);
+        return ok("La etiqueta se ha borrado sin problemas.");
+
+    }
+
+
+
+
+
+
 
 }
