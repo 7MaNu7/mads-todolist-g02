@@ -170,27 +170,6 @@ public class Tareas extends Controller {
       }
 
 
-      @Transactional
-      public Result grabaPrioridadModificada(Integer id, Integer prioridad)
-      {
-        String tipo = session("tipo");
-        if(tipo==null) //si no esta logeado
-            return ok(formLoginUsuario.render(new DynamicForm(),
-                "¡Necesitas iniciar sesión para acceder a este recurso!"));
-
-        Tarea tarea = TareaService.findTarea(id);
-        if(tarea==null) {
-            return badRequest(error.render(BAD_REQUEST,"La tarea con id=" + id + " no existe."));
-        }
-
-        if(!tipo.equals("admin")) //el admin modifica las tareas que quiera
-            if(Integer.parseInt(tipo)!=tarea.usuario.id) //si el user autenticado no coincide con id
-                return unauthorized(error.render(BAD_REQUEST,"No tienes permitido borrar una tarea que no es tuya."));
-
-        tarea.prioridad=prioridad;
-        tarea = TareaService.modificaTarea(tarea);
-        return ok("La prioridad se ha cambiado sin problemas.");
-      }
 
 
 }
