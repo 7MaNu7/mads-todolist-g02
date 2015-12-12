@@ -34,7 +34,7 @@
        function guardarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA) {
          var anotacion;
          if(anotacionA=='borrar') { anotacion = ""; console.log("es borrar");}
-         else anotacion = document.getElementById("textoanotacion").value;
+         else anotacion = document.getElementById("textoanotacion"+id).value;
          console.log("tarea anotacion:"+anotacion);
          $.ajax({
            url: urlModificar,
@@ -69,7 +69,7 @@
                   @if(tarea.estado=="pendiente") {
                   <tr class="accordion-container">
                     <td>@tarea.id</td>
-                    <td id="accordion-titulo">@tarea.descripcion</td>
+                    <td id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
@@ -80,32 +80,20 @@
                     </td>
                   </tr>
                   <!-- Anotacion de la tarea -->
-                  <tr class="accordion-content">
-                    <td>1 </td>
-                    <!-- Vista detalle -->
-                    <td id="anotaciondetalle">
-                      <div class="anotacion">@tarea.anotacion</div>
-                      <a onclick="" id="botoneditarA">
-                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                      </a>
-                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar'); return false;"">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                      </a>
-                    </td>
+                  <tr class="accordion-content@tarea.id" id="anotacionacordeon">
+                    <td>- </td>
                     <td id="anotacioneditar">
-                      <!-- Vista editable -->
                       <div class="anotacioneditar">
-                        <textarea id="textoanotacion">@tarea.anotacion</textarea>
+                        <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
                       </div>
                       <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
                         <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
                       </a>
-                      <a onclick="" id="botoncancelarA">
-                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar'); return false;">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                       </a>
                     </td>
                   </tr>
-
                   }
                 }
 
@@ -114,7 +102,7 @@
                   @if(tarea.estado!="pendiente") {
                   <tr>
                       <td id='realizada'>@tarea.id</td>
-                      <td id='realizada'>@tarea.descripcion</td>
+                      <td class='realizada' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
                       <td>
                           <a class="btn btn-primary btn-sm" id='realizadab' href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" id='realizada' aria-hidden="true"></span></a>
                           <a class="btn btn-warning btn-sm" id='realizadab' onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" id='realizada' aria-hidden="true"></span></a>
@@ -123,6 +111,22 @@
                             <span class="glyphicon glyphicon-check" id='realizada'></span>
                           </a>
                       </td>
+                  </tr>
+                  <!-- Anotacion de la tarea -->
+                  <tr class="accordion-content@tarea.id" id="anotacionacordeon">
+                    <td>- </td>
+                    <td id="anotacioneditar">
+                      <!-- Vista editable -->
+                      <div class="anotacioneditar">
+                        <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
+                      </div>
+                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
+                        <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+                      </a>
+                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar'); return false;">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                      </a>
+                    </td>
                   </tr>
                   }
                 }
@@ -143,8 +147,9 @@
 
     <!-- Para el acordeón de la anotación de cada tarea -->
     <script>
-      $("#accordion-titulo").click(function(){
-         var contenido=$(".accordion-content");
+    function mostrarAcordeon(id) {
+        console.log("miraaaaa:"+id);
+         var contenido=$(".accordion-content"+id);
          if(contenido.css("display")=="none"){ //open
             contenido.slideDown(250);
             $(this).addClass("open");
@@ -153,28 +158,6 @@
             contenido.slideUp(250);
             $(this).removeClass("open");
         }
-      });
-    </script>
-    <!-- Para ir cambiando entre anotación vista detalle o vista editar-->
-    <script>
-      var vistaDetalle = document.getElementById("anotaciondetalle");
-      var vistaEditar = document.getElementById("anotacioneditar");
-      var mostrarVistaEditar = function() {
-        console.log("holaa");
-        vistaDetalle.style.display = "none";
-        vistaEditar.style.display = "block";
       }
-      var mostrarVistaDetalle = function() {
-        vistaEditar.style.display = "none";
-        vistaDetalle.style.display = "block";
-      }
-      var botoneditarA = document.getElementById("botoneditarA");
-      botoneditarA.addEventListener("click", mostrarVistaEditar);
-
-      var botonguardarA = document.getElementById("botonguardarA");
-      botonguardarA.addEventListener("click", guardarTareaAnotacion);
-
-      var botoncancelarA = document.getElementById("botoncancelarA");
-      botoncancelarA.addEventListener("click", mostrarVistaDetalle);
     </script>
 }
