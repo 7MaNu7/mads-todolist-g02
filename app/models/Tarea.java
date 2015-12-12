@@ -26,6 +26,8 @@ public class Tarea {
 
         public String anotacion;
 
+        public Integer prioridad;
+
         public Tarea() {}
 
         public Tarea(String descripcion, Usuario usuario) {
@@ -33,6 +35,7 @@ public class Tarea {
             this.usuario = usuario;
             //Por defecto el estado es pendiente
             this.estado = "pendiente";
+            this.prioridad = 3;
 
         }
 
@@ -41,6 +44,7 @@ public class Tarea {
             this.usuario = usuario;
             this.etiquetas = etiquetas;
             this.estado = "pendiente";
+            this.prioridad = 3;
         }
 
 
@@ -60,7 +64,8 @@ public class Tarea {
             if (id != null && otraTarea.id != null) return (id == otraTarea.id);
             else return (descripcion.equals(otraTarea.descripcion)) &&
                         (usuario.equals(otraTarea.usuario)) &&
-                        (estado.equals(otraTarea.estado));
+                        (estado.equals(otraTarea.estado)) &&
+                        (prioridad.equals(otraTarea.prioridad));
         }
 
         @Override public int hashCode() {
@@ -74,6 +79,8 @@ public class Tarea {
                 ((estado == null) ? 0 : estado.hashCode());
             result = prime * result +
                 ((anotacion == null) ? 0 : anotacion.hashCode());
+            result = prime * result +
+                ((prioridad == null) ? 0 : prioridad.hashCode());
             return result;
         }
 
@@ -83,11 +90,12 @@ public class Tarea {
             if(descripcion!=null && descripcion.isEmpty()) descripcion=null;
             if(anotacion!=null && anotacion.isEmpty()) anotacion=null;
             if (estado != null && estado.isEmpty()) estado = "pendiente";
+            if (prioridad != null && (prioridad<1 || prioridad > 3)) prioridad = 3;
         }
 
         public String toString() {
-            String cadena = String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s anotacion %s",
-                id,descripcion,usuario.id,estado, anotacion);
+            String cadena = String.format("Tarea id: %s descripcion: %s UsuarioId: %s estado: %s anotacion %s prioridad: %s",
+                id,descripcion,usuario.id,estado, anotacion, prioridad);
             cadena+=" \nEtiquetas:\n";
             for(Etiqueta e:etiquetas)
                 cadena+=e + "\n";
