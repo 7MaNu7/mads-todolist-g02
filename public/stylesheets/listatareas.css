@@ -50,7 +50,7 @@
 }
 
 .accordion-content {
-    /*display: none;*/
+    display: none;
     padding: 20px;
     overflow: auto;
 }
