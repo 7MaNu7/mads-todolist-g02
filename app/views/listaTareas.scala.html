@@ -1,6 +1,7 @@
 @(tareas: List[Tarea], usuario: Usuario, mensaje: String)
 
 @scripts = {
+    <!-- Para eliminar una tarea -->
     <script type="text/javascript">
         function del(urlBorrar) {
             $.ajax({
@@ -13,6 +14,7 @@
             });
         }
     </script>
+    <!-- Para modificar el estado de una tarea -->
     <script type="text/javascript">
        function up(urlModificar, id, descripcion, estado, idusuario) {
          if(estado == 'pendiente') nuevo_estado = 'realizada';
@@ -40,7 +42,7 @@
             <thead>
                 <tr>
                   <th>Id</th>
-                  <th>Descripción</th>
+                  <th name="descrip" id="descrip">Descripción</th>
                   <th>Acciones</th>
                 </tr>
             </thead>
@@ -48,20 +50,32 @@
                <!--Tareas estado pendientes-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado=="pendiente") {
-                  <tr>
-                      <td>@tarea.id</td>
-                      <td>@tarea.descripcion</td>
-                      <td>
-                          <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                          <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                          <a href="" class="btn btn-primary btn-sm" style="cursor: pointer;"
-                            onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
-                            <span class="glyphicon glyphicon-unchecked"></span>
-                          </a>
-                      </td>
+                  <tr class="accordion-container">
+                    <td>@tarea.id</td>
+                    <td id="accordion-titulo">@tarea.descripcion</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                        <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                        <a href="" class="btn btn-primary btn-sm" style="cursor: pointer;"
+                          onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
+                          <span class="glyphicon glyphicon-unchecked"></span>
+                        </a>
+                    </td>
                   </tr>
+                  <tr class="accordion-content">
+                    <td>1 </td>
+                    <td>
+                      <div class="anotacion"> Avisar a Carmen y a Laura para que lo recojan </div>
+                    <td>
+                    <!--<td>
+                      <a onclick="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                      <a onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                    </td>-->
+                  </tr>
+
                   }
                 }
+
                 <!--Tareas estado realizadas-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado!="pendiente") {
@@ -93,4 +107,20 @@
         }
         </p>
     </div>
+
+    <!-- Para el acordeón de la anotación de cada tarea -->
+    <script>
+      $("#accordion-titulo").click(function(){
+         var contenido=$(".accordion-content");
+         if(contenido.css("display")=="none"){ //open
+            contenido.slideDown(250);
+            $(this).addClass("open");
+         }
+         else{ //close
+            contenido.slideUp(250);
+            $(this).removeClass("open");
+        }
+      });
+    </script>
+
 }
