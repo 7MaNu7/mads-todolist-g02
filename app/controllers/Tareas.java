@@ -70,10 +70,15 @@ public class Tareas extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         String descripcion = requestData.get("descripcion");
         String user_id = requestData.get("id_usuario");
+        Integer prioridad = 3;
+        if(requestData.get("prioridad")!=null)
+         prioridad = Integer.parseInt(requestData.get("prioridad"));
         if(!tipo.equals("admin")) //el admin puede grabar las tareas que quiera
             if(!tipo.equals(user_id)) //si el user autenticado no coincide con id
                 return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido crear tareas a otros usuarios"));
         Tarea tarea = new Tarea(descripcion,UsuarioService.findUsuario(Integer.parseInt(user_id)));
+
+          tarea.prioridad=prioridad;
         tarea = TareaService.grabaTarea(tarea);
         flash("grabaTarea","La tarea se ha grabado correctamente");
         return redirect(controllers.routes.Tareas.listaTareas(tarea.usuario.id));
@@ -113,6 +118,10 @@ public class Tareas extends Controller {
         String descripcion = requestData.get("descripcion");
         String estado = requestData.get("estado");
 
+        Integer prioridad = -1;
+        if(requestData.get("prioridad")!=null)
+        prioridad = Integer.parseInt(requestData.get("prioridad"));
+
         Integer user_id = -99;
         try {
           user_id = Integer.parseInt(requestData.get("id_usuario"));
@@ -132,6 +141,8 @@ public class Tareas extends Controller {
         //se modifica la descripcion
         tarea.descripcion = descripcion;
         tarea.estado = estado;
+        if(prioridad>0 && prioridad<4);
+        tarea.prioridad = prioridad;
 
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");
@@ -157,4 +168,8 @@ public class Tareas extends Controller {
           return ok("La tarea se ha borrado sin problemas.");
 
       }
+
+
+
+
 }
