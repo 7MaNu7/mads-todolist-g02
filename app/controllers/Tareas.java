@@ -117,6 +117,7 @@ public class Tareas extends Controller {
         Integer id_tarea = Integer.parseInt(requestData.get("id"));
         String descripcion = requestData.get("descripcion");
         String estado = requestData.get("estado");
+        String anotacion = requestData.get("anotacion");
 
         Integer prioridad = -1;
         if(requestData.get("prioridad")!=null)
@@ -141,8 +142,9 @@ public class Tareas extends Controller {
         //se modifica la descripcion
         tarea.descripcion = descripcion;
         tarea.estado = estado;
-        if(prioridad>0 && prioridad<4);
-        tarea.prioridad = prioridad;
+        if(prioridad>0 && prioridad<4)
+          tarea.prioridad = prioridad;
+        tarea.anotacion = anotacion;
 
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");

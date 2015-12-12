@@ -87,3 +87,14 @@
   border-color: rgba(217, 83, 79, 0.33);
   color: white;
 }
+
+.anotacioneditar {
+  width: 165px;
+  text-align: justify;
+}
+
+/* Para ir cambiando vista o editar */
+
+#anotacioneditar {
+    display: none;
+}
