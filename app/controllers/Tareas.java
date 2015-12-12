@@ -112,6 +112,7 @@ public class Tareas extends Controller {
         Integer id_tarea = Integer.parseInt(requestData.get("id"));
         String descripcion = requestData.get("descripcion");
         String estado = requestData.get("estado");
+        String anotacion = requestData.get("anotacion");
 
         Integer user_id = -99;
         try {
@@ -132,6 +133,7 @@ public class Tareas extends Controller {
         //se modifica la descripcion
         tarea.descripcion = descripcion;
         tarea.estado = estado;
+        tarea.anotacion = anotacion;
 
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");
