@@ -142,4 +142,57 @@ public class AnotacionTareasTests {
        });
     }
 
+    @Test
+    public void testWebPaginaListaTareasUrlGuardarAnotacion() {
+        running(testServer(3333, app), () -> {
+            int timeout = 10000;
+            WSResponse response = WS
+                .url("http://localhost:3333/usuarios/1/tareas")
+                .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                .get()
+                .get(timeout);
+            assertEquals(OK, response.getStatus());
+            String body = response.getBody();
+            assertTrue(body.contains("guardarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1');"));
+        });
+    }
+
+    @Test
+    public void testWebPaginaListaTareasUrlBorraAnotacion() {
+        running(testServer(3333, app), () -> {
+            int timeout = 10000;
+            WSResponse response = WS
+                .url("http://localhost:3333/usuarios/1/tareas")
+                .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                .get()
+                .get(timeout);
+            assertEquals(OK, response.getStatus());
+            String body = response.getBody();
+            assertTrue(body.contains("guardarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', 'borrar');"));
+        });
+    }
+
+    @Test
+    public void testWebPaginaUrlAnotacionEnTareaRealizada() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                Usuario usuario = UsuarioDAO.find(1);
+                Tarea tarea = TareaDAO.find(1);
+                tarea.estado = "realizada";
+                TareaService.modificaTarea(tarea);
+                List<Tarea> tareas = usuario.tareas;
+                JPA.em().refresh(usuario);
+            });
+
+            int timeout = 10000;
+            WSResponse response = WS
+                .url("http://localhost:3333/usuarios/1/tareas")
+                .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                .get()
+                .get(timeout);
+            assertEquals(OK, response.getStatus());
+            String body = response.getBody();
+            assertTrue(body.contains("guardarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'realizada', '1');"));
+        });
+    }
 }

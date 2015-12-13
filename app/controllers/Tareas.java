@@ -117,6 +117,7 @@ public class Tareas extends Controller {
         Integer id_tarea = Integer.parseInt(requestData.get("id"));
         String descripcion = requestData.get("descripcion");
         String estado = requestData.get("estado");
+        String anotacion = requestData.get("anotacion");
 
         Integer prioridad = -1;
         if(requestData.get("prioridad")!=null)
@@ -138,11 +139,12 @@ public class Tareas extends Controller {
             if(Integer.parseInt(tipo)!=user_id) //si el user autenticado no coincide con id
                 return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido modificar tareas de otros usuarios"));
 
-        //se modifica la descripcion
+        //se modifica la tarea
         tarea.descripcion = descripcion;
         tarea.estado = estado;
-        if(prioridad>0 && prioridad<4);
-        tarea.prioridad = prioridad;
+        if(prioridad>0 && prioridad<4)
+          tarea.prioridad = prioridad;
+        tarea.anotacion = anotacion;
 
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");
