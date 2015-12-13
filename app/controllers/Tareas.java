@@ -139,7 +139,7 @@ public class Tareas extends Controller {
             if(Integer.parseInt(tipo)!=user_id) //si el user autenticado no coincide con id
                 return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido modificar tareas de otros usuarios"));
 
-        //se modifica la descripcion
+        //se modifica la tarea
         tarea.descripcion = descripcion;
         tarea.estado = estado;
         if(prioridad>0 && prioridad<4)
