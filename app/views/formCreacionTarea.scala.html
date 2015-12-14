@@ -13,6 +13,38 @@
         <fieldset>
             @helper.inputText(tareaForm("descripcion"), '_label -> "Descripción")
             <input type="hidden" name="id_usuario" value='@usuario.id' >
+
+
+            <div class="container-fluid">
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-group">
+                        <select class="form-control" id="sel1">
+                            <option value="" disabled selected>Selecciona una etiqueta</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div class="col-md-4">
+                      AQUI IRA EL BOTON DE AÑADIR
+                  </div>
+              </div>
+            </div>
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                           <input type="text" id="nueva-tag" class="form-control" name="nombre-etiqueta" placeholder="Introduce un nombre para la etiqueta...">
+                           <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick='crear_etiqueta(@usuario.id)'>Crear etiqueta</button>
+                           </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
         </fieldset>
         <p>
             <input type="submit" class="btn btn-success" value="Guardar">
@@ -21,4 +53,52 @@
         </p>
     }
     </div>
+
+
+
+    <script>
+
+    function actualizar_etiquetas(idusuario) {
+      $.ajax({
+            url: '/usuarios/' + idusuario + '/etiquetas',
+            type: 'GET',
+            success: function(results) {
+
+                var select = document.getElementById('sel1');
+                select.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>'; //vaciamos
+                var plantilla='';
+                $.each(results, function(key, value) {
+                    plantilla = '<option value="' + key + '">' + value + '</option>'
+                    select.innerHTML+=plantilla;
+                });
+            }
+        });
+    }
+
+    function crear_etiqueta(idusuario) {
+        var data = {};
+        var nombre = document.getElementById('nueva-tag').value;
+        data.nombre = nombre;
+        data.id_usuario=idusuario;
+        console.log(data);
+
+        $.ajax({
+          url: '/etiquetas/nueva',
+          type: 'POST',
+          data: data,
+          success: function(results) {
+            actualizar_etiquetas(idusuario);
+            },
+          error: function(results) {
+              console.log(results);
+          }
+        });
+
+    }
+
+
+    $( document ).ready(function() {
+        actualizar_etiquetas('@usuario.id')
+    });
+    </script>
 }
