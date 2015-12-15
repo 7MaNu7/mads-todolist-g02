@@ -58,6 +58,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                  <th>Prioridad</th>
                   <th>Id</th>
                   <th name="descrip" id="descrip">Descripción</th>
                   <th>Acciones</th>
@@ -68,6 +69,15 @@
                 @for(tarea <- tareas) {
                   @if(tarea.estado=="pendiente") {
                   <tr class="accordion-container">
+                    <td>
+                      <div class="prior prioridad@tarea.prioridad">
+                        <div class="prioridades">
+                            <div class="prioridad1"></div>
+                            <div class="prioridad2"></div>
+                            <div class="prioridad3"></div>
+                        </div>
+                      </div>
+                    </td>
                     <td>@tarea.id</td>
                     <td id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
                     <td>
@@ -101,6 +111,10 @@
                 @for(tarea <- tareas) {
                   @if(tarea.estado!="pendiente") {
                   <tr>
+                      <td>
+                        <div class="prioridad@tarea.prioridad done">
+                        </div>
+                      </td>
                       <td id='realizada'>@tarea.id</td>
                       <td class='realizada' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
                       <td>
