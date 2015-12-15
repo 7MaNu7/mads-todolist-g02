@@ -70,6 +70,13 @@ public class Tareas extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         String descripcion = requestData.get("descripcion");
         String user_id = requestData.get("id_usuario");
+
+        //etiquetas
+        System.out.println("ESTO ES " + requestData.get("tags"));
+        ArrayList<Etiqueta> tags = new ArrayList<Etiqueta>();
+
+
+
         Integer prioridad = 3;
         if(requestData.get("prioridad")!=null)
          prioridad = Integer.parseInt(requestData.get("prioridad"));

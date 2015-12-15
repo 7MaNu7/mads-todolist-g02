@@ -14,10 +14,17 @@
             @helper.inputText(tareaForm("descripcion"), '_label -> "Descripción")
             <input type="hidden" name="id_usuario" value='@usuario.id' >
 
+            <!--aqui se iran añadiendo las etiquetas que se quieren-->
+            <strong>Etiquetas (pulsa para quitarlas)</strong><br>
+            <ul class="list-inline" id="tags-selecc">
+            </ul>
+
+            <input id="almacen_tags" type="hidden" name="tags" value=''>
+
 
             <div class="container-fluid">
               <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-4">
                       <div class="form-group">
                         <select class="form-control" id="sel1">
                             <option value="" disabled selected>Selecciona una etiqueta</option>
@@ -25,34 +32,32 @@
                       </div>
                   </div>
                   <div class="col-md-4">
-                      AQUI IRA EL BOTON DE AÑADIR
+                     <a href="#" onclick='add_tag()' class="btn btn-info" role="button">Añadir etiqueta a la tarea.</a>
                   </div>
               </div>
             </div>
-
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="input-group">
-                           <input type="text" id="nueva-tag" class="form-control" name="nombre-etiqueta" placeholder="Introduce un nombre para la etiqueta...">
-                           <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" onclick='crear_etiqueta(@usuario.id)'>Crear etiqueta</button>
-                           </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
         </fieldset>
         <p>
-            <input type="submit" class="btn btn-success" value="Guardar">
+            <input type="submit" class="btn btn-success" value="Guardar tarea">
             <a class="btn btn-danger"
                 href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
         </p>
     }
+
+    <strong>Administrar tus etiquetas de usuario</strong>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                   <input type="text" id="nueva-tag" class="form-control" name="nombre-etiqueta" placeholder="Introduce un nombre para la etiqueta...">
+                   <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick='crear_etiqueta(@usuario.id)'>Crear etiqueta</button>
+                   </span>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
 
 
@@ -75,12 +80,43 @@
         });
     }
 
+    function add_tag() {
+        var id = document.getElementById('sel1').value;
+        var text = $("#sel1 option:selected").text();
+
+        if(id && $("#" + id).length == 0) //si no se ha añadido ese tag, añadirlo
+        {
+            var boton = "<a href='#' onclick='remove_tag(" + id + ")' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
+            var plantilla = '<li id=' + id + '>' + boton + '</li>';
+            document.getElementById('tags-selecc').innerHTML+=plantilla;
+            actualizar_almacen_tags();
+        }
+    }
+
+    function remove_tag(id) {
+         $("#" + id).remove();
+         actualizar_almacen_tags();
+    }
+
+    function actualizar_almacen_tags() {
+        var almacen = document.getElementById("almacen_tags");
+        var listItems = $("#tags-selecc li");
+
+        almacen.value=""; //limpiamos el almacen
+        listItems.each(function(idx, li)
+        {
+            var tag_id = $(li).attr('id'); //obtenemos el id del tag
+            almacen.value+=tag_id + ";"; //los vamos guardando y separando con ;
+        });
+    }
+
+
     function crear_etiqueta(idusuario) {
         var data = {};
-        var nombre = document.getElementById('nueva-tag').value;
+        var form = document.getElementById('nueva-tag');
+        var nombre = form.value;
         data.nombre = nombre;
         data.id_usuario=idusuario;
-        console.log(data);
 
         $.ajax({
           url: '/etiquetas/nueva',
@@ -88,6 +124,7 @@
           data: data,
           success: function(results) {
             actualizar_etiquetas(idusuario);
+            form.value=""; //limpiamos el inputtext
             },
           error: function(results) {
               console.log(results);
