@@ -154,7 +154,7 @@ public class EstadoTareasTests {
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
             assertTrue(body.contains("up('/tareas/modifica',"));
-            assertTrue(body.contains("'1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1');"));
+            assertTrue(body.contains("'1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', '3');"));
         });
     }
 }
