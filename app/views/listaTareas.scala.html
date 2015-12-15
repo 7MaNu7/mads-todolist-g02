@@ -16,12 +16,12 @@
     </script>
     <!-- Para modificar el estado de una tarea -->
     <script type="text/javascript">
-       function up(urlModificar, id, descripcion, estado, idusuario) {
+       function up(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
          if(estado == 'pendiente') nuevo_estado = 'realizada';
          else nuevo_estado = 'pendiente';
          $.ajax({
            url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : nuevo_estado, id_usuario : idusuario  },
+           data : { id : id, descripcion : descripcion, estado : nuevo_estado, id_usuario : idusuario, anotacion : anotacion, prioridad : prioridad },
            type: 'POST',
            success: function(results) {
              location.reload();
@@ -31,14 +31,28 @@
     </script>
     <!-- Para modificar la anotacion de una tarea -->
     <script type="text/javascript">
-       function guardarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA) {
+       function guardarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA, prioridad) {
          var anotacion;
          if(anotacionA=='borrar') { anotacion = ""; console.log("es borrar");}
          else anotacion = document.getElementById("textoanotacion"+id).value;
          console.log("tarea anotacion:"+anotacion);
          $.ajax({
            url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion },
+           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
+           type: 'POST',
+           success: function(results) {
+             location.reload();
+           }
+         });
+       }
+    </script>
+
+    <!-- Para modificar la prioridad de una tarea -->
+    <script type="text/javascript">
+       function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
+         $.ajax({
+           url: urlModificar,
+           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
            type: 'POST',
            success: function(results) {
              location.reload();
@@ -72,9 +86,12 @@
                     <td>
                       <div class="prior prioridad@tarea.prioridad">
                         <div class="prioridades">
-                            <div class="prioridad1"></div>
-                            <div class="prioridad2"></div>
-                            <div class="prioridad3"></div>
+                            <div class="prioridad1" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion',
+                            '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 1); return false;"></div>
+                            <div class="prioridad2" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion',
+                            '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 2); return false;"></div>
+                            <div class="prioridad3" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion',
+                            '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 3); return false;"></div>
                         </div>
                       </div>
                     </td>
@@ -84,7 +101,7 @@
                         <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                         <a href="" class="btn btn-primary btn-sm" style="cursor: pointer;"
-                          onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
+                          onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', '@tarea.prioridad'); return false;">
                           <span class="glyphicon glyphicon-unchecked"></span>
                         </a>
                     </td>
@@ -96,10 +113,10 @@
                       <div class="anotacioneditar">
                         <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
                       </div>
-                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
+                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
                         <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
                       </a>
-                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar'); return false;">
+                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad'); return false;">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                       </a>
                     </td>
@@ -121,7 +138,7 @@
                           <a class="btn btn-primary btn-sm" id='realizadab' href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" id='realizada' aria-hidden="true"></span></a>
                           <a class="btn btn-warning btn-sm" id='realizadab' onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" id='realizada' aria-hidden="true"></span></a>
                           <a href="" class="btn btn-primary btn-sm" id='realizadab' style="cursor: pointer;"
-                            onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
+                            onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', '@tarea.prioridad'); return false;">
                             <span class="glyphicon glyphicon-check" id='realizada'></span>
                           </a>
                       </td>
@@ -134,10 +151,10 @@
                       <div class="anotacioneditar">
                         <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
                       </div>
-                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id'); return false;">
+                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
                         <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
                       </a>
-                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar'); return false;">
+                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad'); return false;">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                       </a>
                     </td>
