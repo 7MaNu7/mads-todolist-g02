@@ -9,6 +9,8 @@ import static play.libs.Json.*;
 import play.data.Form;
 import play.db.jpa.*;
 import play.data.DynamicForm;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import models.*;
 
@@ -71,10 +73,27 @@ public class Tareas extends Controller {
         String descripcion = requestData.get("descripcion");
         String user_id = requestData.get("id_usuario");
 
-        //etiquetas
-        System.out.println("ESTO ES " + requestData.get("tags"));
-        ArrayList<Etiqueta> tags = new ArrayList<Etiqueta>();
+        //etiquetas////////////////////
+        List<Etiqueta> tags = new ArrayList<Etiqueta>();
+        try {
+            if(requestData.get("tags").length()>0)
+            {
+                String[] tags_array = requestData.get("tags").split(";");
+                for(int i=0;i<tags_array.length;i++)
+                {
+                    Etiqueta e = EtiquetaService.findEtiqueta(Integer.parseInt(tags_array[i]));
+                    if(e==null) //no existe
+                        return badRequest(error.render(BAD_REQUEST,
+                            "Alguna de las etiquetas introducidas no existe"));
+                    else
+                        tags.add(e);
+                }
+            }
+        } catch(NumberFormatException e) {
+            return badRequest(error.render(BAD_REQUEST,"La lista de etiquetas debe estar definida por enteros separados por ; -> 1;2;3;"));
+        }
 
+        ///////////////////////
 
 
         Integer prioridad = 3;
@@ -83,9 +102,20 @@ public class Tareas extends Controller {
         if(!tipo.equals("admin")) //el admin puede grabar las tareas que quiera
             if(!tipo.equals(user_id)) //si el user autenticado no coincide con id
                 return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido crear tareas a otros usuarios"));
-        Tarea tarea = new Tarea(descripcion,UsuarioService.findUsuario(Integer.parseInt(user_id)));
 
-          tarea.prioridad=prioridad;
+
+
+
+        Usuario usuario = UsuarioService.findUsuario(Integer.parseInt(user_id));
+        for(Etiqueta tag:tags) {
+            if(!usuario.etiquetas.contains(tag))
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido usar etiquetas de otros usuarios"));
+        }
+
+
+        Tarea tarea = new Tarea(descripcion,usuario,tags);
+
+        tarea.prioridad=prioridad;
         tarea = TareaService.grabaTarea(tarea);
         flash("grabaTarea","La tarea se ha grabado correctamente");
         return redirect(controllers.routes.Tareas.listaTareas(tarea.usuario.id));
