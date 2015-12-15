@@ -144,4 +144,22 @@ public class PrioridadTareasTests {
        });
     }
 
+    @Test
+    public void testWebPaginaListaTareasUrlGuardarPrioridad() {
+        running(testServer(3333, app), () -> {
+            int timeout = 10000;
+            WSResponse response = WS
+                .url("http://localhost:3333/usuarios/1/tareas")
+                .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                .get()
+                .get(timeout);
+            assertEquals(OK, response.getStatus());
+            String body = response.getBody();
+            System.out.println(body);
+            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 1);"));
+            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 2);"));
+            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 3);"));
+          });
+    }
+
 }
