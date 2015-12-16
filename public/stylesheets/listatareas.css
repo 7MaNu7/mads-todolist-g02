@@ -1,3 +1,18 @@
+/* Tabla general */
+
+.mitabla {
+  margin-left: 5px;
+}
+
+.tddescripcion {
+    width: 700px !important;
+}
+
+.tdprioridad {
+  width: 10px !important;
+  padding-right: 40px;
+}
+
 /* Para las tareas realizadas */
 
 #realizada {
@@ -102,12 +117,14 @@
 /* Estilo CSS para las prioridades */
 
 .prioridad1, .prioridad2, .prioridad3, .prioridad0 {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: inset 2px 1px 15px rgba(53, 8, 8, 0.65);
+  margin-top: 2px;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  border-radius: 19%;
+  box-shadow: inset 2px 1px 15px rgba(53, 8, 8, 0.43);
 }
+
 .prior:hover .prioridades {
     visibility: visible;
 }
@@ -123,14 +140,16 @@
     margin-top: 10px;
 }
 .prioridades {
-    position: absolute;
-    padding: 9px;
-    top: -18px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.77);
-    background-color: white;
-    z-index: 55;
-    left: -9px;
-    visibility: hidden;
+  position: absolute;
+  padding: 9px;
+  top: -18px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.77);
+  background-color: #F9F9F9;
+  z-index: 55;
+  left: -9px;
+  visibility: hidden;
+  padding-top: 5px;
+  height: 100px;
 }
 .prioridad1 {
     background-color: #D60000;

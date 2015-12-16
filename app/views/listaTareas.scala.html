@@ -69,10 +69,10 @@
 
     <div style="margin:0px 50px">
         <h2>Listado de tareas de @usuario.login</h2>
-        <table class="table table-striped">
+        <table class="table table-striped mitabla">
             <thead>
                 <tr>
-                  <th>Prioridad</th>
+                  <th></th>
                   <th>Id</th>
                   <th name="descrip" id="descrip">Descripción</th>
                   <th>Acciones</th>
@@ -82,8 +82,9 @@
                <!--Tareas estado pendientes-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado=="pendiente") {
-                  <tr class="accordion-container">
-                    <td>
+                  <tr class="accordion-container show-btn">
+                    <!--Prioridad-->
+                    <td class="tdprioridad">
                       <div class="prior prioridad@tarea.prioridad">
                         <div class="prioridades">
                             <div class="prioridad1" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 1); return false;"></div>
@@ -93,7 +94,7 @@
                       </div>
                     </td>
                     <td>@tarea.id</td>
-                    <td id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
+                    <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
                         <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
@@ -105,7 +106,8 @@
                   </tr>
                   <!-- Anotacion de la tarea -->
                   <tr class="accordion-content@tarea.id" id="anotacionacordeon">
-                    <td>- </td>
+                    <th></th>
+                    <td>Id</td>
                     <td id="anotacioneditar">
                       <div class="anotacioneditar">
                         <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
@@ -125,12 +127,12 @@
                 @for(tarea <- tareas) {
                   @if(tarea.estado!="pendiente") {
                   <tr>
-                      <td>
+                      <td class="tdprioridad">
                         <div class="prioridad@tarea.prioridad done">
                         </div>
                       </td>
                       <td id='realizada'>@tarea.id</td>
-                      <td class='realizada' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
+                      <td class='realizada tddescripcion' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
                       <td>
                           <a class="btn btn-primary btn-sm" id='realizadab' href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" id='realizada' aria-hidden="true"></span></a>
                           <a class="btn btn-warning btn-sm" id='realizadab' onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" id='realizada' aria-hidden="true"></span></a>
@@ -186,6 +188,6 @@
             contenido.slideUp(250);
             $(this).removeClass("open");
         }
-      }
+    }
     </script>
 }
