@@ -29,6 +29,16 @@
 
 /* Acordeón anotacion de una tarea */
 
+.iconoacordeon {
+  margin-top: 3px;
+  color: rgb(132, 132, 132);
+  float: right;
+}
+
+.iconoinvisible {
+  display: none;
+}
+
 /* Acordeon mio */
 
 .anotacion {

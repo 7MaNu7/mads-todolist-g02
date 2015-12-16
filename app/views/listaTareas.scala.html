@@ -1,72 +1,14 @@
 @(tareas: List[Tarea], usuario: Usuario, mensaje: String)
 
-@scripts = {
-    <!-- Para eliminar una tarea -->
-    <script type="text/javascript">
-        function del(urlBorrar) {
-            $.ajax({
-                url: urlBorrar,
-                type: 'DELETE',
-                success: function(results) {
-                    //refresh the page
-                    location.reload();
-                }
-            });
-        }
-    </script>
-    <!-- Para modificar el estado de una tarea -->
-    <script type="text/javascript">
-       function modificarEstado(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
-         if(estado == 'pendiente') nuevo_estado = 'realizada';
-         else nuevo_estado = 'pendiente';
-         $.ajax({
-           url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : nuevo_estado, id_usuario : idusuario, anotacion : anotacion, prioridad : prioridad },
-           type: 'POST',
-           success: function(results) {
-             location.reload();
-           }
-         });
-       }
-    </script>
-    <!-- Para modificar la anotacion de una tarea -->
-    <script type="text/javascript">
-       function modificarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA, prioridad) {
-         var anotacion;
-         if(anotacionA=='borrar') anotacion = "";
-         else anotacion = document.getElementById("textoanotacion"+id).value;
-         console.log("tarea anotacion:"+anotacion);
-         $.ajax({
-           url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
-           type: 'POST',
-           success: function(results) {
-             //Sin recargar la página y cerramos acordeon
-             anotacion.value = anotacion;
-             $(".accordion-content"+id).slideUp(1000);
-           }
-         });
-       }
-    </script>
-
-    <!-- Para modificar la prioridad de una tarea -->
-    <script type="text/javascript">
-       function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
-         $.ajax({
-           url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
-           type: 'POST',
-           success: function(results) {
-             location.reload();
-           }
-         });
-       }
-    </script>
-}
+@scripts = {}
 
 @main("Listado de tareas",scripts) {
     <head>
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/listatareas.css")">
+      <!-- Incluimos smoke -->
+      <script src="@routes.Assets.versioned("javascripts/smoke.min.js")"></script>
+      <!-- Incluimos js con funciones para listaTareas -->
+      <script src="@routes.Assets.versioned("javascripts/listaTareas.js")"></script>
     </head>
 
     <div style="margin:0px 50px">
@@ -96,7 +38,16 @@
                       </div>
                     </td>
                     <td>@tarea.id</td>
-                    <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
+                    <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
+                        @tarea.descripcion
+                        <!-- Iconos abrir acordeón anotacinó -->
+                        <a id="iconoabriranotacion">
+                          <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                        <a id="iconocerraranotacion" class="iconoinvisible">
+                          <span class="glyphicon glyphicon-chevron-up iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                    </td>
                     <td>
                         <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)">
                           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
@@ -196,30 +147,4 @@
         </p>
     </div>
 
-    <!-- Incluimos smoke -->
-    <script src="@routes.Assets.versioned("javascripts/smoke.min.js")"></script>
-    <!-- Para el acordeón de la anotación de cada tarea -->
-    <script>
-    function mostrarAcordeon(id) {
-        var contenido=$(".accordion-content"+id);
-         if(contenido.css("display")=="none"){ //open
-            contenido.slideDown(1000);
-            $(this).addClass("open");
-         }
-         else{ //close
-            contenido.slideUp(1000);
-            $(this).removeClass("open");
-        }
-    }
-    // Alert type success, position top-left
-    $('#botonguardarA').click(function(e) {
-      e.preventDefault();
-      $.smkAlert({
-        text: 'Anotación modificada correctamente.',
-        type: 'success',
-        position:'top-center',
-        time: 2
-      });
-    });
-    </script>
 }
