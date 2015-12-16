@@ -76,7 +76,7 @@ public class Tareas extends Controller {
         //etiquetas////////////////////
         List<Etiqueta> tags = new ArrayList<Etiqueta>();
         try {
-            if(requestData.get("tags").length()>0)
+            if(requestData.get("tags")!=null && requestData.get("tags").length()>0)
             {
                 String[] tags_array = requestData.get("tags").split(";");
                 for(int i=0;i<tags_array.length;i++)

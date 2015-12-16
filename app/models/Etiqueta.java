@@ -21,6 +21,9 @@ public class Etiqueta {
         @JoinColumn(name="usuarioId")
         public Usuario usuario;
 
+        @ManyToMany(mappedBy = "etiquetas",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+        List<Tarea> tareas;
+
         public Etiqueta() {}
 
         public Etiqueta(String nombre,Usuario usuario) {

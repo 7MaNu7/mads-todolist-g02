@@ -1,5 +1,6 @@
 @(tareaForm: Form[Tarea],usuario: Usuario, mensaje: String)
 
+
 @main("Nueva tarea") {
     <h1>Nueva tarea para el usuario @usuario.login</h1>
 
@@ -56,6 +57,18 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                  <select class="form-control" id="sel2">
+                      <option value="" disabled selected>Selecciona una etiqueta</option>
+                  </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+               <a href="#" onclick='borrar_tag_bd(@usuario.id)' class="btn btn-danger" role="button">Eliminar etiqueta completamente.</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -70,11 +83,14 @@
             success: function(results) {
 
                 var select = document.getElementById('sel1');
+                var select2 = document.getElementById('sel2');
                 select.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>'; //vaciamos
+                select2.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>'; //vaciamos
                 var plantilla='';
                 $.each(results, function(key, value) {
                     plantilla = '<option value="' + key + '">' + value + '</option>'
                     select.innerHTML+=plantilla;
+                    select2.innerHTML+=plantilla;
                 });
             }
         });
@@ -86,7 +102,7 @@
 
         if(id && $("#" + id).length == 0) //si no se ha añadido ese tag, añadirlo
         {
-            var boton = "<a href='#' onclick='remove_tag(" + id + ")' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
+            var boton = "<a href='#' data-toggle='tooltip' title='Click para eliminar' onclick='remove_tag(" + id + ")' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
             var plantilla = '<li id=' + id + '>' + boton + '</li>';
             document.getElementById('tags-selecc').innerHTML+=plantilla;
             actualizar_almacen_tags();
@@ -131,6 +147,28 @@
           }
         });
 
+    }
+
+    function borrar_tag_bd(idusuario) {
+        var id = document.getElementById('sel2').value;
+        var text = $("#sel2 option:selected").text();
+
+        if(id)
+        {
+            $.ajax({
+              url: '/etiquetas/' + id,
+              type: 'DELETE',
+              success: function(results) {
+                actualizar_etiquetas(idusuario); //actualizamos listas
+                remove_tag(id); //borramos de los tags seleccionados, ya que no puede tener seleccionada una tag no existente
+                actualizar_almacen_tags(); //actualizamos el almacen oculto de tags para enviar en el post
+
+                },
+              error: function(results) {
+                  console.log(results);
+              }
+            });
+        }
     }
 
 
