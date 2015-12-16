@@ -4,6 +4,15 @@
   margin-left: 5px;
 }
 
+.accion {
+  padding-left: 20px !important;
+}
+
+.botonesaccion {
+  padding-left: 20px !important;
+  width: 300px !important;
+}
+
 .tddescripcion {
     width: 700px !important;
 }
@@ -62,6 +71,10 @@
   width: 665px;
   margin-top: -7px;
   float: left;
+}
+
+.columna2anotacion {
+  width: 238px !important;
 }
 
 /* Botones anotacion */

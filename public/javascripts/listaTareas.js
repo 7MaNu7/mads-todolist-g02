@@ -41,7 +41,7 @@ function modificarTareaAnotacion(urlModificar, id, descripcion, estado, idusuari
    type: 'POST',
    success: function(results) {
      //Sin recargar la página y cerramos acordeon
-     anotacion.value = anotacion;
+     document.getElementById("textoanotacion"+id).value = anotacion;
      cerrarAnotacion(id);
      mostrarSuccessAnotacion();
    }
@@ -67,15 +67,17 @@ function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario,
 /* Para cerrar/abrir/efectos del acordeón de la anotación de cada tarea */
 
 function abrirAnotacion(id) {
-  $(".accordion-content"+id).slideDown(0);
-  $("#iconoabriranotacion").addClass("iconoinvisible");
-  $("#iconocerraranotacion").removeClass("iconoinvisible");
+  $(".accordion-content"+id).slideDown(function() {
+    $("#iconoabriranotacion"+id).addClass("iconoinvisible");
+    $("#iconocerraranotacion"+id).removeClass("iconoinvisible");
+  });
 }
 
 function cerrarAnotacion(id) {
-  $(".accordion-content"+id).slideUp(0);
-  $("#iconocerraranotacion").addClass("iconoinvisible");
-  $("#iconoabriranotacion").removeClass("iconoinvisible");
+  $(".accordion-content"+id).slideUp(function() {
+    $("#iconocerraranotacion"+id).addClass("iconoinvisible");
+    $("#iconoabriranotacion"+id).removeClass("iconoinvisible");
+  });
 }
 
 function mostrarAcordeon(id) {

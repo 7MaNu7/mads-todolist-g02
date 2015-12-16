@@ -5,10 +5,12 @@
 @main("Listado de tareas",scripts) {
     <head>
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/listatareas.css")">
+      <script src="@routes.Assets.versioned("javascripts/jquery-1.11.3.min.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.versioned("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
       <!-- Incluimos smoke -->
-      <script src="@routes.Assets.versioned("javascripts/smoke.min.js")"></script>
+      <script src="@routes.Assets.versioned("javascripts/smoke.min.js")" type="text/javascript"></script>
       <!-- Incluimos js con funciones para listaTareas -->
-      <script src="@routes.Assets.versioned("javascripts/listaTareas.js")"></script>
+      <script src="@routes.Assets.versioned("javascripts/listaTareas.js")" type="text/javascript"></script>
     </head>
 
     <div style="margin:0px 50px">
@@ -19,7 +21,7 @@
                   <th></th>
                   <th>Id</th>
                   <th name="descrip" id="descrip">Descripción</th>
-                  <th>Acciones</th>
+                  <th class="accion">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,15 +42,15 @@
                     <td>@tarea.id</td>
                     <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
-                        <!-- Iconos abrir acordeón anotacinó -->
-                        <a id="iconoabriranotacion">
+                        <!-- Iconos abrir acordeón anotación -->
+                        <a id="iconoabriranotacion@tarea.id">
                           <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
                         </a>
-                        <a id="iconocerraranotacion" class="iconoinvisible">
+                        <a id="iconocerraranotacion@tarea.id" class="iconoinvisible">
                           <span class="glyphicon glyphicon-chevron-up iconoacordeon" aria-hidden="true"></span>
                         </a>
                     </td>
-                    <td>
+                    <td class="botonesaccion">
                         <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)">
                           <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </a>
@@ -64,7 +66,7 @@
                   <!-- Anotacion de la tarea -->
                   <tr class="accordion-content@tarea.id" id="anotacionacordeon">
                     <th></th>
-                    <td></td>
+                    <td class="columna2anotacion"></td>
                     <td id="anotacioneditar">
                       <div class="anotacioneditar">
                         <textarea id="textoanotacion@tarea.id" class="form-control textanotacion" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
@@ -95,8 +97,15 @@
                       <td class='realizada'>@tarea.id</td>
                       <td class='realizada tddescripcion' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
+                        <!-- Iconos abrir acordeón anotacinó -->
+                        <a id="iconoabriranotacion@tarea.id">
+                          <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                        <a id="iconocerraranotacion@tarea.id" class="iconoinvisible">
+                          <span class="glyphicon glyphicon-chevron-up iconoacordeon" aria-hidden="true"></span>
+                        </a>
                       </td>
-                      <td>
+                      <td class="botonesaccion">
                           <a class="btn btn-primary btn-sm realizadab" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)">
                             <span class="glyphicon glyphicon-edit realizada" aria-hidden="true"></span>
                           </a>
@@ -112,7 +121,7 @@
                   <!-- Anotacion de la tarea -->
                   <tr class="accordion-content@tarea.id" id="anotacionacordeon">
                     <td></td>
-                    <td></td>
+                    <td class="columna2anotacion"></td>
                     <td id="anotacioneditar">
                       <!-- Vista editable -->
                       <div class="anotacioneditar">
