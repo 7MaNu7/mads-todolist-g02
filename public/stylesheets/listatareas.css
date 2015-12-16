@@ -15,12 +15,12 @@
 
 /* Para las tareas realizadas */
 
-#realizada {
+.realizada {
   text-decoration: line-through;
   color: gray !important;
 }
 
-#realizadab {
+.realizadab {
   text-decoration: line-through;
   background-color: rgba(128, 128, 128, 0.21) !important;
   color: gray;
