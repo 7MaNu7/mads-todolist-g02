@@ -153,7 +153,7 @@ public class AnotacionTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("guardarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', '3');"));
+            assertTrue(body.contains("modificarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', '3');"));
         });
     }
 
@@ -168,7 +168,7 @@ public class AnotacionTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("guardarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', 'borrar', '3');"));
+            assertTrue(body.contains("modificarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', 'borrar', '3');"));
         });
     }
 
@@ -192,7 +192,7 @@ public class AnotacionTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("guardarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'realizada', '1', '3');"));
+            assertTrue(body.contains("modificarTareaAnotacion('/tareas/modifica', '1', 'Preparar el trabajo del tema 1 de biología', 'realizada', '1', '3');"));
         });
     }
 }

@@ -138,7 +138,7 @@ public class EstadoTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("id='realizada'"));
+            assertTrue(body.contains("class='realizada'"));
         });
     }
 
@@ -153,7 +153,7 @@ public class EstadoTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("up('/tareas/modifica',"));
+            assertTrue(body.contains("modificarEstado('/tareas/modifica',"));
             assertTrue(body.contains("'1', 'Preparar el trabajo del tema 1 de biología', 'pendiente', '1', '3');"));
         });
     }
