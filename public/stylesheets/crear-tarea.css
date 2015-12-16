@@ -1,0 +1,12 @@
+.lista-tags {
+    margin-left:0px;
+    min-height:20px
+}
+
+ul:empty::after{
+  content: attr(data-empty-message);
+}
+
+.top-buffer {
+    margin-top:20px;
+}
