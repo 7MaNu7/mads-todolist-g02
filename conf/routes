@@ -28,3 +28,8 @@ POST    /tareas/nueva                               controllers.Tareas.grabaNuev
 GET     /usuarios/:id_user/tareas/:id_tarea/editar  controllers.Tareas.editarTarea(id_user: Integer,id_tarea: Integer)
 POST    /tareas/modifica                            controllers.Tareas.grabaTareaModificada()
 DELETE  /tareas/:id                                 controllers.Tareas.borraTarea(id: Integer)
+
+GET     /usuarios/:id/etiquetas                     controllers.Etiquetas.listaEtiquetas(id: Integer)
+POST    /etiquetas/nueva                            controllers.Etiquetas.grabaNuevaEtiqueta()
+POST    /etiquetas/modifica                         controllers.Etiquetas.grabaEtiquetaModificada()
+DELETE  /etiquetas/:id                              controllers.Etiquetas.borraEtiqueta(id: Integer)

@@ -18,7 +18,12 @@ public class Usuario {
     public String login;
     public String password;
     @OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
+    @OrderBy("prioridad ASC")
     public List<Tarea> tareas;
+
+    @OneToMany(mappedBy="usuario", cascade=CascadeType.ALL)
+    public List<Etiqueta> etiquetas;
+
     public String nombre;
     public String apellidos;
     public String eMail;

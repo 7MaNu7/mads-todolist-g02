@@ -2,8 +2,10 @@
 <dataset>
   <Usuario id="1" login="pepito" password="perez" eMail="pepito.perez@gmail.com"/>
   <Usuario id="2" login="julia" password="martinez" eMail="julia.martinez@gmail.com"/>
-  <Tarea id="1" usuarioId="1" descripcion="Preparar el trabajo del tema 1 de biología" />
-  <Tarea id="2" usuarioId="1" descripcion="Estudiar el parcial de matemáticas" />
-  <Tarea id="3" usuarioId="1" descripcion="Leer el libro de inglés" />
-  <Tarea id="4" usuarioId="2" descripcion="Salir a correr" />
+  <Tarea id="1" usuarioId="1" descripcion="Preparar el trabajo del tema 1 de biología" estado="pendiente" anotacion=""  prioridad="3"/>
+  <Tarea id="2" usuarioId="1" descripcion="Estudiar el parcial de matemáticas" estado="pendiente" anotacion="Este examen cuenta el 40% de la asignatura" prioridad="3" />
+  <Tarea id="3" usuarioId="1" descripcion="Leer el libro de inglés" estado="pendiente" anotacion=""  prioridad="3" />
+  <Tarea id="4" usuarioId="2" descripcion="Salir a correr" estado="pendiente" anotacion=""  prioridad="3"/>
+  <Etiqueta id="1" nombre="ENCARNA" usuarioId="1"/>
+  <tarea_etiqueta/>
 </dataset>

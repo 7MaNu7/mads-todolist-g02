@@ -172,7 +172,7 @@ public class ControlUsuariosTareasTests {
                 .setFollowRedirects(false)
                 .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
                 .setContentType("application/x-www-form-urlencoded")
-                .post("id=1&descripcion=Hay que refactorizar amigos, la nueva moda es la cloud&id_usuario=1")
+                .post("id=1&estado=pendiente&descripcion=Hay que refactorizar amigos, la nueva moda es la cloud&id_usuario=1")
                 .get(timeout);
 
             response = WS
