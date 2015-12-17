@@ -7,5 +7,7 @@
   <Tarea id="3" usuarioId="1" descripcion="Leer el libro de inglés" estado="pendiente" anotacion=""  prioridad="3" />
   <Tarea id="4" usuarioId="2" descripcion="Salir a correr" estado="pendiente" anotacion=""  prioridad="3"/>
   <Etiqueta id="1" nombre="ENCARNA" usuarioId="1"/>
+  <Etiqueta id="2" nombre="Importante1" usuarioId="2"/>
+  <Etiqueta id="3" nombre="Importante2" usuarioId="1"/>
   <tarea_etiqueta/>
 </dataset>

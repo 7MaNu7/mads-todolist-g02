@@ -32,9 +32,16 @@ public class EtiquetaDAO {
 
     public static void delete(Integer id) {
         Etiqueta e = JPA.em().getReference(Etiqueta.class, id);
+        Usuario u = e.usuario;
+
+        if(u.etiquetas.contains(e)) //borra las referencias a etiqueta
+            u.etiquetas.remove(e);
+
         for(Tarea t:e.tareas) {
             t.etiquetas.remove(e); //aplicamos borrado en todas las tareas que tenian esa tag
         }
+
+        //borramos la tag de la BD
         JPA.em().remove(e);
         Logger.debug("Se ha borrado la etiqueta " + id);
 

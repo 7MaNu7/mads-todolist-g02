@@ -22,7 +22,7 @@ public class Etiqueta {
         public Usuario usuario;
 
         @ManyToMany(mappedBy = "etiquetas",cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-        List<Tarea> tareas;
+        public List<Tarea> tareas;
 
         public Etiqueta() {}
 

@@ -136,4 +136,83 @@ public class CrearTareasTests {
         });
     }
 
+
+    @Test
+    public void testWebCreaTareaEnFormConTag() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                int timeout = 4000;
+                WSResponse response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=1;2;3;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(UNAUTHORIZED, response.getStatus()); //la tag 2 no es suya
+
+                response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=hola;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(BAD_REQUEST, response.getStatus()); //"hola" no es una lista de tags valida
+
+                response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=1;3;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus()); //las tags 1 y 3 son suyas, asi que redirect
+
+                Usuario usuario = UsuarioDAO.find(1);
+                assertEquals(2,usuario.etiquetas.size()); //tendra 2 etiquetas
+            });
+        });
+    }
+
+    @Test
+    public void testWebCreaTareaPropagaBorradoTag() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                int timeout = 4000;
+                WSResponse response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=1;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus());
+
+                response = WS
+                    .url("http://localhost:3333/usuarios/1/tareas")
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .get()
+                    .get(timeout);
+
+                    assertEquals(OK, response.getStatus());
+                    assertTrue(response.getBody().contains("Hay que refactorizar amigos"));
+
+                Etiqueta e =  EtiquetaDAO.find(1);
+                EtiquetaDAO.delete(1); //borramos el tag 1
+                Usuario usuario = UsuarioDAO.find(1);
+                assertEquals(1,usuario.etiquetas.size()); //tendra 1 tag, porque la otra se ha borrado
+
+
+            });
+        });
+    }
+
+
+
+
 }
