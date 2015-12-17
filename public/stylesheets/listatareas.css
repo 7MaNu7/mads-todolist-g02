@@ -1,11 +1,35 @@
+/* Tabla general */
+
+.mitabla {
+  margin-left: 5px;
+}
+
+.accion {
+  padding-left: 20px !important;
+}
+
+.botonesaccion {
+  padding-left: 20px !important;
+  width: 300px !important;
+}
+
+.tddescripcion {
+    width: 700px !important;
+}
+
+.tdprioridad {
+  width: 10px !important;
+  padding-right: 40px;
+}
+
 /* Para las tareas realizadas */
 
-#realizada {
+.realizada {
   text-decoration: line-through;
   color: gray !important;
 }
 
-#realizadab {
+.realizadab {
   text-decoration: line-through;
   background-color: rgba(128, 128, 128, 0.21) !important;
   color: gray;
@@ -14,64 +38,14 @@
 
 /* Acordeón anotacion de una tarea */
 
-.accordion-container {
-    width: 100%;
-    margin: 0 0 20px;
-    clear:both;
+.iconoacordeon {
+  margin-top: 3px;
+  color: rgb(132, 132, 132);
+  float: right;
 }
 
-.accordion-titulo {
-    position: relative;
-    display: block;
-    padding: 20px;
-    font-size: 24px;
-    font-weight: 300;
-    background: #2c3e50;
-    color: #fff;
-    text-decoration: none;
-}
-.accordion-titulo.open {
-}
-.accordion-titulo:hover {
-}
-
-.accordion-titulo span.toggle-icon:before {
-}
-
-.accordion-titulo.open span.toggle-icon:before {
-}
-
-.accordion-titulo span.toggle-icon {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 38px;
-    font-weight:bold;
-}
-
-.accordion-content {
-    display: none;
-    padding: 20px;
-    overflow: auto;
-}
-
-.accordion-content p{
-    margin:0;
-}
-
-.accordion-content img {
-    display: block;
-    float: left;
-    margin: 0 15px 10px 0;
-    width: 50%;
-    height: auto;
-}
-
-
-@media (max-width: 767px) {
-    .accordion-content {
-        padding: 10px 0;
-    }
+.iconoinvisible {
+  display: none;
 }
 
 /* Acordeon mio */
@@ -89,12 +63,90 @@
 }
 
 .anotacioneditar {
-  width: 165px;
+  width: 700px;
   text-align: justify;
 }
 
-/* Para ir cambiando vista o editar */
+.textanotacion {
+  width: 665px;
+  margin-top: -7px;
+  float: left;
+}
 
+.columna2anotacion {
+  width: 238px !important;
+}
+
+/* Botones anotacion */
+
+.botonesanotacion {
+  margin-top: 7px;
+}
+
+.botonAnotacionizq {
+  margin-left: 10px;
+  color: rgba(34, 34, 34, 0.83);
+}
+
+.botonAnotacionder {
+  float: right;
+  margin-right: 10px;
+  color: rgba(34, 34, 34, 0.83);
+}
+
+/* Para que al principio esté oculta */
 #anotacionacordeon {
   display: none;
+}
+
+
+/* Estilo CSS para las prioridades */
+
+.prioridad1, .prioridad2, .prioridad3, .prioridad0 {
+  margin-top: 2px;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  border-radius: 19%;
+  box-shadow: inset 2px 1px 15px rgba(53, 8, 8, 0.43);
+}
+
+.prior:hover .prioridades {
+    visibility: visible;
+}
+.prior {
+    position: relative;
+}
+
+.done {
+  cursor:auto;
+}
+
+.prioridades div {
+    margin-top: 10px;
+}
+.prioridades {
+  position: absolute;
+  padding: 9px;
+  top: -18px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.77);
+  background-color: #F9F9F9;
+  z-index: 55;
+  left: -9px;
+  visibility: hidden;
+  padding-top: 5px;
+  height: 100px;
+}
+.prioridad1 {
+    background-color: #D60000;
+}
+
+.prioridad2 {
+    background-color: #D6D600;
+}
+.prioridad3 {
+    background-color: #00D608;
+}
+.prioridad0 {
+    background-color: #778678;
 }
