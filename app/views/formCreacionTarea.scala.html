@@ -1,7 +1,10 @@
 @(tareaForm: Form[Tarea],usuario: Usuario, mensaje: String)
 
+
 @main("Nueva tarea") {
-    <h1>Nueva tarea para el usuario @usuario.login</h1>
+    <head>
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/crear-tarea.css")">
+    </head>
 
     <div style="margin:10px 30px">
         @if(mensaje!=null && mensaje!="") {
@@ -11,14 +14,106 @@
         }
     @helper.form(action = routes.Tareas.grabaNuevaTarea()) {
         <fieldset>
-            @helper.inputText(tareaForm("descripcion"), '_label -> "Descripción")
-            <input type="hidden" name="id_usuario" value='@usuario.id' >
+
+
+
+            <div class="container-fluid">
+
+                <h1>Nueva tarea para el usuario @usuario.login</h1>
+                <div class="row">
+
+                    <div class="col-md-4">
+                        <strong>Descripción de la tarea</strong><br>
+                        <input type="text" name="descripcion" class="form-control" placeholder="Introduce una descripción para la tarea..." required>
+                        <input type="hidden" name="id_usuario" value='@usuario.id' >
+
+                        <!--aqui se iran añadiendo las etiquetas que se quieren-->
+                        <strong class="top-buffer">Etiquetas añadidas a la tarea (pulsa para quitarlas)</strong><br>
+                        <ul data-empty-message="No has etiquetado la tarea..." class="list-inline lista-tags" id="tags-selecc"></ul>
+
+                        <input id="almacen_tags" type="hidden" name="tags" value=''>
+                    </div>
+                </div>
+              <div class="row">
+                  <div class="col-md-4">
+                      <div class="input-group">
+                          <select class="form-control" id="sel1">
+                              <option value="" disabled selected>Selecciona una etiqueta</option>
+                          </select>
+                          <span class="input-group-btn">
+                              <a title="Etiquetar tarea" href="#" onclick='add_tag()' class="btn btn-info" role="button"><span class="glyphicon glyphicon-tags"></span></a>
+                          </span>
+                      </div>
+                  </div>
+
+
+              </div>
+            </div>
         </fieldset>
-        <p>
-            <input type="submit" class="btn btn-success" value="Guardar">
-            <a class="btn btn-danger"
-                href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
-        </p>
+
+        <div class="container-fluid">
+            <div class="row top-buffer">
+                <div class="col-md-4">
+                    <input type="submit" class="btn btn-success" value="Guardar tarea">
+                    <a class="btn btn-danger"
+                        href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
+                </div>
+            </div>
+        </div>
     }
+
+
+    <br>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <h3>Administrar etiquetas de @usuario.login</h3>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Crear nuevas etiquetas</strong>
+                <div class="input-group">
+                   <input type="text" id="nueva-tag" class="form-control" name="nombre-etiqueta" placeholder="Introduce un nombre para la etiqueta...">
+                   <span class="input-group-btn">
+                        <button title="Crear nueva etiqueta" class="btn btn-primary" type="button" onclick='crear_etiqueta(@usuario.id)'><span class="glyphicon glyphicon-plus-sign"></span></button>
+                   </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <strong>Eliminar completamente etiquetas</strong>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <select class="form-control" id="sel2">
+                        <option value="" disabled selected>Selecciona una etiqueta</option>
+                    </select>
+                    <span class="input-group-btn">
+                        <a title="Borrar etiqueta completamente" href="#" onclick='borrar_tag_bd(@usuario.id)' class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash"></span></a>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+
+
+
+<script>
+    $( document ).ready(function() {
+        actualizar_etiquetas('@usuario.id')
+    });
+</script>
+<script src="@routes.Assets.versioned("javascripts/crear-tarea.js")" type="text/javascript"></script>
 }

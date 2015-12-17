@@ -5,10 +5,12 @@ import java.util.List;
 import play.*;
 import play.mvc.*;
 import views.html.*;
-import static play.libs.Json.*;
 import play.data.Form;
 import play.db.jpa.*;
 import play.data.DynamicForm;
+import play.libs.Json;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.*;
 
@@ -40,11 +42,11 @@ public class Etiquetas extends Controller {
         } catch(NullPointerException e) {
             return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + usuarioId + " no existe."));
         }
-        //Usuario usuario = UsuarioService.findUsuario(usuarioId);
-        //String mensaje = flash("grabaTarea");
-        //return ok(listaTareas.render(tareas,usuario,mensaje));
-
-        return ok(etiquetas.toString());
+        ObjectNode result = Json.newObject();
+        for(Etiqueta e:etiquetas) {
+            result.put(e.id.toString(),e.nombre);
+        }
+        return ok(result);
     }
 
     @Transactional
