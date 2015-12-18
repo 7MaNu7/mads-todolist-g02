@@ -1,6 +1,7 @@
 Que es todolist->
 ToDoList es la mejor forma de organizar las tareas de tu empresa. Comprueba lo que hace cada empleado,
-controla tus tareas de forma e intuitiva, añade etiquetas y anotaciones para no olvidarte de los detalles, y definitivamente mejora la productividad de la empresa.
+controla tus tareas de forma e intuitiva, añade etiquetas y anotaciones para no olvidarte de los detalles,
+y definitivamente mejora la productividad de la empresa.
 
 
 Principales caracteristicas-> 3 o 4
@@ -26,7 +27,7 @@ Principales caracteristicas-> 3 o 4
 - Detalla tus tareas más importantes con anotaciones
     Si una tarea necesita de un tratamiento especial, o tienes que añadirle más detalles, tendrás a tu disposición
     las anotaciones: la forma más sencilla de agregarle una nota a una tarea, para que no pierdas el tiempo
-    pensando qué es lo que tenías que hacer en esa tarea. 
+    pensando qué es lo que tenías que hacer en esa tarea.
 
 
 
@@ -34,7 +35,17 @@ Principales caracteristicas-> 3 o 4
 
 Comentarios tuiteros -> 6 o 7 personas
 
+@Pablo_Iglesias_ -> Esta aplicación es genial. Hemos podido organizar todos nuestros mítines de forma sencilla, sin ponernos nerviosos.
 
+@domingogallardo -> Recomiendo ToDoList, una forma sencilla de organizar tus tareas de empresa.
+
+@Spielberg -> Un diseño muy elegante el de #ToDoList, me ha emocionado mucho más que otras películas.
+
+@epsalicante -> Descubre #ToDoList, una aplicación web desarrollada por nuestros estudiante para controlar tareas.
+
+@KingAfrica -> Me ha gustado mucho esta aplicación, es la BOOOOOOMBAAAAAAA.
+
+@jesuscalleja -> @Planeta_Calleja tiene nuevo patrocinador: ToDoList, con el que organizaremos todas las escaladas por los Pirineos.
 
 
 Los 4 integrantes del grupo -> sus principales virtudes y twitter
