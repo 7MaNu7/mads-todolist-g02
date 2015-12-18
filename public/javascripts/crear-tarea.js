@@ -19,6 +19,26 @@ function actualizar_etiquetas(idusuario) {
     });
 }
 
+function mostrar_tags(idusuario) {
+  console.log("voy a mostrar_tags");
+  $.ajax({
+        url: '/usuarios/' + idusuario + '/etiquetas',
+        type: 'GET',
+        success: function(results) {
+            var listaTags= document.getElementById('tags-selecc');
+            //var plantilla= listaTags.innerHTML;
+            $.each(results, function(key, value) {
+              console.log("en bucle, key: "+key);
+                listaTags.innerHTML = listaTags.innerHTML + "<li id='" + key + "'>"
+                + "<a href='#' data-toggle='tooltip' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
+                + '</li>';
+                console.log(listaTags.innerHTML);
+              //  actualizar_almacen_tags();
+            });
+        }
+      });
+}
+
 function add_tag() {
     var id = document.getElementById('sel1').value;
     var text = $("#sel1 option:selected").text();
