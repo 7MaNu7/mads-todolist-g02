@@ -202,6 +202,12 @@ public class Tareas extends Controller {
         } catch(NumberFormatException e) {
             return badRequest(error.render(BAD_REQUEST,"La lista de etiquetas debe estar definida por enteros separados por ; -> 1;2;3;"));
         }
+
+        for(Etiqueta tag:tags) {
+            if(!usuario.etiquetas.contains(tag))
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido usar etiquetas de otros usuarios"));
+        }
+
         tarea.etiquetas = tags;
         ///////////////////////
 
