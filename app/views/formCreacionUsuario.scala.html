@@ -1,8 +1,10 @@
 @(usuarioForm: Form[Usuario], mensaje: String)
 
-
-
 @main("Nuevo usuario") {
+
+    <head>
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/formulario.css")">
+    </head>
 
     <div style="margin:10px 30px">
         @if(mensaje!=null && mensaje!="") {
@@ -13,12 +15,12 @@
         <h1>Nuevo usuario</h1>
         @helper.form(action = routes.Usuarios.grabaNuevoUsuario()) {
             <fieldset>
-                @helper.inputText(usuarioForm("login"), '_label -> "Login")
-                @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre")
-                @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos")
-                @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico")
+                @helper.inputText(usuarioForm("login"), '_label -> "Login", 'class -> "form-control inputs")
+                @helper.inputText(usuarioForm("nombre"), '_label -> "Nombre", 'class -> "form-control inputs")
+                @helper.inputText(usuarioForm("apellidos"), '_label -> "Apellidos", 'class -> "form-control inputs")
+                @helper.inputText(usuarioForm("eMail"), '_label -> "Correo electrónico", 'class -> "form-control inputs")
                 @helper.inputText(usuarioForm("fechaNacimiento"), '_label ->
-                "Fecha nacimiento (dd-mm-aaaa)")
+                "Fecha nacimiento (dd-mm-aaaa)", 'class -> "form-control inputs")
             </fieldset>
             <p>
                 <input type="submit" class="btn btn-success" value="Guardar">

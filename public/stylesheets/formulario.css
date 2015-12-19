@@ -1,0 +1,12 @@
+.inputs {
+  width: 300px;
+}
+
+.inputdescripcion {
+  width: 490px;
+}
+
+textarea.form-control {
+  height: 100px;
+  width: 600px;
+}

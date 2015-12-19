@@ -1,9 +1,11 @@
 @(usuario: Usuario, tarea: Tarea)
 
 @main("Modificar tarea") {
-  <head>
-    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/crear-tarea.css")">
-  </head>
+    <head>
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/crear-tarea.css")">
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/formulario.css")">
+    </head>
+
     <div style="margin:10px 30px">
         <h1>Modificar tarea @tarea.id del usuario @usuario.login</h1>
 
@@ -16,7 +18,8 @@
             <input type="hidden" name="anotacion" value='@tarea.anotacion'>
             <p>
                 <label for="descripcion">Descripción: </label>
-                <input type="text" name="descripcion" value='@tarea.descripcion'>
+                <input type="text" name="descripcion" class="form-control inputdescripcion"
+                  placeholder="Introduce una descripción para la tarea..." value='@tarea.descripcion' required>
             </p>
 
             <strong class="top-buffer">Etiquetas añadidas a la tarea (pulsa para quitarlas)</strong><br>

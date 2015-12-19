@@ -1,8 +1,10 @@
 @(loginForm: DynamicForm, mensaje: String)
 
-
-
 @main("Iniciar sesión") {
+
+    <head>
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/formulario.css")">
+    </head>
 
     <div style="margin:10px 30px">
         @if(mensaje!=null && mensaje!="") {
@@ -13,8 +15,8 @@
         <h1>Inicio de sesión</h1>
         @helper.form(action = routes.Usuarios.logeaUsuario()) {
             <fieldset>
-                @helper.inputText(loginForm("login"), '_label -> "Login")
-                @helper.inputPassword(loginForm("password"), '_label -> "Contraseña")
+                @helper.inputText(loginForm("login"), '_label -> "Login", 'class -> "form-control inputs")
+                @helper.inputPassword(loginForm("password"), '_label -> "Contraseña", 'class -> "form-control inputs")
             </fieldset>
             <p>
                 <input type="submit" class="btn btn-success" value="Iniciar sesión">

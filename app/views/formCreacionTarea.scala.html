@@ -1,9 +1,9 @@
 @(tareaForm: Form[Tarea],usuario: Usuario, mensaje: String)
 
-
 @main("Nueva tarea") {
     <head>
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/crear-tarea.css")">
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/formulario.css")">
     </head>
 
     <div style="margin:10px 30px">
@@ -14,17 +14,15 @@
         }
     @helper.form(action = routes.Tareas.grabaNuevaTarea()) {
         <fieldset>
-
-
-
             <div class="container-fluid">
-
                 <h1>Nueva tarea para el usuario @usuario.login</h1>
                 <div class="row">
 
                     <div class="col-md-4">
                         <strong>Descripción de la tarea</strong><br>
-                        <input type="text" name="descripcion" class="form-control" placeholder="Introduce una descripción para la tarea..." required>
+                        <input type="text" name="descripcion" class="form-control inputdescripcion"
+                          placeholder="Introduce una descripción para la tarea..." required>
+
                         <input type="hidden" name="id_usuario" value='@usuario.id' >
 
                         <!--aqui se iran añadiendo las etiquetas que se quieren-->
