@@ -14,15 +14,19 @@
       <script src="@routes.Assets.versioned("javascripts/listaTareas.js")" type="text/javascript"></script>
     </head>
 
-  
-
-
-
     <div style="margin:0px 50px">
         <h2>Listado de tareas de @usuario.login</h2>
-        <p>Filtro por etiquetas <span class="etiqueta" style="cursor:pointer;" onclick="mostrarTodasTareasConSinEtiqueta()">Mostrar todas</span> @for(etiqueta <- etiquetas) {
-          <span class="etiqueta" style="cursor:pointer;" onclick="ocultarTareasSinEtiqueta(@etiqueta.id)">@etiqueta.nombre</span>
-        }
+        <p class="parrafoFiltroEtiquetas">Filtro por etiquetas:
+            <a data-toggle='tooltip' style="cursor:pointer;" class="todasetiquetas" onclick="mostrarTodasTareasConSinEtiqueta()">
+              <span class='glyphicon glyphicon-tag'></span>
+              <span>Mostrar todas</span>
+            </a>
+            @for(etiqueta <- etiquetas) {
+            <a data-toggle='tooltip' style="cursor:pointer;" class="filtroetiquetas" onclick="ocultarTareasSinEtiqueta(@etiqueta.id)">
+              <span class='glyphicon glyphicon-tag'></span>
+              <span>@etiqueta.nombre</span>
+            </a>
+            }
         </p>
         <table class="table table-striped mitabla">
             <thead>
@@ -52,7 +56,10 @@
                     <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
                         @for(etiqueta <- tarea.etiquetas){
-                          <span class="etiqueta">@etiqueta.nombre</span>
+                          <a data-toggle='tooltip' class='btn-xs btn-info'>
+                            <span class='glyphicon glyphicon-tag'></span>
+                            <span>@etiqueta.nombre</span>
+                          </a>
                         }
                         <!-- Iconos abrir acordeón anotación -->
                         <a id="iconoabriranotacion@tarea.id">
@@ -76,25 +83,25 @@
                     </td>
                   </tr>
                   <!-- Anotacion de la tarea -->
-                  <tr class="accordion-content@tarea.id" id="anotacionacordeon">
-                    <th></th>
-                    <td class="columna2anotacion"></td>
-                    <td id="anotacioneditar">
-                      <div class="anotacioneditar">
-                        <textarea id="textoanotacion@tarea.id" class="form-control textanotacion" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
-                        <div class="botonesanotacion">
-                          <a id="botonguardarA" class="botonAnotacionizq" title="Guardar anotación"
-                              onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
-                            <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
-                          </a>
-                          <a class="botonAnotacionder" title="Borrar anotación"
-                                onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad'); return false;">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                          </a>
-                        </div>
+                  <tr>
+                   <td class="accordion-content@tarea.id anotacioninvisible"></td>
+                   <td class="columna2anotacion  accordion-content@tarea.id anotacioninvisible"></td>
+                   <td class="accordion-content@tarea.id anotacioninvisible">
+                    <div class="accordion-content@tarea.id anotacioninvisible">
+                      <textarea id="textoanotacion@tarea.id" class="form-control textanotacion" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
+                      <div class="botonesanotacion">
+                        <a id="botonguardarA" class="botonAnotacionizq" title="Guardar anotación"
+                           onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
+                         <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+                        </a>
+                        <a class="botonAnotacionder" title="Borrar anotación"
+                             onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad'); return false;">
+                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
                       </div>
-                    </td>
-                    <td></td>
+                    </div>
+                   </td>
+                   <td class="accordion-content@tarea.id anotacioninvisible"></td>
                   </tr>
                   }
                 }
@@ -109,6 +116,12 @@
                       <td class='realizada'>@tarea.id</td>
                       <td class='realizada tddescripcion' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
+                        @for(etiqueta <- tarea.etiquetas){
+                          <a data-toggle='tooltip' class='btn-xs btn-info'>
+                            <span class='glyphicon glyphicon-tag'></span>
+                            <span>@etiqueta.nombre</span>
+                          </a>
+                        }
                         <!-- Iconos abrir acordeón anotacinó -->
                         <a id="iconoabriranotacion@tarea.id">
                           <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
@@ -131,13 +144,12 @@
                       </td>
                   </tr>
                   <!-- Anotacion de la tarea -->
-                  <tr class="accordion-content@tarea.id" id="anotacionacordeon">
-                    <td></td>
-                    <td class="columna2anotacion"></td>
-                    <td id="anotacioneditar">
-                      <!-- Vista editable -->
-                      <div class="anotacioneditar">
-                        <textarea id="textoanotacion@tarea.id" class="form-control textanotacion" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
+                  <tr>
+                    <td class="accordion-content@tarea.id anotacioninvisible"></td>
+                    <td class="columna2anotacion  accordion-content@tarea.id anotacioninvisible"></td>
+                    <td class="accordion-content@tarea.id anotacioninvisible">
+                      <div class="accordion-content@tarea.id anotacioninvisible">
+                        <textarea id="textoanotacion@tarea.id" class="form-control textanotacion realizada" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
                         <div class="botonesanotacion">
                           <a id="botonguardarA" class="botonAnotacionizq" title="Guardar anotación"
                               onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
@@ -150,6 +162,7 @@
                         </div>
                       </div>
                     </td>
+                    <td class="accordion-content@tarea.id anotacioninvisible"></td>
                   </tr>
                   }
                 }
