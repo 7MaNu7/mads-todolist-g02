@@ -62,6 +62,27 @@ function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario,
 }
 
 
+/* OPERACIONES PARA FILTRAR ETIQUETAS DE LAS TAREAS */
+
+function ocultarTareasSinEtiqueta(etiqueta){
+  $(".tarea").each(function (index){
+    var etiquetas = $(this).attr("id");
+     if(etiquetas.indexOf(etiqueta)>-1){
+        $(this).show();
+     }else{
+       $(this).hide();
+     }
+   })
+  }
+  function mostrarTodasTareasConSinEtiqueta(){
+    $(".tarea").each(function (index){
+          $(this).show();
+     })
+    }
+
+
+
+
 /* OPERACIONES CON ACORDEÓN PARA ANOTACIÓN TAREA */
 
 /* Para cerrar/abrir/efectos del acordeón de la anotación de cada tarea */

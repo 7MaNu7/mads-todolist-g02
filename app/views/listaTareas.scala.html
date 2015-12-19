@@ -1,4 +1,4 @@
-@(tareas: List[Tarea], usuario: Usuario, mensaje: String)
+@(tareas: List[Tarea], etiquetas: List[Etiqueta], usuario: Usuario, mensaje: String)
 
 @scripts = {}
 
@@ -14,8 +14,16 @@
       <script src="@routes.Assets.versioned("javascripts/listaTareas.js")" type="text/javascript"></script>
     </head>
 
+  
+
+
+
     <div style="margin:0px 50px">
         <h2>Listado de tareas de @usuario.login</h2>
+        <p>Filtro por etiquetas <span class="etiqueta" style="cursor:pointer;" onclick="mostrarTodasTareasConSinEtiqueta()">Mostrar todas</span> @for(etiqueta <- etiquetas) {
+          <span class="etiqueta" style="cursor:pointer;" onclick="ocultarTareasSinEtiqueta(@etiqueta.id)">@etiqueta.nombre</span>
+        }
+        </p>
         <table class="table table-striped mitabla">
             <thead>
                 <tr>
@@ -29,7 +37,7 @@
                <!--Tareas estado pendientes-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado=="pendiente") {
-                  <tr class="accordion-container show-btn">
+                  <tr class="accordion-container show-btn tarea" id="@for(etiqueta <- tarea.etiquetas){@etiqueta.id,}">
                     <!--Prioridad-->
                     <td class="tdprioridad">
                       <div class="prior prioridad@tarea.prioridad">
@@ -43,6 +51,9 @@
                     <td>@tarea.id</td>
                     <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
+                        @for(etiqueta <- tarea.etiquetas){
+                          <span class="etiqueta">@etiqueta.nombre</span>
+                        }
                         <!-- Iconos abrir acordeón anotación -->
                         <a id="iconoabriranotacion@tarea.id">
                           <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
@@ -91,7 +102,7 @@
                 <!--Tareas estado realizadas-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado!="pendiente") {
-                    <tr>
+                    <tr class="tarea" id="@for(etiqueta <- tarea.etiquetas){@etiqueta.id,}">
                       <td class="tdprioridad">
                         <div class="prioridad@tarea.prioridad done"></div>
                       </td>

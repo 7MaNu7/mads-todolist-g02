@@ -221,6 +221,24 @@ public class EtiquetasWSTests {
         });
     }
 
+    @Test
+    public void testWebEtiquetaEnListaTareas() {
+        running(testServer(3333, app), () -> {
+            int timeout = 4000;
+
+          WSResponse  response = WS
+                .url("http://localhost:3333/usuarios/1/tareas")
+                .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                .get()
+                .get(timeout);
+
+                assertEquals(OK, response.getStatus());
+                assertTrue(response.getBody().contains("ENCARNA"));
+                assertTrue(!response.getBody().contains("Importante1"));
+                assertTrue(response.getBody().contains("Importante2"));
+
+        });
+    }
 
 
 
