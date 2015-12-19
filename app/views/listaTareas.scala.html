@@ -117,7 +117,8 @@
                       <td class='realizada tddescripcion' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
                         @for(etiqueta <- tarea.etiquetas){
-                          <a data-toggle='tooltip' class='btn-xs btn-info'>
+                          <script>console.log("hola")</script>
+                          <a data-toggle='tooltip' class='btn-xs btn-info realizadaEtiqueta'>
                             <span class='glyphicon glyphicon-tag'></span>
                             <span>@etiqueta.nombre</span>
                           </a>
