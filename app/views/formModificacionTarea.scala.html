@@ -27,18 +27,6 @@
 
             <input id="almacen_tags" type="hidden" name="tags" value=''>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <select class="form-control" id="sel1">
-                            <option value="" disabled selected>Selecciona una etiqueta</option>
-                        </select>
-                        <span class="input-group-btn">
-                            <a title="Etiquetar tarea" href="#" onclick='add_tag()' class="btn btn-info" role="button"><span class="glyphicon glyphicon-tags"></span></a>
-                        </span>
-                    </div>
-                </div>
-            </div>
 
             </fieldset>
             <input type="submit" class="btn btn-success" value="Guardar cambios">
@@ -56,6 +44,9 @@
                 </div>
             </div>
 
+            <!--TUS ETIQUETAS-->
+            <strong class="top-buffer">Tus etiquetas</strong><br>
+            <ul data-empty-message="No tienes ninguna etiqueta..." class="list-inline lista-tags" id="tags_usuario"></ul>
 
             <div class="row">
                 <div class="col-md-4">
@@ -85,25 +76,6 @@
                             <a title="Modificar etiqueta" href="#" onclick='editar_etiqueta(@usuario.id)' class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span></a>
                         </span>
                         <input type="text" id="modif-tag" class="form-control" name="modif-etiqueta" placeholder="Introduce el nuevo nombre para la etiqueta">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <strong>Eliminar completamente etiquetas</strong>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <select class="form-control" id="sel2">
-                            <option value="" disabled selected>Selecciona una etiqueta</option>
-                        </select>
-                        <span class="input-group-btn">
-                            <a title="Borrar etiqueta completamente" href="#" onclick='borrar_tag_bd(@usuario.id)' class="btn btn-danger" role="button"><span class="glyphicon glyphicon-trash"></span></a>
-                        </span>
                     </div>
                 </div>
             </div>
