@@ -16,6 +16,11 @@ public class EtiquetaService {
         return usuario.etiquetas;
     }
 
+    public static List<Etiqueta> findAllEtiquetasTarea(Integer tareaId) {
+        Tarea tarea = TareaDAO.find(tareaId);
+        return tarea.etiquetas;
+    }
+
     public static Etiqueta findEtiqueta(Integer id) {
         return EtiquetaDAO.find(id);
     }

@@ -30,6 +30,7 @@ POST    /tareas/modifica                            controllers.Tareas.grabaTare
 DELETE  /tareas/:id                                 controllers.Tareas.borraTarea(id: Integer)
 
 GET     /usuarios/:id/etiquetas                     controllers.Etiquetas.listaEtiquetas(id: Integer)
+GET     /tareas/:tarea_id/etiquetas                 controllers.Etiquetas.listaEtiquetasTarea(tarea_id: Integer)
 POST    /etiquetas/nueva                            controllers.Etiquetas.grabaNuevaEtiqueta()
 POST    /etiquetas/modifica                         controllers.Etiquetas.grabaEtiquetaModificada()
 DELETE  /etiquetas/:id                              controllers.Etiquetas.borraEtiqueta(id: Integer)

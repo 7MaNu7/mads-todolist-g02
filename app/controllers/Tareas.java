@@ -183,6 +183,34 @@ public class Tareas extends Controller {
           tarea.prioridad = prioridad;
         tarea.anotacion = anotacion;
 
+        //etiquetas////////////////////
+        List<Etiqueta> tags = new ArrayList<Etiqueta>();
+        try {
+            if(requestData.get("tags")!=null && requestData.get("tags").length()>0)
+            {
+                String[] tags_array = requestData.get("tags").split(";");
+                for(int i=0;i<tags_array.length;i++)
+                {
+                    Etiqueta e = EtiquetaService.findEtiqueta(Integer.parseInt(tags_array[i]));
+                    if(e==null) //no existe
+                        return badRequest(error.render(BAD_REQUEST,
+                            "Alguna de las etiquetas introducidas no existe"));
+                    else
+                        tags.add(e);
+                }
+            }
+        } catch(NumberFormatException e) {
+            return badRequest(error.render(BAD_REQUEST,"La lista de etiquetas debe estar definida por enteros separados por ; -> 1;2;3;"));
+        }
+
+        for(Etiqueta tag:tags) {
+            if(!usuario.etiquetas.contains(tag))
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido usar etiquetas de otros usuarios"));
+        }
+
+        tarea.etiquetas = tags;
+        ///////////////////////
+
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");
         return redirect(controllers.routes.Tareas.listaTareas(user_id));

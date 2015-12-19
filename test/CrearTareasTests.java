@@ -172,8 +172,21 @@ public class CrearTareasTests {
 
                 assertEquals(303, response.getStatus()); //las tags 1 y 3 son suyas, asi que redirect
 
-                Usuario usuario = UsuarioDAO.find(1);
-                assertEquals(2,usuario.etiquetas.size()); //tendra 2 etiquetas
+
+              //obtenemos las tareas del usuario
+              List<Tarea> tareas = TareaService.findAllTareasUsuario(1);
+              Tarea tarea = null;
+
+              //buscamos la recien creada
+              for(int i=0; i<tareas.size(); i++)
+              {
+                if(tareas.get(i).descripcion.equals("Hay que refactorizar amigos"))
+                {
+                  tarea=tareas.get(i);
+                }
+              }
+              //comprobamos que tiene las dos etiquetas
+              assertEquals(2, tarea.etiquetas.size());
             });
         });
     }
@@ -204,8 +217,23 @@ public class CrearTareasTests {
 
                 Etiqueta e =  EtiquetaDAO.find(1);
                 EtiquetaDAO.delete(1); //borramos el tag 1
-                Usuario usuario = UsuarioDAO.find(1);
-                assertEquals(1,usuario.etiquetas.size()); //tendra 1 tag, porque la otra se ha borrado
+
+
+                //obtenemos las etiquetas del usuario 1
+                List<Tarea> tareas = TareaService.findAllTareasUsuario(1);
+                Tarea tarea = null;
+
+                //Buscamos la recien creada
+                for(int i=0; i<tareas.size(); i++)
+                {
+                  if(tareas.get(i).descripcion.equals("Hay que refactorizar amigos"))
+                  {
+                    tarea=tareas.get(i);
+                  }
+                }
+
+                //comprobamos que al borrar la etiqueta se quita de la tarea tambien
+                assertEquals(0, tarea.etiquetas.size());
 
 
             });
