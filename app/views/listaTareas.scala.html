@@ -43,6 +43,9 @@
                     <td>@tarea.id</td>
                     <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
                         @tarea.descripcion
+                        @for(etiqueta <- tarea.etiquetas){
+                          <span class="etiqueta">@etiqueta.nombre</span>
+                        }
                         <!-- Iconos abrir acordeón anotación -->
                         <a id="iconoabriranotacion@tarea.id">
                           <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
