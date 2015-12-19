@@ -8,15 +8,25 @@ function actualizar_etiquetas(idusuario) {
             var select = document.getElementById('sel1');
             var select2 = document.getElementById('sel2');
             var select3 = document.getElementById('sel3');
+
             select.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>'; //vaciamos
             select2.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>'; //vaciamos
-            select3.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>';
+            
+            if(select3!=null)
+            {
+              select3.innerHTML='<option value="" disabled selected>Selecciona una etiqueta</option>';
+            }
+
             var plantilla='';
             $.each(results, function(key, value) {
                 plantilla = '<option value="' + key + '">' + value + '</option>'
                 select.innerHTML+=plantilla;
                 select2.innerHTML+=plantilla;
-                select3.innerHTML+=plantilla;
+
+                if(select3!=null)
+                {
+                  select3.innerHTML+=plantilla;
+                }
             });
         }
     });
