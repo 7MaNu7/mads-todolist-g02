@@ -19,10 +19,10 @@ function actualizar_etiquetas(idusuario) {
     });
 }
 
-function mostrar_tags(idusuario) {
+function mostrar_tags(tareaId, idusuario) {
   console.log("voy a mostrar_tags");
   $.ajax({
-        url: '/usuarios/' + idusuario + '/etiquetas',
+        url: '/tareas/' + tareaId + '/etiquetas',
         type: 'GET',
         success: function(results) {
             var listaTags= document.getElementById('tags-selecc');
@@ -30,13 +30,15 @@ function mostrar_tags(idusuario) {
             $.each(results, function(key, value) {
               console.log("en bucle, key: "+key);
                 listaTags.innerHTML = listaTags.innerHTML + "<li id='" + key + "'>"
-                + "<a href='#' data-toggle='tooltip' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
+                + "<a href='#' data-toggle='tooltip' title='Click para eliminar' onclick='remove_tag(" + key + ")' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
                 + '</li>';
                 console.log(listaTags.innerHTML);
               //  actualizar_almacen_tags();
             });
         }
       });
+
+      actualizar_etiquetas(idusuario);
 }
 
 function add_tag() {
@@ -66,6 +68,7 @@ function actualizar_almacen_tags() {
     {
         var tag_id = $(li).attr('id'); //obtenemos el id del tag
         almacen.value+=tag_id + ";"; //los vamos guardando y separando con ;
+        console.log("almacen: "+almacen.value);
     });
 }
 

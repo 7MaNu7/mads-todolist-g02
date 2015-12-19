@@ -49,6 +49,35 @@ public class Etiquetas extends Controller {
         return ok(result);
     }
 
+    @Transactional(readOnly = true)
+    // Devuelve una página con la lista de tareas
+    public Result listaEtiquetasTarea(Integer tareaId) {
+        String tipo = session("tipo");
+        if(tipo==null) //si no esta logeado
+            return ok(formLoginUsuario.render(new DynamicForm(),"¡Necesitas iniciar sesión para acceder a este recurso!"));
+
+        Tarea t = TareaService.findTarea(tareaId);
+        //si otro usuario (no admin) quiere acceder a una list que no es suya...
+        if(!tipo.equals("admin"))
+        {
+            if(Integer.parseInt(tipo)!=t.usuario.id)
+            {
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permiso para ver un recurso que no es tuyo."));
+            }
+        }
+        List<Etiqueta> etiquetas = null;
+        try {
+            etiquetas = EtiquetaService.findAllEtiquetasTarea(tareaId);
+        } catch(NullPointerException e) {
+            return badRequest(error.render(BAD_REQUEST,"La tarea con id=" + tareaId + " no existe."));
+        }
+        ObjectNode result = Json.newObject();
+        for(Etiqueta e:etiquetas) {
+            result.put(e.id.toString(),e.nombre);
+        }
+        return ok(result);
+    }
+
     @Transactional
     public Result grabaNuevaEtiqueta() {
         String tipo = session("tipo");
