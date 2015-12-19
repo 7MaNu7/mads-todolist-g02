@@ -42,9 +42,15 @@ public class Tareas extends Controller {
         } catch(NullPointerException e) {
             return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + usuarioId + " no existe."));
         }
+        List<Etiqueta> etiquetas = null;
+        try {
+            etiquetas = EtiquetaService.findAllEtiquetasUsuario(usuarioId);
+        } catch(NullPointerException e) {
+            return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + usuarioId + " no existe."));
+        }
         Usuario usuario = UsuarioService.findUsuario(usuarioId);
         String mensaje = flash("grabaTarea");
-        return ok(listaTareas.render(tareas,usuario,mensaje));
+        return ok(listaTareas.render(tareas,etiquetas,usuario,mensaje));
     }
 
     @Transactional(readOnly = true)
