@@ -69,6 +69,7 @@ function modificarTareaAnotacion(urlModificar, id, descripcion, estado, idusuari
      document.getElementById("textoanotacion"+id).value = anotacion;
      cerrarAnotacion(id);
      mostrarSuccessAnotacion();
+          location.reload();
    }
   });
 }
