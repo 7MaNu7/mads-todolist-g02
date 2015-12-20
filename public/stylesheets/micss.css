@@ -1,0 +1,47 @@
+button:hover {
+}
+
+/* Estilo inicial de las cajas */
+
+.container {
+}
+
+/* Icono de la mano, intuitivamente se sabe que podemos mover el elemento */
+
+.container > div,
+.gu-mirror {
+  transition: opacity 0.4s ease-in-out;
+}
+.container > div {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+/* Para cuando ya lo hemos soltado solo ese elemento cambia */
+
+.container .ex-moved {
+  color: red;
+}
+
+/* Para cuando estamos a punto de soltar el elemento, toda la caja cambia estilo */
+
+.container.ex-over {
+  background-color: gray;
+}
+
+/*
+NO parece hacer falta
+#left-lovehandles > div,
+#right-lovehandles > div {
+  cursor: initial;
+}
+.handle {
+  cursor: move;
+}*/
