@@ -15,4 +15,10 @@ public class Application extends Controller {
       return ok(saludo.render(nombre));
     }
 
+
+    public Result webMarketing() {
+      return ok(webMarketing).render());
+    }
+
+
 }

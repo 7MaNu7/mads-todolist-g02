@@ -34,3 +34,6 @@ GET     /tareas/:tarea_id/etiquetas                 controllers.Etiquetas.listaE
 POST    /etiquetas/nueva                            controllers.Etiquetas.grabaNuevaEtiqueta()
 POST    /etiquetas/modifica                         controllers.Etiquetas.grabaEtiquetaModificada()
 DELETE  /etiquetas/:id                              controllers.Etiquetas.borraEtiqueta(id: Integer)
+
+
+GET     /webmarketing                                controllers.Application.webMarketing()
