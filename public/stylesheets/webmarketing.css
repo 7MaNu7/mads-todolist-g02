@@ -1,0 +1,305 @@
+body {
+margin: 0;
+padding: 0;
+}
+
+    .seccion1 {
+margin: 0;
+padding: 0;
+height: 450px;
+overflow: hidden;
+}
+    .fondoimg {
+height: 100%;
+width: 100%;
+display: -webkit-box;
+background-image: url("http://www.globalsge.com/images/GLOBAL/deslizante/Equipo.jpg");
+background-size: cover;
+background-position-y: 32%;
+}
+    .fondocolor {
+      width: 100%;
+height: 100%;
+background: rgba(11, 24, 37, 0.77);
+box-shadow: inset 0 0 280px black;
+padding-left: 20%;
+padding-top: 150px;
+color: #E6E6E6;
+text-shadow: 0 0 14px black;
+}
+
+    header.menupag {
+position: absolute;
+top: 18px;
+right: 14px;
+}.menupag li {
+display: inline-block;
+}
+
+    .menupag a {
+color: white!important;
+padding: 0 10px 0 0;
+}
+    h1 {
+font-size: 84px;
+margin-bottom: 22px;
+}
+    h3 {
+font-size: 34px;
+margin-top: 0px;
+}
+
+
+
+
+
+
+
+    .seccion2 {
+background: #EFEFEF;
+            padding: 47px;
+}
+   .seccion2 h2 {
+font-size: 65px;
+color: #464646;
+max-width: 314px;
+float: left;
+margin-right: 38px;
+}
+    .seccion2 p {
+margin-top: 27px;
+font-size: large;
+color: #737373;
+}
+    .seccion2 .titulo {
+            padding-left: 36px;
+vertical-align: middle;
+        overflow: hidden;
+}
+
+    .seccion2 .texto {
+display: inline-block;
+width: 100%;
+max-width: 715px;
+
+font-size: large;
+color: #404040;
+text-align: justify;
+vertical-align: -webkit-baseline-middle;
+}
+
+
+
+
+
+    .seccion3 {
+height: 405px;
+margin-top: 54px;
+}
+    .item {
+height: 100%;
+}
+.carousel-caption img {
+max-width: 589px;
+max-height: 257px;
+float: left;
+margin-right: 63px;
+}
+    .carousel-caption h3 {
+color: #525252;
+            text-align: justify;
+}
+    .carousel-caption p {
+color: gray;
+text-shadow: none;
+font-size: large;
+text-align: justify;
+margin-top: 35px;
+}
+
+    @media screen and (min-width: 768px){
+.carousel-caption {
+right: 11% !important;
+left: 11% !important;
+bottom:auto;
+top:0px;
+padding-bottom: 30px;
+}
+    }
+    .carousel-indicators li {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin: 1px;
+        text-indent: -999px;
+        cursor: pointer;
+        background-color: #000\9;
+        background-color: rgba(0,0,0,0);
+        border: 1px solid #7D7D7D !important; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .seccion4 {
+padding-top: 50px;
+padding-bottom: 66px;
+}
+    .seccion4 h2 {
+text-align: center;
+}
+
+    .equipo {
+padding: 10px;
+text-align: -webkit-center;
+            margin-top: 55px;
+}
+    .persona {
+display: inline-block;
+            text-align: -webkit-auto;
+            width: 37%;
+margin-left: 24px;
+        margin-bottom: 20px;
+}
+    .persona img {
+width: 70px;
+height: 70px;
+border-radius: 50%;
+margin-right: 29px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .comentario {
+display: inline-block;
+border: solid 3px rgba(255, 255, 255, 0.73);
+color: white;
+box-shadow: 0 0 24px black;
+padding: 20px;
+background: #313131;
+position: relative;
+padding-bottom: 65px;
+max-width: 350px;
+margin-left: 60px;
+}
+.comentario img {
+position: absolute;
+bottom: -25px;
+height: 75px;
+width: 75px;
+box-shadow: 0 0 14px rgba(0, 0, 0, 0.45);
+border-radius: 3px;
+}
+
+.comentario h4 {
+position: absolute;
+left: 122px;
+max-width: 125px;
+color: #D4D4D4;
+bottom: 0;
+}
+
+.comentario p {
+font-size: large;
+}
+
+.comentarios {
+padding: 20px;
+padding-bottom: 55px;
+width: 2600px;
+    padding-top: 47px;
+    box-shadow: inset 0 0 62px black;
+}
+
+.seccion5 {
+background: #191919;
+    overflow: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .seccion6 {
+padding: 24px;
+background: #FBFBFB;
+text-align: -webkit-center;
+}
+
+
+    .colm1 {
+display: inline-block;
+width: 100%;
+            vertical-align: -webkit-baseline-middle;
+max-width: 350px;
+}
+    .colm1 input {
+width: 98%;
+margin-bottom: 15px;
+padding: 7px;
+}
+    .colm2 {
+display: inline-block;
+            vertical-align: top;
+width: 100%;
+max-width: 637px;
+}
+    .colm2 textarea {
+width: 95%;
+height: 143px;
+}
+    .seccion6 button {
+display: -webkit-box;
+background: #838896;
+border: none;
+color: rgba(255, 255, 255, 0.78);
+font-weight: 600;
+border: solid 1px darkgrey;
+width: 100%;
+max-width: 323px;
+margin: 20px;
+padding: 11px;
+}
+    .seccion6 h4 {
+margin: 54px;
+color: gray;
+font-size: 29px;
+}

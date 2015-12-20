@@ -17,7 +17,7 @@ public class Application extends Controller {
 
 
     public Result webMarketing() {
-      return ok(webMarketing).render());
+      return ok(webMarketing.render());
     }
 
 
