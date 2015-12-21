@@ -303,3 +303,14 @@ margin: 54px;
 color: gray;
 font-size: 29px;
 }
+
+#mensajecorreo{
+  position: fixed;
+  transition: all 0.5s;
+}
+.oculto{
+  top:-100px;
+}
+.visible{
+  top: 10px;
+}

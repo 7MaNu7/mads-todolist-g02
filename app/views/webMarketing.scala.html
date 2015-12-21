@@ -8,6 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
+
     <div class="seccion1" id="ToDoList">
         <div class="fondoimg">
             <div class="fondocolor">
@@ -228,8 +229,11 @@
             <textarea id="texto"></textarea>
         </div>
         <button onclick="enviarCorreo()">ENVIAR</button>
-    </div>
 
+        <div id="mensajecorreo" class="oculto alert alert-success alert-dismissible" role="alert">
+          <strong>Enviado!</strong> Responderemos a tu mensaje lo antes posible.
+        </div>
+    </div>
 
 
     <script>
@@ -241,6 +245,10 @@
            data : { email : $('#email').val(), nombre : $('#nombre').val(), mensaje : $('#texto').val(), telefono : $('#telefono').val()},
            type: 'POST',
            success: function(results) {
+              $('#mensajecorreo').removeClass("oculto").addClass("visible");
+              setTimeout(function(){
+                $('#mensajecorreo').removeClass("visible").addClass("oculto");
+              }, 5000);
            }
           });
         }
