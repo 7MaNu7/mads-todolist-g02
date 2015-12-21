@@ -56,7 +56,7 @@
 }
 
 .columna2anotacion {
-  width: 218px !important;
+  width: 235px !important;
 }
 
 .textanotacion {
@@ -80,6 +80,13 @@
 .botonAnotacionder {
   margin-left: 10px;
   color: rgba(34, 34, 34, 0.83);
+}
+
+.btn-add-tarea {
+  margin-left: 10px;
+  font-size: 15px;
+  width: 38px;
+  margin-top: -5px;
 }
 
 /* Estilo CSS para las prioridades */
