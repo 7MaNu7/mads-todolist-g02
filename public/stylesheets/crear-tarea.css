@@ -1,14 +1,25 @@
-.lista-tags {
-    margin-left:0px;
-    min-height:20px
+/* Contenidos div columna */
+
+.contenido-columna {
+  margin-left: 5px;
 }
 
-ul:empty::after{
-  content: attr(data-empty-message);
+.col-xs-6 {
+  width: 40%;
+  margin-left: 65px;
 }
 
-.top-buffer {
-    margin-top:20px;
+.row {
+  margin-right: 0px !important;
+}
+
+.divcrearetiqueta {
+  float: left;
+}
+
+.diveditaretiqueta {
+  float: left;
+  margin-left: 20px;
 }
 
 /* Titulos */
@@ -27,13 +38,68 @@ p {
   margin-top: 15px;
 }
 
+/* Elementos listas */
+
+.lista-tags {
+    margin-left:0px;
+    min-height:20px
+}
+
+ul:empty::after{
+  content: attr(data-empty-message);
+}
+
+.top-buffer {
+    margin-top:20px;
+}
+
+/* Elementos inputs y sus botones */
+
+.editaretiqueta {
+  margin-top: 5px;
+}
+
+textarea.form-control {
+    border: 2px solid;
+    border-color: #9C9696;
+}
+
 /* Botones */
 
-.boton-addtag {
+.botones-tarea {
+}
+
+.boton-tarea {
+  height: 32px;
+  border-radius: 2px;
+}
+
+.boton-input {
   float: left;
 }
 
-/* Contenidos div columna */
-.contenido-columna {
-  margin-left: 15px;
+.boton-eliminar-etiqueta {
+  margin-top: 40px;
+  width: 500px;
+  border-radius: 2px;
+  border: 2px solid rgb(222, 85, 81);
+  background-color: white;
+  color: rgb(210, 84, 80);
+  background-color: white;
+}
+
+.boton-eliminar-etiqueta:hover {
+  margin-top: 40px;
+  width: 500px;
+  border-radius: 2px;
+  border: 2px solid 2px solid rgb(230, 136, 134);
+  background-color: white;
+  color: rgb(210, 84, 80);
+  background-color: white;
+}
+
+/* Mensajes */
+
+.alert-danger {
+  margin: 10px 30px;
 }

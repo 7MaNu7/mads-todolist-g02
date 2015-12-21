@@ -1,5 +1,6 @@
 .btn-xs {
-  padding: 5px 4px;
+  padding: 1px 4px;
+  border-radius: 2px;
   margin-left: 10px;
 }
 

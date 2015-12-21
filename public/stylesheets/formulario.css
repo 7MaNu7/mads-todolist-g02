@@ -2,8 +2,16 @@
   width: 300px !important;
 }
 
+.inputssmall {
+  width: 200px !important;
+}
+
 .inputdescripcion {
   width: 500px !important;
+}
+
+.dropdown-etiquetas {
+  width: 240px !important;
 }
 
 textarea.form-control {

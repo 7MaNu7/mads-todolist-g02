@@ -22,9 +22,9 @@ function actualizar_etiquetas(idusuario) {
                 {
                     var boton = "<div class='btn-group'>";
                     boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
-                    boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></a>";
+                    boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-trash'></span></a>";
                     boton+="</div>";
-                    var plantilla = '<li id=' + key + '>' + boton + '</li>';
+                    var plantilla = '<li class="etiquetaendiv" id=' + key + '>' + boton + '</li>';
                     tags_usuario.innerHTML+=plantilla;
                 }
                 plantilla = '<option value="' + key + '">' + value + '</option>'
@@ -48,15 +48,14 @@ function mostrar_tags(tareaId, idusuario) {
             $.each(results, function(key, value) {
                 var boton = "<div class='btn-group'>";
                 boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
-                boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></a>";
+                boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-trash'></span></a>";
                 boton+="</div>";
-                var plantilla = '<li id=' + key + '>' + boton + '</li>';
+                var plantilla = '<li class="etiquetaendiv" id=' + key + '>' + boton + '</li>';
                 document.getElementById('left-events').innerHTML+=plantilla;
                 actualizar_almacen_tags();
             });
         }
       });
-
       actualizar_etiquetas(idusuario);
 }
 
@@ -88,12 +87,9 @@ function editar_etiqueta(idusuario) {
         }
       });
     }
-
 }
 
-
 function replace_tag() {
-
     var form = document.getElementById('modif-tag');
     var newTag = form.value;
     var tag_id=document.getElementById('sel3').value;
@@ -103,24 +99,15 @@ function replace_tag() {
 
     if($.inArray(tag_id,almacen_tags_tarea)>=0) //si esta en el almacen de tags, ahi hay problema
     {
-
         var text = $('#modif-tag').val();
-
         var boton = "<div class='btn-group'>";
         boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
-        boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + tag_id + ")' title='Click para eliminar completamente' class='btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></a>";
+        boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + tag_id + ")' title='Click para eliminar completamente' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-trash'></span></a>";
         boton+="</div>";
         $('#' + tag_id).html(boton);
         actualizar_almacen_tags();
-
     }
-
-
-
 }
-
-
-
 
 function actualizar_almacen_tags() {
     var almacen = document.getElementById("almacen_tags");
@@ -177,13 +164,10 @@ function borrar_tag_bd(id) {
         });
     }
 }
-////////////////////
-//DRAGULA DRAG & DROP
 
-/* NOTAS:
-Drag, over, out se activan nada más coger el elemento y moverlo un poco
-Drop: se activar cuando lo soltamos en el otro sitio
-*/
+/////////////////////
+//DRAGULA DRAG & DROP
+/////////////////////
 
 dragula([document.getElementById('left-events'), document.getElementById('right-events')])
   .on('drag', function (el) {
@@ -204,9 +188,9 @@ dragula([document.getElementById('left-events'), document.getElementById('right-
     }
 
   })
-  .on('over', function (el, container) {
-    container.className += ' ex-over';
+  .on('over', function (el, contenedor) {
+    contenedor.className += ' ex-over';
   })
-  .on('out', function (el, container) {
-    container.className = container.className.replace('ex-over', '');
+  .on('out', function (el, contenedor) {
+    contenedor.className = contenedor.className.replace('ex-over', '');
   });
