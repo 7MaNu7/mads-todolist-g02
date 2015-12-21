@@ -130,10 +130,28 @@ public class Usuarios extends Controller {
             return badRequest(formModificacionUsuario.render(usuarioForm,
             "Hay errores en el formulario"));
         }
+
         Usuario usuario = usuarioForm.get();
+
+        String tipo = session("tipo");
+        if(tipo==null) //si no esta logeado
+            return ok(formLoginUsuario.render(new DynamicForm(),"¡Necesitas iniciar sesión para acceder a este recurso!"));
+        //si otro usuario (no admin) quiere modificar un user que no es suyo...
+        if(!tipo.equals("admin"))
+        {
+            if(Integer.parseInt(tipo)!=usuario.id)
+            {
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permiso para modificar un recurso que no es tuyo."));
+            }
+        }
+
         usuario = UsuarioService.modificaUsuario(usuario);
         flash("grabaUsuario","El usuario se ha actualizado correctamente");
-        return redirect(controllers.routes.Usuarios.listaUsuarios());
+
+        if(tipo.equals("admin"))
+            return redirect(controllers.routes.Usuarios.listaUsuarios());
+        else
+            return redirect(controllers.routes.Usuarios.detalleUsuario(Integer.parseInt(tipo)));
     }
 
     @Transactional
@@ -152,7 +170,7 @@ public class Usuarios extends Controller {
         String tipo = session("tipo");
         if(tipo==null) //si no esta logeado
             return ok(formLoginUsuario.render(new DynamicForm(),"¡Necesitas iniciar sesión para acceder a este recurso!"));
-        //si otro usuario (no admin) quiere acceder a una list que no es suya...
+        //si otro usuario (no admin) quiere acceder a un perfil que no es suya...
         if(!tipo.equals("admin"))
         {
             if(Integer.parseInt(tipo)!=id)
@@ -172,8 +190,14 @@ public class Usuarios extends Controller {
         String tipo = session("tipo");
         if(tipo==null) //si no esta logeado
             return ok(formLoginUsuario.render(new DynamicForm(),"¡Necesitas iniciar sesión para acceder a este recurso!"));
+        //si otro usuario (no admin) quiere acceder a un form editar que no es suya...
         if(!tipo.equals("admin"))
-            return unauthorized(error.render(UNAUTHORIZED,"¡No tienes los privilegios necesarios para acceder a este recurso!"));
+        {
+            if(Integer.parseInt(tipo)!=id)
+            {
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permiso para ver un recurso que no es tuyo."));
+            }
+        }
         Usuario usuario = UsuarioService.findUsuario(id);
         Form<Usuario> f = Form.form(Usuario.class);
         Form<Usuario> definitivo = f.fill(usuario);

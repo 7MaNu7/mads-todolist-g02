@@ -15,8 +15,13 @@
         }
         </ul>
         <p>
-            <a class="btn btn-default"
-                href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></a>
+            @if(session.get("tipo")=="admin") {
+                <a class="btn btn-default"
+                    href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></a>
+            } else {
+                <a class="btn btn-default"
+                    href="@routes.Tareas.listaTareas(user.id)"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></a>
+            }
             <a class="btn btn-primary"
                 href="@routes.Usuarios.editarUsuario(user.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
         </p>
