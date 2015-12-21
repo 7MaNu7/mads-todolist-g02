@@ -18,6 +18,8 @@
               <a title="Volver a página principal" class="btn btn-primary"
                   href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
               } else {
+                  <a title="Ver perfil" class="btn btn-primary"
+                      href="@routes.Usuarios.detalleUsuario(id.toInt)"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
                   <a title="Volver a página principal" class="btn btn-primary"
                       href="@routes.Tareas.listaTareas(id.toInt)"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
               }

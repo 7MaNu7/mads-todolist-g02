@@ -152,8 +152,14 @@ public class Usuarios extends Controller {
         String tipo = session("tipo");
         if(tipo==null) //si no esta logeado
             return ok(formLoginUsuario.render(new DynamicForm(),"¡Necesitas iniciar sesión para acceder a este recurso!"));
+        //si otro usuario (no admin) quiere acceder a una list que no es suya...
         if(!tipo.equals("admin"))
-            return unauthorized(error.render(UNAUTHORIZED,"¡No tienes los privilegios necesarios para acceder a este recurso!"));
+        {
+            if(Integer.parseInt(tipo)!=id)
+            {
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permiso para ver un recurso que no es tuyo."));
+            }
+        }
         Usuario user = UsuarioService.findUsuario(id);
         if(user==null)
             return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + id + " no existe."));
