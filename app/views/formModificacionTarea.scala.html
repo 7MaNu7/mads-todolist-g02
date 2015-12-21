@@ -6,82 +6,86 @@
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/formulario.css")">
     </head>
 
-    <div style="margin:10px 30px">
-        <h1>Modificar tarea @tarea.id del usuario @usuario.login</h1>
 
-        @helper.form(action = routes.Tareas.grabaTareaModificada()) {
-            <fieldset>
-            <legend>Tarea @tarea.id</legend>
-            <input type="hidden" name="id" value='@tarea.id' >
-            <input type="hidden" name="estado" value='@tarea.estado'>
-            <input type="hidden" name="id_usuario" value='@tarea.usuario.id'>
-            <input type="hidden" name="anotacion" value='@tarea.anotacion'>
-            <p>
-                <label for="descripcion">Descripción: </label>
-                <input type="text" name="descripcion" class="form-control inputdescripcion"
-                  placeholder="Introduce una descripción para la tarea..." value='@tarea.descripcion' required>
-            </p>
+    <div class="row">
 
-            <strong class="top-buffer">Etiquetas añadidas a la tarea (pulsa para quitarlas)</strong><br>
-            <div id='left-events' data-empty-message="No has etiquetado la tarea..." class="list-inline lista-tags container">
-            </div>
-            <input id="almacen_tags" type="hidden" name="tags" value=''>
+      <!-- Parte izquierda: añadir la tarea -->
+      @helper.form(action = routes.Tareas.grabaTareaModificada()) {
+      <div class="col-xs-6">
+        <h3>Modificar tarea @tarea.id del usuario @usuario.login</h3>
+        <div class="contenido-columna">
 
-
-            </fieldset>
-            <input type="submit" class="btn btn-success" value="Guardar cambios">
-            <a class="btn btn-danger"
-                href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
-        }
-
-        <br>
-
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4">
-                    <h3>Administrar etiquetas de @usuario.login</h3>
-                </div>
-            </div>
-
-            <!--TUS ETIQUETAS-->
-            <strong class="top-buffer">Tus etiquetas</strong><br>
-            <div id='right-events' data-empty-message="No tienes ninguna etiqueta..." class="list-inline lista-tags container"></div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <strong>Crear nuevas etiquetas</strong>
-                    <div class="input-group">
-                       <input type="text" id="nueva-tag" class="form-control" name="nombre-etiqueta" placeholder="Introduce un nombre para la etiqueta...">
-                       <span class="input-group-btn">
-                            <button title="Crear nueva etiqueta" class="btn btn-primary" type="button" onclick='crear_etiqueta(@usuario.id)'><span class="glyphicon glyphicon-plus-sign"></span></button>
-                       </span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <strong>Modificar etiquetas</strong>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <select class="form-control" id="sel3">
-                            <option value="" disabled selected>Selecciona una etiqueta</option>
-                        </select>
-                        <span class="input-group-btn">
-                            <a title="Modificar etiqueta" href="#" onclick='editar_etiqueta(@usuario.id)' class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span></a>
-                        </span>
-                        <input type="text" id="modif-tag" class="form-control" name="modif-etiqueta" placeholder="Introduce el nuevo nombre para la etiqueta">
-                    </div>
-                </div>
-            </div>
+          <input type="hidden" name="id" value='@tarea.id' >
+          <input type="hidden" name="estado" value='@tarea.estado'>
+          <input type="hidden" name="id_usuario" value='@tarea.usuario.id'>
+          <input type="hidden" name="anotacion" value='@tarea.anotacion'>
+          <!-- Informacin tarea -->
+          <strong><p>Descripción de la tarea</p></strong>
+          <textarea type="text" name="descripcion" class="form-control inputdescripcion"
+                    placeholder="Introduce una descripción para la tarea..." required>@tarea.descripcion</textarea>
+          <!-- Etiquetas añadidas a tarea -->
+          <strong class="top-buffer"><p>Etiquetas añadidas a la tarea (pulsa para quitarlas)</p></strong>
+          <div id='left-events' data-empty-message="No has etiquetado la tarea..." class="list-inline lista-tags contenedor contenedor-add-tags"></div>
+          <input id="almacen_tags" type="hidden" name="tags" value=''>
+          <!-- Botones acción tarea -->
+          <div class="botones-tarea">
+            <input type="submit" class="btn btn-success boton-tarea" value="Guardar cambios">
+            <input type="submit" class="btn btn-danger boton-tarea" value="Cancelar" onclick="@routes.Tareas.listaTareas(usuario.id)">
+          </div>
         </div>
+      </div>
+      }
 
+      <!--Parte de la derecha: Administrar etiquetas -->
+      <div class="col-xs-6">
+        <h3>Administrar etiquetas de @usuario.login</h3>
+
+        <div class="contenido-columna">
+          <!--Mostrar etiquetas -->
+          <strong class="top-buffer"><p>Tus etiquetas</p></strong>
+          <div id='right-events' data-empty-message="No tienes ninguna etiqueta..."
+              class="list-inline lista-tags contenedor contenedor-de-tags"></div>
+
+          <div class="divcreareditaretiquetas">
+            <!--Crear etiquetas -->
+            <div class="divcrearetiqueta">
+              <strong><p>Crear nuevas etiquetas</p></strong>
+              <div class="input-group">
+                <input type="text" id="nueva-tag" class="form-control inputssmall" name="nombre-etiqueta" placeholder="Nombre etiqueta">
+                <span class="input-group-btn boton-input">
+                  <button title="Crear nueva etiqueta" class="btn btn-primary" type="button" onclick='crear_etiqueta(@usuario.id)'>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <!--Modificando etiquetas -->
+            <div class="diveditaretiqueta">
+              <strong><p>Modificar etiquetas</p></strong>
+              <select class="form-control dropdown-etiquetas" id="sel3">
+                <option value="" disabled selected>Selecciona una etiqueta</option>
+              </select>
+              <div class="input-group editaretiqueta">
+                <input type="text" id="modif-tag" class="form-control inputssmall" name="modif-etiqueta" placeholder="Nuevo nombre etiqueta">
+                <span class="input-group-btn boton-input">
+                  <a title="Modificar etiqueta" href="#" onclick='editar_etiqueta(@usuario.id)' class="btn btn-primary" role="button">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <br>
+          <!-- Para eliminar una tarea -->
+          <div id='eliminar-events' class='boton-eliminar-etiqueta'>
+              <span id="basurita" class="glyphicon glyphicon-trash" aria-hidden="true">
+          </div>
+
+        </div>
+      </div>
     </div>
+
     <script>
         $( document ).ready(function() {
             mostrar_tags('@tarea.id', '@tarea.usuario.id')
