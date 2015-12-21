@@ -40,17 +40,18 @@ function actualizar_etiquetas(idusuario) {
 
 
 function mostrar_tags(tareaId, idusuario) {
-  console.log("voy a mostrar_tags");
-
   $.ajax({
         url: '/tareas/' + tareaId + '/etiquetas',
         type: 'GET',
         success: function(results) {
             //añadir las etiquetas que ya tenia
             $.each(results, function(key, value) {
-                var boton = "<div data-toggle='tooltip' title='Click para eliminar' class='btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a><a href='#' class='btn-xs btn-info' onclick='remove_tag(" + key + ")'><span class='glyphicon glyphicon-remove'></span></a></div>";
+                var boton = "<div class='btn-group'>";
+                boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
+                boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-warning'><span class='glyphicon glyphicon-trash'></span></a>";
+                boton+="</div>";
                 var plantilla = '<li id=' + key + '>' + boton + '</li>';
-                document.getElementById('right-events').innerHTML+=plantilla;
+                document.getElementById('left-events').innerHTML+=plantilla;
                 actualizar_almacen_tags();
             });
         }
