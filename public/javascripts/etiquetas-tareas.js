@@ -75,7 +75,8 @@ function editar_etiqueta(idusuario) {
           replace_tag();
           actualizar_etiquetas(idusuario);
           form.value=""; //limpiamos el inputtext
-          },
+          mostrarSuccessAnotacion('Etiqueta modificada correctamente.');
+        },
         error: function(results) {
             console.log(results);
         }
@@ -127,7 +128,8 @@ function crear_etiqueta(idusuario) {
       success: function(results) {
         actualizar_etiquetas(idusuario);
         form.value=""; //limpiamos el inputtext
-        },
+        mostrarSuccessAnotacion('Etiqueta creada correctamente.');
+      },
       error: function(results) {
           console.log(results);
       }
@@ -147,13 +149,22 @@ function borrar_tag_bd(id) {
             $("#" + id).remove();
             actualizar_etiquetas(idusuario); //actualizamos listas
             actualizar_almacen_tags(); //actualizamos el almacen oculto de tags para enviar en el post
-
+            mostrarSuccessAnotacion('Etiqueta eliminada correctamente.');
             },
           error: function(results) {
               console.log(results);
           }
         });
     }
+}
+
+function mostrarSuccessAnotacion(mensaje) {
+  $.smkAlert({
+    text: mensaje,
+    type: 'success',
+    position:'top-center',
+    time: 2
+  });
 }
 
 /////////////////////

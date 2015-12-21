@@ -7,6 +7,8 @@
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/etiquetas.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/dragula.css")">
     <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/micss.css")">
+    <script src="@routes.Assets.versioned("javascripts/smoke.min.js")" type="text/javascript"></script>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/smoke.min.css")">
   </head>
 
   @if(mensaje!=null && mensaje!="") {
@@ -21,12 +23,12 @@
       <h3>Nueva tarea para el usuario @usuario.login</h3>
       <div class="contenido-columna">
         <!-- Informacin tarea -->
-        <strong><p>Descripción de la tarea</p></strong>
+        <strong><p id="parrafo">Descripción de la tarea</p></strong>
         <textarea type="text" name="descripcion" class="form-control inputdescripcion"
                   placeholder="ntroduce una descripción para la tarea..." required></textarea>
         <input type="hidden" name="id_usuario" value='@usuario.id' >
         <!-- Etiquetas añadidas a tarea -->
-        <strong class="top-buffer"><p>Etiquetas añadidas a la tarea</p></strong>
+        <strong class="top-buffer"><p id="parrafo">Etiquetas añadidas a la tarea</p></strong>
         <div id='left-events' data-empty-message="No has etiquetado la tarea..." class="list-inline lista-tags contenedor contenedor-add-tags"></div>
         <input id="almacen_tags" type="hidden" name="tags" value=''>
         <!-- Botones acción tarea -->
@@ -45,14 +47,14 @@
 
       <div class="contenido-columna">
         <!--Mostrar etiquetas -->
-        <strong class="top-buffer"><p>Tus etiquetas</p></strong>
+        <strong class="top-buffer"><p id="parrafo">Tus etiquetas</p></strong>
         <div id='right-events' data-empty-message="No tienes ninguna etiqueta..."
             class="list-inline lista-tags contenedor contenedor-de-tags"></div>
 
         <div class="divcreareditaretiquetas">
           <!--Crear etiquetas -->
           <div class="divcrearetiqueta">
-            <strong><p>Crear nuevas etiquetas</p></strong>
+            <strong><p id="parrafo">Crear nuevas etiquetas</p></strong>
             <div class="input-group">
               <input type="text" id="nueva-tag" class="form-control inputssmall" name="nombre-etiqueta" placeholder="Nombre etiqueta">
               <span class="input-group-btn boton-input">
@@ -64,7 +66,7 @@
           </div>
           <!--Modificando etiquetas -->
           <div class="diveditaretiqueta">
-            <strong><p>Modificar etiquetas</p></strong>
+            <strong><p id="parrafo">Modificar etiquetas</p></strong>
             <select class="form-control dropdown-etiquetas" id="sel3">
               <option value="" disabled selected>Selecciona una etiqueta</option>
             </select>
@@ -80,7 +82,7 @@
         </div>
 
         <!-- Para eliminar una tarea -->
-        <strong><p>Arrastrar aquí para eliminar la etiqueta</p></strong>
+        <strong><p id="parrafo">Arrastrar aquí para eliminar la etiqueta</p></strong>
         <div id='eliminar-events' class='div-eliminar-etiqueta'>
             <span id="basurita" class="glyphicon glyphicon-trash" aria-hidden="true">
         </div>
