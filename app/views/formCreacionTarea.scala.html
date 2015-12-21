@@ -32,7 +32,8 @@
         <!-- Botones acción tarea -->
         <div class="botones-tarea">
           <input type="submit" class="btn btn-success boton-tarea" value="Guardar tarea">
-          <input type="submit" class="btn btn-danger boton-tarea" value="Cancelar" onclick="@routes.Tareas.listaTareas(usuario.id)">
+          <a class="btn btn-danger"
+            href="@routes.Tareas.listaTareas(usuario.id)">Cancelar</a>
         </div>
       </div>
     </div>

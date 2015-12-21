@@ -20,10 +20,7 @@ function actualizar_etiquetas(idusuario) {
             $.each(results, function(key, value) {
                 if($.inArray(key,almacen_tags_tarea)<0) //si esa tag no esta añadida al almacen, la añadimos a nuestra lista de tags
                 {
-                    var boton = "<div class='btn-group'>";
-                    boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
-                    boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-trash'></span></a>";
-                    boton+="</div>";
+                    var boton = "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
                     var plantilla = '<li class="etiquetaendiv" id=' + key + '>' + boton + '</li>';
                     tags_usuario.innerHTML+=plantilla;
                 }
@@ -46,10 +43,7 @@ function mostrar_tags(tareaId, idusuario) {
         success: function(results) {
             //añadir las etiquetas que ya tenia
             $.each(results, function(key, value) {
-                var boton = "<div class='btn-group'>";
-                boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
-                boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + key + ")' title='Click para eliminar completamente' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-trash'></span></a>";
-                boton+="</div>";
+                var boton = "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
                 var plantilla = '<li class="etiquetaendiv" id=' + key + '>' + boton + '</li>';
                 document.getElementById('left-events').innerHTML+=plantilla;
                 actualizar_almacen_tags();
@@ -100,10 +94,7 @@ function replace_tag() {
     if($.inArray(tag_id,almacen_tags_tarea)>=0) //si esta en el almacen de tags, ahi hay problema
     {
         var text = $('#modif-tag').val();
-        var boton = "<div class='btn-group'>";
-        boton+= "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
-        boton+="<a href='#' data-toggle='tooltip' onclick='borrar_tag_bd(" + tag_id + ")' title='Click para eliminar completamente' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-trash'></span></a>";
-        boton+="</div>";
+        var boton = "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
         $('#' + tag_id).html(boton);
         actualizar_almacen_tags();
     }
@@ -189,16 +180,7 @@ dragula([document.getElementById('left-events'), document.getElementById('right-
 
     //Si se ha soltado en la papelera se elimina la etiqueta de la BD
     if (padre.id=="eliminar-events") {
-      console.log("miraaa:"+el.id);
-      var tag = document.getElementById(el.id);
-      //el.style.display = "none";
-      //tag.parentNode.removeChild(tag);
+        borrar_tag_bd(el.id);
     }
 
   })
-/*  .on('over', function (el, contenedor) {
-    contenedor.className += ' ex-over';
-  })
-  .on('out', function (el, contenedor) {
-    contenedor.className = contenedor.className.replace('ex-over', '');
-  })*/;
