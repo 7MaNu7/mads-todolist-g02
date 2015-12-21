@@ -160,7 +160,13 @@ function borrar_tag_bd(id) {
 //DRAGULA DRAG & DROP
 /////////////////////
 
-dragula([document.getElementById('left-events'), document.getElementById('right-events'), document.getElementById('eliminar-events')])
+var containers = [document.getElementById('left-events'), document.getElementById('right-events'), document.getElementById('eliminar-events')];
+var options = {
+    invalid: function (el, target) {
+        return el.id == "basurita"; //el icono de la basurita no se puede arrastrar
+    }
+};
+dragula(containers,options)
   .on('drag', function (el) {
     el.className = el.className.replace('ex-moved', '');
   })
