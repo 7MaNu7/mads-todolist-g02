@@ -37,3 +37,4 @@ DELETE  /etiquetas/:id                              controllers.Etiquetas.borraE
 
 
 GET     /webmarketing                                controllers.Application.webMarketing()
+POST    /webmarketing/sendEmail                      controllers.Application.webMarketingSendEmail()

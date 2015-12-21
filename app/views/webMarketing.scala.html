@@ -220,20 +220,30 @@
     <div class="seccion6" id="Contacto">
         <h4>Déjanos tus datos, escribe un mensaje y te responderemos lo antes posible</h3>
         <div class="colm1">
-            <input type="text" placeholder="email">
-            <input type="text" placeholder="Nombre y apellidos">
-            <input type="text" placeholder="telefono">
+            <input type="text" id="email" placeholder="email">
+            <input type="text" id="nombre" placeholder="Nombre y apellidos">
+            <input type="text" id="telefono" placeholder="telefono">
         </div>
         <div class="colm2">
-            <textarea></textarea>
+            <textarea id="texto"></textarea>
         </div>
-        <button>ENVIAR</button>
+        <button onclick="enviarCorreo()">ENVIAR</button>
     </div>
 
 
 
     <script>
         $('.carousel').carousel()
+
+        function enviarCorreo() {
+          $.ajax({
+           url: "/webmarketing/sendEmail",
+           data : { email : $('#email').val(), nombre : $('#nombre').val(), mensaje : $('#texto').val(), telefono : $('#telefono').val()},
+           type: 'POST',
+           success: function(results) {
+           }
+          });
+        }
     </script>
 </body>
 </html>
