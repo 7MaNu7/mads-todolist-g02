@@ -169,7 +169,7 @@ function borrar_tag_bd(id) {
 //DRAGULA DRAG & DROP
 /////////////////////
 
-dragula([document.getElementById('left-events'), document.getElementById('right-events')])
+dragula([document.getElementById('left-events'), document.getElementById('right-events'), document.getElementById('eliminar-events')])
   .on('drag', function (el) {
     el.className = el.className.replace('ex-moved', '');
   })
@@ -187,10 +187,18 @@ dragula([document.getElementById('left-events'), document.getElementById('right-
       actualizar_almacen_tags();
     }
 
+    //Si se ha soltado en la papelera se elimina la etiqueta de la BD
+    if (padre.id=="eliminar-events") {
+      console.log("miraaa:"+el.id);
+      var tag = document.getElementById(el.id);
+      //el.style.display = "none";
+      //tag.parentNode.removeChild(tag);
+    }
+
   })
-  .on('over', function (el, contenedor) {
+/*  .on('over', function (el, contenedor) {
     contenedor.className += ' ex-over';
   })
   .on('out', function (el, contenedor) {
     contenedor.className = contenedor.className.replace('ex-over', '');
-  });
+  })*/;

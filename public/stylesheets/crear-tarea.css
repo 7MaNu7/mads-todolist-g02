@@ -13,6 +13,10 @@
   margin-right: 0px !important;
 }
 
+.divcreareditaretiquetas {
+  height: 125px;
+}
+
 .divcrearetiqueta {
   float: left;
 }
@@ -79,20 +83,9 @@ textarea.form-control {
 }
 
 .boton-eliminar-etiqueta {
-  margin-top: 40px;
   width: 500px;
   border-radius: 2px;
   border: 2px solid rgb(222, 85, 81);
-  background-color: white;
-  color: rgb(210, 84, 80);
-  background-color: white;
-}
-
-.boton-eliminar-etiqueta:hover {
-  margin-top: 40px;
-  width: 500px;
-  border-radius: 2px;
-  border: 2px solid 2px solid rgb(230, 136, 134);
   background-color: white;
   color: rgb(210, 84, 80);
   background-color: white;
