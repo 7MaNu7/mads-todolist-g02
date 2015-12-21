@@ -5,6 +5,7 @@
     <head>
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/crear-tarea.css")">
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/formulario.css")">
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/etiquetas.css")">
     </head>
 
     <div style="margin:10px 30px">
@@ -19,50 +20,63 @@
     <!-- Parte izquierda: añadir la tarea -->
     @helper.form(action = routes.Tareas.grabaNuevaTarea()) {
     <div class="col-xs-6">
-      <h1>Nueva tarea para el usuario @usuario.login</h1>
-
-      <strong><p>Descripción de la tarea</p></strong>
-      <input type="text" name="descripcion" class="form-control inputdescripcion" placeholder="Introduce una descripción para la tarea..." required>
-      <input type="hidden" name="id_usuario" value='@usuario.id' >
-
-      <strong class="top-buffer"><p>Etiquetas añadidas a la tarea (pulsa para quitarlas)</p></strong>
-      <div id='left-events' data-empty-message="No has etiquetado la tarea..." class="list-inline lista-tags container"></div>
-      <input id="almacen_tags" type="hidden" name="tags" value=''>
-
-      <!--<input type="submit" class="btn btn-success" value="Guardar tarea">
-      <a class="btn btn-danger"
-        href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>-->
-    }
+      <h3>Nueva tarea para el usuario @usuario.login</h3>
+      <div class="contenido-columna">
+        <!-- Informacin tarea -->
+        <strong><p>Descripción de la tarea</p></strong>
+        <textarea type="text" name="descripcion" class="form-control inputdescripcion"
+                  placeholder="ntroduce una descripción para la tarea..." required></textarea>
+        <input type="hidden" name="id_usuario" value='@usuario.id' >
+        <!-- Etiquetas añadidas a tarea -->
+        <strong class="top-buffer"><p>Etiquetas añadidas a la tarea (pulsa para quitarlas)</p></strong>
+        <div id='left-events' data-empty-message="No has etiquetado la tarea..."
+            class="list-inline lista-tags container contenedor contenedor-add-tags"></div>
+        <input id="almacen_tags" type="hidden" name="tags" value=''>
+        <!-- Botones acción tarea -->
+        <input type="submit" class="btn btn-success" value="Guardar tarea">
+        <a class="btn btn-danger"
+          href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></a>
+      </div>
     </div>
+    }
 
     <!--Parte de la derecha: Administrar etiquetas -->
     <div class="col-xs-6">
       <h3>Administrar etiquetas de @usuario.login</h3>
 
-      <strong class="top-buffer">Tus etiquetas</strong>
-      <div id='right-events' data-empty-message="No tienes ninguna etiqueta..." class="list-inline lista-tags container"></div>
+      <div class="contenido-columna">
+        <!--Mostrar etiquetas -->
+        <strong class="top-buffer"><p>Tus etiquetas</p></strong>
+        <div id='right-events' data-empty-message="No tienes ninguna etiqueta..."
+            class="list-inline lista-tags container contenedor contenedor-de-tags"></div>
+        <!--Crear etiquetas -->
+        <strong><p>Crear nuevas etiquetas</p></strong>
+        <div class="input-group">
+          <input type="text" id="nueva-tag" class="form-control inputs" name="nombre-etiqueta"
+                                  placeholder="Introduce un nombre para la etiqueta...">
+          <span class="input-group-btn boton-addtag">
+            <button title="Crear nueva etiqueta" class="btn btn-primary" type="button" onclick='crear_etiqueta(@usuario.id)'>
+              <span class="glyphicon glyphicon-plus-sign"></span>
+            </button>
+          </span>
+        </div>
+        <!--Modificando etiquetas -->
+        <strong><p>Modificar etiquetas</p></strong>
+        <div class="input-group">
+          <select class="form-control inputs" id="sel3">
+            <option value="" disabled selected>Selecciona una etiqueta</option>
+          </select>
+          <span class="input-group-btn">
+            <a title="Modificar etiqueta" href="#" onclick='editar_etiqueta(@usuario.id)' class="btn btn-primary" role="button">
+              <span class="glyphicon glyphicon-pencil"></span>
+            </a>
+          </span>
+          <input type="text" id="modif-tag" class="form-control inputs" name="modif-etiqueta"
+                                placeholder="Introduce el nuevo nombre para la etiqueta">
+        </div>
 
-      <strong><p>Crear nuevas etiquetas</p></strong>
-      <div class="input-group">
-        <input type="text" id="nueva-tag" class="form-control" name="nombre-etiqueta" placeholder="Introduce un nombre para la etiqueta...">
-        <span class="input-group-btn">
-          <button title="Crear nueva etiqueta" class="btn btn-primary" type="button" onclick='crear_etiqueta(@usuario.id)'><span class="glyphicon glyphicon-plus-sign"></span></button>
-        </span>
-      </div>
-
-      <strong><p>Modificar etiquetas</p></strong>
-
-      <div class="input-group">
-        <select class="form-control" id="sel3">
-          <option value="" disabled selected>Selecciona una etiqueta</option>
-        </select>
-        <span class="input-group-btn">
-          <a title="Modificar etiqueta" href="#" onclick='editar_etiqueta(@usuario.id)' class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span></a>
-        </span>
-        <input type="text" id="modif-tag" class="form-control" name="modif-etiqueta" placeholder="Introduce el nuevo nombre para la etiqueta">
       </div>
     </div>
-
   </div>
 
   <script>

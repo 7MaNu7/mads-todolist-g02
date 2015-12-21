@@ -1,9 +1,9 @@
 .inputs {
-  width: 300px;
+  width: 300px !important;
 }
 
 .inputdescripcion {
-  width: 490px;
+  width: 500px !important;
 }
 
 textarea.form-control {
