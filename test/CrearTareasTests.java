@@ -108,7 +108,7 @@ public class CrearTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("<h1>Nueva tarea para el usuario pepito</h1>"));
+            assertTrue(body.contains("<h3>Nueva tarea para el usuario pepito</h3>"));
         });
     }
 
