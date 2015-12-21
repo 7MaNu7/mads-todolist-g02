@@ -10,3 +10,8 @@ ul:empty::after{
 .top-buffer {
     margin-top:20px;
 }
+
+/* Titulos */
+p {
+  margin-top: 10px;
+}
