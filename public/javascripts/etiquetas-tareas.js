@@ -43,7 +43,7 @@ function mostrar_tags(tareaId, idusuario) {
         success: function(results) {
             //añadir las etiquetas que ya tenia
             $.each(results, function(key, value) {
-                var boton = "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + text + "</a>";
+                var boton = "<a href='#' data-toggle='tooltip' class='btn btn-xs btn-info'><span class='glyphicon glyphicon-tag'></span>" + value + "</a>";
                 var plantilla = '<li class="etiquetaendiv" id=' + key + '>' + boton + '</li>';
                 document.getElementById('left-events').innerHTML+=plantilla;
                 actualizar_almacen_tags();
