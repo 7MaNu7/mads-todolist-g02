@@ -188,5 +188,10 @@ dragula(containers,options)
     if (padre.id=="eliminar-events") {
         borrar_tag_bd(el.id);
     }
-
   })
+  /*.on('over', function (el, contenedor) {
+    contenedor.className += ' ex-over';
+  })
+  .on('out', function (el, contenedor) {
+    contenedor.className = contenedor.className.replace('ex-over', '');
+  })*/;
