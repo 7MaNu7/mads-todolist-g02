@@ -200,9 +200,9 @@ dragula(containers,options)
         borrar_tag_bd(el.id);
     }
   })
-  /*.on('over', function (el, contenedor) {
+  .on('over', function (el, contenedor) {
     contenedor.className += ' ex-over';
   })
   .on('out', function (el, contenedor) {
     contenedor.className = contenedor.className.replace('ex-over', '');
-  })*/;
+  });

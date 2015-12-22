@@ -25,10 +25,10 @@
         <!-- Informacin tarea -->
         <strong><p id="parrafo">Descripción de la tarea</p></strong>
         <textarea type="text" name="descripcion" class="form-control inputdescripcion"
-                  placeholder="ntroduce una descripción para la tarea..." required></textarea>
+                  placeholder="Introduce una descripción para la tarea..." required></textarea>
         <input type="hidden" name="id_usuario" value='@usuario.id' >
         <!-- Etiquetas añadidas a tarea -->
-        <strong class="top-buffer"><p id="parrafo">Etiquetas añadidas a la tarea</p></strong>
+        <strong class="top-buffer"><p id="parrafo">Etiquetas añadidas a la tarea (soltar aquí)</p></strong>
         <div id='left-events' data-empty-message="No has etiquetado la tarea..." class="list-inline lista-tags contenedor contenedor-add-tags"></div>
         <input id="almacen_tags" type="hidden" name="tags" value=''>
         <!-- Botones acción tarea -->
@@ -47,7 +47,7 @@
 
       <div class="contenido-columna">
         <!--Mostrar etiquetas -->
-        <strong class="top-buffer"><p id="parrafo">Tus etiquetas</p></strong>
+        <strong class="top-buffer"><p id="parrafo">Tus etiquetas (arrastrar desde aquí)</p></strong>
         <div id='right-events' data-empty-message="No tienes ninguna etiqueta..."
             class="list-inline lista-tags contenedor contenedor-de-tags"></div>
 

@@ -22,6 +22,10 @@
   padding-right: 40px;
 }
 
+.columnaanotacion {
+  margin-top: 8px;
+}
+
 /* Para las tareas realizadas */
 
 .realizada {
@@ -70,6 +74,8 @@
 
 .botonesanotacion {
   margin-top: 7px;
+  width: 5px;
+  float: left;
 }
 
 .botonAnotacionizq {
