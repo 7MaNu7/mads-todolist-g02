@@ -104,7 +104,7 @@ public class ModificarTareasTests {
                 .get()
                 .get(timeout);
             assertEquals(OK, response.getStatus());
-            assertTrue(response.getBody().contains("<h1>Modificar tarea 1 del usuario pepito</h1>"));
+            assertTrue(response.getBody().contains("<h3>Modificar tarea 1 del usuario pepito</h3>"));
 
             response = WS
                 .url("http://localhost:3333/usuarios/99/tareas/88/editar")

@@ -1,0 +1,62 @@
+/* Estilo inicial de las cajas */
+
+.contenedor {
+  padding-top: 5px;
+  padding-left: 5px;
+  width: 500px;
+  height: 100px;
+  border-radius: 3px;
+  margin-bottom: 20px;
+}
+
+.contenedor-add-tags {
+    border: 1px solid;
+    border-color: rgba(103, 84, 84, 0.29);
+}
+
+.contenedor-de-tags {
+    border: 1px solid;
+    border-color: rgba(103, 84, 84, 0.29);
+}
+
+/* Etiquetas del div */
+
+.etiquetaendiv {
+  margin-top: 5px;
+}
+
+/* Icono de la mano, intuitivamente se sabe que podemos mover el elemento */
+
+.contenedor > div,
+.gu-mirror {
+  transition: opacity 0.4s ease-in-out;
+}
+.contenedor > div {
+  cursor: move;
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+.gu-mirror {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+}
+
+/* Para cuando ya lo hemos soltado solo ese elemento cambia */
+
+.contenedor .ex-moved {
+
+}
+
+/* Para cuando estamos a punto de soltar el elemento, toda la caja cambia estilo */
+
+.contenedor.ex-over {
+  border: 2px solid;
+  border-color: #31b0d5;
+}
+
+.div-eliminar-etiqueta.ex-over {
+  border: 2px solid;
+  background-color: rgba(230, 126, 126, 0.42);
+}

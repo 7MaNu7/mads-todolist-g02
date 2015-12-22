@@ -155,9 +155,9 @@ public class PrioridadTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 1);"));
-            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 2);"));
-            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 3);"));
+            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 1, '[]');"));
+            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 2, '[]');"));
+            assertTrue(body.contains("guardarTareaPrioridad('/tareas/modifica', '3', 'Leer el libro de inglés', 'pendiente', '1', '', 3, '[]');"));
           });
     }
 

@@ -15,12 +15,25 @@ function del(urlBorrar) {
 
 /* Para modificar el estado de una tarea */
 
-function modificarEstado(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
+function modificarEstado(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad,tags ) {
+    if(tags) {
+        tags = tags.split(",");
+        var tags_id = "";
+        for(var i =0;i<tags.length;i++) {
+            var start = tags[i].indexOf("id: ");
+            var end = tags[i].indexOf(" nombre");
+            var aux = tags[i].substring(start,end);
+            aux = aux.replace( /^\D+/g, ''); //borra lo que no sea numeros
+            tags_id+=aux+";";
+        }
+        tags = tags_id;
+    }
+
   if(estado == 'pendiente') nuevo_estado = 'realizada';
   else nuevo_estado = 'pendiente';
   $.ajax({
    url: urlModificar,
-   data : { id : id, descripcion : descripcion, estado : nuevo_estado, id_usuario : idusuario, anotacion : anotacion, prioridad : prioridad },
+   data : { id : id, descripcion : descripcion, estado : nuevo_estado, id_usuario : idusuario, anotacion : anotacion, tags: tags, prioridad : prioridad },
    type: 'POST',
    success: function(results) {
      location.reload();
@@ -30,30 +43,55 @@ function modificarEstado(urlModificar, id, descripcion, estado, idusuario, anota
 
 /* Para modificar una tarea */
 
-function modificarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA, prioridad) {
+function modificarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA, prioridad,tags) {
+    if(tags) {
+        tags = tags.split(",");
+        var tags_id = "";
+        for(var i =0;i<tags.length;i++) {
+            var start = tags[i].indexOf("id: ");
+            var end = tags[i].indexOf(" nombre");
+            var aux = tags[i].substring(start,end);
+            aux = aux.replace( /^\D+/g, ''); //borra lo que no sea numeros
+            tags_id+=aux+";";
+        }
+        tags = tags_id;
+    }
   var anotacion;
   if(anotacionA=='borrar') anotacion = "";
   else anotacion = document.getElementById("textoanotacion"+id).value;
 
   $.ajax({
    url: urlModificar,
-   data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
+   data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion,tags: tags, prioridad : prioridad },
    type: 'POST',
    success: function(results) {
      //Sin recargar la página y cerramos acordeon
      document.getElementById("textoanotacion"+id).value = anotacion;
      cerrarAnotacion(id);
      mostrarSuccessAnotacion();
+          location.reload();
    }
   });
 }
 
 /* Para modificar la prioridad de una tarea */
 
-function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
+function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad, tags) {
+    if(tags) {
+        tags = tags.split(",");
+        var tags_id = "";
+        for(var i =0;i<tags.length;i++) {
+            var start = tags[i].indexOf("id: ");
+            var end = tags[i].indexOf(" nombre");
+            var aux = tags[i].substring(start,end);
+            aux = aux.replace( /^\D+/g, ''); //borra lo que no sea numeros
+            tags_id+=aux+";";
+        }
+        tags = tags_id;
+    }
   $.ajax({
    url: urlModificar,
-   data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
+   data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, tags: tags, prioridad : prioridad },
    type: 'POST',
    success: function(results) {
      location.reload();

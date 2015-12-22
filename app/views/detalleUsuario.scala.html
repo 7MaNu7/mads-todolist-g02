@@ -1,25 +1,49 @@
-@(user: Usuario)
+@(usuario: Usuario)
 
 @main("Detalle de usuario") {
-    <div style="margin:0px 50px">
-        <h1>Datos del usuario @user.id</h1>
-        <ul>
-        <li><b>Login:</b> @user.login</li>
-        <li><b>Nombre:</b> @user.nombre</li>
-        <li><b>Apellidos:</b> @user.apellidos</li>
-        <li><b>Correo electrónico:</b> @user.eMail</li>
-        @if(user.fechaNacimiento!=null && user.fechaNacimiento!="") {
-            <li><b>Fecha de nacimiento:</b> @user.fechaNacimiento.format("dd-MM-yyyy")</li>
-        } else {
-            <li><b>Fecha de nacimiento:</b> No especificada</li>
-        }
-        </ul>
-        <p>
-            <a class="btn btn-default"
-                href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></a>
-            <a class="btn btn-primary"
-                href="@routes.Usuarios.editarUsuario(user.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-        </p>
-    </div>
+  <head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/detalleUsuario.css")">
+  </head>
 
+  <body>
+    @if(usuario != null) {
+      <div class="divContenido">
+        <div class="divTituloContenido">
+          <h2 class='tituloContenido'>Detalle usuario @{usuario.id}</h2>
+        </div>
+
+         <fieldset class="marco_principal">
+           <p class='etiqueta'>Login: </p>
+           <h5 class='datos_u'>@{usuario.login}</h5> </br>
+           <p class='etiqueta'>Nombre: </p>
+           <h5 class='datos_u'>@{usuario.nombre}</h5> </br>
+           <p class="etiqueta">Apellidos: </p>
+           <h5 class="datos_u">@{usuario.apellidos}</h5> </br>
+           <p class="etiqueta">Correo electrónico: </p>
+           <h5 class="datos_u">@{usuario.eMail}</h5> </br>
+           <p class="etiqueta">Fecha de nacimiento: </p>
+           @if(usuario.fechaNacimiento != null) {
+             <h5 class="datos_u" id="fechausuario">@usuario.fechaNacimiento.format("dd-MM-yyyy")</h5>
+           } else {
+             <h5 class="datos_u" id="fechausuario">No especificada</h5>
+           }
+
+           <div class="botones_inferiores">
+             <p>
+                 @if(session.get("tipo")=="admin") {
+                     <a class="btn btn-default"
+                         href="@routes.Usuarios.listaUsuarios()"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></a>
+                 } else {
+                     <a class="btn btn-default"
+                         href="@routes.Tareas.listaTareas(usuario.id)"><span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></a>
+                 }
+                 <a class="btn btn-primary"
+                     href="@routes.Usuarios.editarUsuario(usuario.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+             </p>
+           </div>
+         </fieldset>
+       </div>
+      }
+
+  </body>
 }
