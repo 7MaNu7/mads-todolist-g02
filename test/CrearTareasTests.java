@@ -108,7 +108,7 @@ public class CrearTareasTests {
                 .get(timeout);
             assertEquals(OK, response.getStatus());
             String body = response.getBody();
-            assertTrue(body.contains("<h1>Nueva tarea para el usuario pepito</h1>"));
+            assertTrue(body.contains("<h3>Nueva tarea para el usuario pepito</h3>"));
         });
     }
 
@@ -135,5 +135,112 @@ public class CrearTareasTests {
 
         });
     }
+
+
+    @Test
+    public void testWebCreaTareaEnFormConTag() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                int timeout = 4000;
+                WSResponse response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=1;2;3;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(UNAUTHORIZED, response.getStatus()); //la tag 2 no es suya
+
+                response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=hola;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(BAD_REQUEST, response.getStatus()); //"hola" no es una lista de tags valida
+
+                response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=1;3;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus()); //las tags 1 y 3 son suyas, asi que redirect
+
+
+              //obtenemos las tareas del usuario
+              List<Tarea> tareas = TareaService.findAllTareasUsuario(1);
+              Tarea tarea = null;
+
+              //buscamos la recien creada
+              for(int i=0; i<tareas.size(); i++)
+              {
+                if(tareas.get(i).descripcion.equals("Hay que refactorizar amigos"))
+                {
+                  tarea=tareas.get(i);
+                }
+              }
+              //comprobamos que tiene las dos etiquetas
+              assertEquals(2, tarea.etiquetas.size());
+            });
+        });
+    }
+
+    @Test
+    public void testWebCreaTareaPropagaBorradoTag() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                int timeout = 4000;
+                WSResponse response = WS
+                    .url("http://localhost:3333/tareas/nueva")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("descripcion=Hay que refactorizar amigos&tags=1;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus());
+
+                response = WS
+                    .url("http://localhost:3333/usuarios/1/tareas")
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .get()
+                    .get(timeout);
+
+                    assertEquals(OK, response.getStatus());
+                    assertTrue(response.getBody().contains("Hay que refactorizar amigos"));
+
+                Etiqueta e =  EtiquetaDAO.find(1);
+                EtiquetaDAO.delete(1); //borramos el tag 1
+
+
+                //obtenemos las etiquetas del usuario 1
+                List<Tarea> tareas = TareaService.findAllTareasUsuario(1);
+                Tarea tarea = null;
+
+                //Buscamos la recien creada
+                for(int i=0; i<tareas.size(); i++)
+                {
+                  if(tareas.get(i).descripcion.equals("Hay que refactorizar amigos"))
+                  {
+                    tarea=tareas.get(i);
+                  }
+                }
+
+                //comprobamos que al borrar la etiqueta se quita de la tarea tambien
+                assertEquals(0, tarea.etiquetas.size());
+
+
+            });
+        });
+    }
+
+
+
 
 }

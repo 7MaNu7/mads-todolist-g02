@@ -9,6 +9,8 @@ import static play.libs.Json.*;
 import play.data.Form;
 import play.db.jpa.*;
 import play.data.DynamicForm;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import models.*;
 
@@ -40,9 +42,15 @@ public class Tareas extends Controller {
         } catch(NullPointerException e) {
             return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + usuarioId + " no existe."));
         }
+        List<Etiqueta> etiquetas = null;
+        try {
+            etiquetas = EtiquetaService.findAllEtiquetasUsuario(usuarioId);
+        } catch(NullPointerException e) {
+            return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + usuarioId + " no existe."));
+        }
         Usuario usuario = UsuarioService.findUsuario(usuarioId);
         String mensaje = flash("grabaTarea");
-        return ok(listaTareas.render(tareas,usuario,mensaje));
+        return ok(listaTareas.render(tareas,etiquetas,usuario,mensaje));
     }
 
     @Transactional(readOnly = true)
@@ -70,15 +78,50 @@ public class Tareas extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         String descripcion = requestData.get("descripcion");
         String user_id = requestData.get("id_usuario");
+
+        //etiquetas////////////////////
+        List<Etiqueta> tags = new ArrayList<Etiqueta>();
+        try {
+            if(requestData.get("tags")!=null && requestData.get("tags").length()>0)
+            {
+                String[] tags_array = requestData.get("tags").split(";");
+                for(int i=0;i<tags_array.length;i++)
+                {
+                    Etiqueta e = EtiquetaService.findEtiqueta(Integer.parseInt(tags_array[i]));
+                    if(e==null) //no existe
+                        return badRequest(error.render(BAD_REQUEST,
+                            "Alguna de las etiquetas introducidas no existe"));
+                    else
+                        tags.add(e);
+                }
+            }
+        } catch(NumberFormatException e) {
+            return badRequest(error.render(BAD_REQUEST,"La lista de etiquetas debe estar definida por enteros separados por ; -> 1;2;3;"));
+        }
+
+        ///////////////////////
+
+
         Integer prioridad = 3;
         if(requestData.get("prioridad")!=null)
          prioridad = Integer.parseInt(requestData.get("prioridad"));
         if(!tipo.equals("admin")) //el admin puede grabar las tareas que quiera
             if(!tipo.equals(user_id)) //si el user autenticado no coincide con id
                 return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido crear tareas a otros usuarios"));
-        Tarea tarea = new Tarea(descripcion,UsuarioService.findUsuario(Integer.parseInt(user_id)));
 
-          tarea.prioridad=prioridad;
+
+
+
+        Usuario usuario = UsuarioService.findUsuario(Integer.parseInt(user_id));
+        for(Etiqueta tag:tags) {
+            if(!usuario.etiquetas.contains(tag))
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido usar etiquetas de otros usuarios"));
+        }
+
+
+        Tarea tarea = new Tarea(descripcion,usuario,tags);
+
+        tarea.prioridad=prioridad;
         tarea = TareaService.grabaTarea(tarea);
         flash("grabaTarea","La tarea se ha grabado correctamente");
         return redirect(controllers.routes.Tareas.listaTareas(tarea.usuario.id));
@@ -145,6 +188,34 @@ public class Tareas extends Controller {
         if(prioridad>0 && prioridad<4)
           tarea.prioridad = prioridad;
         tarea.anotacion = anotacion;
+
+        //etiquetas////////////////////
+        List<Etiqueta> tags = new ArrayList<Etiqueta>();
+        try {
+            if(requestData.get("tags")!=null && requestData.get("tags").length()>0)
+            {
+                String[] tags_array = requestData.get("tags").split(";");
+                for(int i=0;i<tags_array.length;i++)
+                {
+                    Etiqueta e = EtiquetaService.findEtiqueta(Integer.parseInt(tags_array[i]));
+                    if(e==null) //no existe
+                        return badRequest(error.render(BAD_REQUEST,
+                            "Alguna de las etiquetas introducidas no existe"));
+                    else
+                        tags.add(e);
+                }
+            }
+        } catch(NumberFormatException e) {
+            return badRequest(error.render(BAD_REQUEST,"La lista de etiquetas debe estar definida por enteros separados por ; -> 1;2;3;"));
+        }
+
+        for(Etiqueta tag:tags) {
+            if(!usuario.etiquetas.contains(tag))
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permitido usar etiquetas de otros usuarios"));
+        }
+
+        tarea.etiquetas = tags;
+        ///////////////////////
 
         tarea = TareaService.modificaTarea(tarea);
         flash("grabaTarea","La tarea se ha actualizado correctamente");

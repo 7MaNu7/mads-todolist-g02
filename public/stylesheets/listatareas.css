@@ -1,113 +1,111 @@
+/* Tabla general */
+
+.mitabla {
+  margin-left: 5px;
+}
+
+.accion {
+  padding-left: 20px !important;
+}
+
+.botonesaccion {
+  padding-left: 20px !important;
+  width: 300px !important;
+}
+
+.tddescripcion {
+    width: 700px !important;
+}
+
+.tdprioridad {
+  width: 10px !important;
+  padding-right: 40px;
+}
+
+.columnaanotacion {
+  margin-top: 8px;
+}
+
 /* Para las tareas realizadas */
 
-#realizada {
+.realizada {
   text-decoration: line-through;
   color: gray !important;
 }
 
-#realizadab {
+.realizadab {
   text-decoration: line-through;
   background-color: rgba(128, 128, 128, 0.21) !important;
   color: gray;
   border-color: rgba(128, 128, 128, 0.21) !important;
 }
 
-/* Acordeón anotacion de una tarea */
+/* Icono ver anotacion de una tarea */
 
-.accordion-container {
-    width: 100%;
-    margin: 0 0 20px;
-    clear:both;
+.iconoacordeon {
+  margin-top: 3px;
+  color: rgb(132, 132, 132);
+  float: right;
 }
 
-.accordion-titulo {
-    position: relative;
-    display: block;
-    padding: 20px;
-    font-size: 24px;
-    font-weight: 300;
-    background: #2c3e50;
-    color: #fff;
-    text-decoration: none;
-}
-.accordion-titulo.open {
-}
-.accordion-titulo:hover {
-}
-
-.accordion-titulo span.toggle-icon:before {
-}
-
-.accordion-titulo.open span.toggle-icon:before {
-}
-
-.accordion-titulo span.toggle-icon {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 38px;
-    font-weight:bold;
-}
-
-.accordion-content {
-    display: none;
-    padding: 20px;
-    overflow: auto;
-}
-
-.accordion-content p{
-    margin:0;
-}
-
-.accordion-content img {
-    display: block;
-    float: left;
-    margin: 0 15px 10px 0;
-    width: 50%;
-    height: auto;
-}
-
-
-@media (max-width: 767px) {
-    .accordion-content {
-        padding: 10px 0;
-    }
-}
-
-/* Acordeon mio */
-
-.anotacion {
-  background-color: rgba(51, 122, 183, 0.89);
-  width: 165px;
-  min-height: 20px;
-  padding: 8px 10px;
-  text-align: justify;
-  border-radius: 2px;
-  border: 1px solid;
-  border-color: rgba(217, 83, 79, 0.33);
-  color: white;
-}
-
-.anotacioneditar {
-  width: 165px;
-  text-align: justify;
-}
-
-/* Para ir cambiando vista o editar */
-
-#anotacionacordeon {
+.iconoinvisible {
   display: none;
+}
+
+
+/* Acordeón anotación de una tarea*/
+
+.anotacioninvisible {
+  display: none;
+}
+
+.columna2anotacion {
+  width: 235px !important;
+}
+
+.textanotacion {
+  width: 665px;
+  margin-top: -7px;
+  float: left;
+  text-align: justify;
+}
+
+/* Botones anotacion */
+
+.botonesanotacion {
+  margin-top: 7px;
+  width: 5px;
+  float: left;
+}
+
+.botonAnotacionizq {
+  margin-left: 10px;
+  color: rgba(34, 34, 34, 0.83);
+}
+
+.botonAnotacionder {
+  margin-left: 10px;
+  color: rgba(34, 34, 34, 0.83);
+}
+
+.btn-add-tarea {
+  margin-left: 10px;
+  font-size: 15px;
+  width: 38px;
+  margin-top: -5px;
 }
 
 /* Estilo CSS para las prioridades */
 
 .prioridad1, .prioridad2, .prioridad3, .prioridad0 {
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    border-radius: 50%;
-    box-shadow: inset 2px 1px 15px rgba(53, 8, 8, 0.65);
+  margin-top: 2px;
+  width: 17px;
+  height: 17px;
+  cursor: pointer;
+  border-radius: 19%;
+  box-shadow: inset 2px 1px 15px rgba(53, 8, 8, 0.43);
 }
+
 .prior:hover .prioridades {
     visibility: visible;
 }
@@ -122,20 +120,23 @@
 .prioridades div {
     margin-top: 10px;
 }
+
 .prioridades {
-    position: absolute;
-    padding: 9px;
-    top: -18px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.77);
-    background-color: white;
-    z-index: 55;
-    left: -9px;
-    visibility: hidden;
+  position: absolute;
+  padding: 9px;
+  top: -18px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.77);
+  background-color: #F9F9F9;
+  z-index: 55;
+  left: -9px;
+  visibility: hidden;
+  padding-top: 5px;
+  height: 100px;
 }
+
 .prioridad1 {
     background-color: #D60000;
 }
-
 .prioridad2 {
     background-color: #D6D600;
 }
@@ -144,4 +145,39 @@
 }
 .prioridad0 {
     background-color: #778678;
+}
+
+/* Etiquetas en la descripción */
+
+.btn-xs {
+    padding: 5px 4px;
+    margin-left: 10px;
+}
+
+.parrafoFiltroEtiquetas {
+    font-size: 16px;
+    margin-top: 15px;
+    margin-left: 4px;
+}
+
+.todasetiquetas {
+    float: right;
+}
+
+.filtroetiquetas {
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.realizadaEtiqueta {
+  background-color: grey;
+}
+td:nth-child(1) {
+    width: 37px !important;
+}
+td:nth-child(2) {
+    width: 52px !important;
+}
+td:nth-child(4) {
+    width: 200px !important;
 }

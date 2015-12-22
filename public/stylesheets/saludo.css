@@ -1,0 +1,13 @@
+.tituloApp {
+  border-bottom: 1px solid rgb(34, 34, 34);
+  border-top: 1px solid rgb(34, 34, 34);
+  margin-top: 45px;
+  height: 34%;
+}
+
+.tituloApp p {
+  color: rgb(51, 122, 183);
+  font-size: 56px;
+  text-align: center;
+  margin-top: 4%;
+}

@@ -1,122 +1,107 @@
-@(tareas: List[Tarea], usuario: Usuario, mensaje: String)
+@(tareas: List[Tarea], etiquetas: List[Etiqueta], usuario: Usuario, mensaje: String)
 
-@scripts = {
-    <!-- Para eliminar una tarea -->
-    <script type="text/javascript">
-        function del(urlBorrar) {
-            $.ajax({
-                url: urlBorrar,
-                type: 'DELETE',
-                success: function(results) {
-                    //refresh the page
-                    location.reload();
-                }
-            });
-        }
-    </script>
-    <!-- Para modificar el estado de una tarea -->
-    <script type="text/javascript">
-       function up(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
-         if(estado == 'pendiente') nuevo_estado = 'realizada';
-         else nuevo_estado = 'pendiente';
-         $.ajax({
-           url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : nuevo_estado, id_usuario : idusuario, anotacion : anotacion, prioridad : prioridad },
-           type: 'POST',
-           success: function(results) {
-             location.reload();
-           }
-         });
-       }
-    </script>
-    <!-- Para modificar la anotacion de una tarea -->
-    <script type="text/javascript">
-       function guardarTareaAnotacion(urlModificar, id, descripcion, estado, idusuario, anotacionA, prioridad) {
-         var anotacion;
-         if(anotacionA=='borrar') { anotacion = ""; console.log("es borrar");}
-         else anotacion = document.getElementById("textoanotacion"+id).value;
-         console.log("tarea anotacion:"+anotacion);
-         $.ajax({
-           url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
-           type: 'POST',
-           success: function(results) {
-             location.reload();
-           }
-         });
-       }
-    </script>
-
-    <!-- Para modificar la prioridad de una tarea -->
-    <script type="text/javascript">
-       function guardarTareaPrioridad(urlModificar, id, descripcion, estado, idusuario, anotacion, prioridad) {
-         $.ajax({
-           url: urlModificar,
-           data : { id : id, descripcion : descripcion, estado : estado, id_usuario : idusuario, anotacion: anotacion, prioridad : prioridad },
-           type: 'POST',
-           success: function(results) {
-             location.reload();
-           }
-         });
-       }
-    </script>
-}
+@scripts = {}
 
 @main("Listado de tareas",scripts) {
     <head>
       <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/listatareas.css")">
+      <script src="@routes.Assets.versioned("javascripts/jquery-1.11.3.min.js")" type="text/javascript"></script>
+      <script src="@routes.Assets.versioned("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+      <!-- Incluimos smoke -->
+      <script src="@routes.Assets.versioned("javascripts/smoke.min.js")" type="text/javascript"></script>
+      <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/smoke.min.css")">
+      <!-- Incluimos js con funciones para listaTareas -->
+      <script src="@routes.Assets.versioned("javascripts/listaTareas.js")" type="text/javascript"></script>
     </head>
 
     <div style="margin:0px 50px">
         <h2>Listado de tareas de @usuario.login</h2>
-        <table class="table table-striped">
+        <p class="parrafoFiltroEtiquetas">Filtro por etiquetas:
+            <a data-toggle='tooltip' style="cursor:pointer;" class="todasetiquetas" onclick="mostrarTodasTareasConSinEtiqueta()">
+              <span class='glyphicon glyphicon-tag'></span>
+              <span>Mostrar todas</span>
+            </a>
+            @for(etiqueta <- etiquetas) {
+            <a data-toggle='tooltip' style="cursor:pointer;" class="filtroetiquetas" onclick="ocultarTareasSinEtiqueta(@etiqueta.id)">
+              <span class='glyphicon glyphicon-tag'></span>
+              <span>@etiqueta.nombre</span>
+            </a>
+            }
+        </p>
+        <table class="table table-striped mitabla">
             <thead>
                 <tr>
-                  <th>Prioridad</th>
+                  <th></th>
                   <th>Id</th>
                   <th name="descrip" id="descrip">Descripción</th>
-                  <th>Acciones</th>
+                  <th class="accion">Acciones</th>
                 </tr>
             </thead>
             <tbody>
                <!--Tareas estado pendientes-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado=="pendiente") {
-                  <tr class="accordion-container">
-                    <td>
+                  <tr class="accordion-container show-btn tarea" id="@for(etiqueta <- tarea.etiquetas){@etiqueta.id,}">
+                    <!--Prioridad-->
+                    <td class="tdprioridad">
                       <div class="prior prioridad@tarea.prioridad">
                         <div class="prioridades">
-                            <div class="prioridad1" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 1); return false;"></div>
-                            <div class="prioridad2" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 2); return false;"></div>
-                            <div class="prioridad3" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 3); return false;"></div>
+                            <div class="prioridad1" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 1, '@tarea.etiquetas'); return false;"></div>
+                            <div class="prioridad2" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 2, '@tarea.etiquetas'); return false;"></div>
+                            <div class="prioridad3" onclick="guardarTareaPrioridad('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', 3, '@tarea.etiquetas'); return false;"></div>
                         </div>
                       </div>
                     </td>
                     <td>@tarea.id</td>
-                    <td id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
-                    <td>
-                        <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-                        <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                    <td class="tddescripcion" id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
+                        @tarea.descripcion
+                        @for(etiqueta <- tarea.etiquetas){
+                          <a data-toggle='tooltip' class='btn-xs btn-info'>
+                            <span class='glyphicon glyphicon-tag'></span>
+                            <span>@etiqueta.nombre</span>
+                          </a>
+                        }
+                        <!-- Iconos abrir acordeón anotación -->
+                        <a id="iconoabriranotacion@tarea.id">
+                          <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                        <a id="iconocerraranotacion@tarea.id" class="iconoinvisible">
+                          <span class="glyphicon glyphicon-chevron-up iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td class="botonesaccion">
+                        <a class="btn btn-primary btn-sm" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)">
+                          <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+                        <a class="btn btn-warning btn-sm" onclick="del('/tareas/' + '@tarea.id');">
+                          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
                         <a href="" class="btn btn-primary btn-sm" style="cursor: pointer;"
-                          onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', '@tarea.prioridad'); return false;">
+                          onclick="modificarEstado('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id','@tarea.anotacion', '@tarea.prioridad', '@tarea.etiquetas'); return false;">
                           <span class="glyphicon glyphicon-unchecked"></span>
                         </a>
                     </td>
                   </tr>
                   <!-- Anotacion de la tarea -->
-                  <tr class="accordion-content@tarea.id" id="anotacionacordeon">
-                    <td>- </td>
-                    <td id="anotacioneditar">
-                      <div class="anotacioneditar">
-                        <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
+                  <tr>
+                   <td class="accordion-content@tarea.id anotacioninvisible"></td>
+                   <td class="columna2anotacion  accordion-content@tarea.id anotacioninvisible"></td>
+                   <td class="accordion-content@tarea.id anotacioninvisible">
+                    <div class="accordion-content@tarea.id anotacioninvisible columnaanotacion">
+                      <textarea id="textoanotacion@tarea.id" class="form-control textanotacion" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
+                      <div class="botonesanotacion">
+                        <a id="botonguardarA" class="botonAnotacionizq" title="Guardar anotación"
+                           onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'modificar', '@tarea.prioridad', '@tarea.etiquetas'); return false;">
+                         <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+                        </a>
+                        <a class="botonAnotacionder" title="Borrar anotación"
+                             onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad', '@tarea.etiquetas'); return false;">
+                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </a>
                       </div>
-                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
-                        <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
-                      </a>
-                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad'); return false;">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                      </a>
-                    </td>
+                    </div>
+                   </td>
+                   <td class="accordion-content@tarea.id anotacioninvisible"></td>
                   </tr>
                   }
                 }
@@ -124,45 +109,70 @@
                 <!--Tareas estado realizadas-->
                 @for(tarea <- tareas) {
                   @if(tarea.estado!="pendiente") {
-                  <tr>
-                      <td>
-                        <div class="prioridad@tarea.prioridad done">
-                        </div>
+                    <tr class="tarea" id="@for(etiqueta <- tarea.etiquetas){@etiqueta.id,}">
+                      <td class="tdprioridad">
+                        <div class="prioridad@tarea.prioridad done"></div>
                       </td>
-                      <td id='realizada'>@tarea.id</td>
-                      <td class='realizada' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">@tarea.descripcion</td>
-                      <td>
-                          <a class="btn btn-primary btn-sm" id='realizadab' href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)"><span class="glyphicon glyphicon-edit" id='realizada' aria-hidden="true"></span></a>
-                          <a class="btn btn-warning btn-sm" id='realizadab' onclick="del('/tareas/' + '@tarea.id');"><span class="glyphicon glyphicon-trash" id='realizada' aria-hidden="true"></span></a>
-                          <a href="" class="btn btn-primary btn-sm" id='realizadab' style="cursor: pointer;"
-                            onclick="up('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', '@tarea.prioridad'); return false;">
-                            <span class="glyphicon glyphicon-check" id='realizada'></span>
+                      <td class='realizada'>@tarea.id</td>
+                      <td class='realizada tddescripcion' id="accordion-titulo@tarea.id" onclick="mostrarAcordeon(@tarea.id)">
+                        @tarea.descripcion
+                        @for(etiqueta <- tarea.etiquetas){
+                          <script>console.log("hola")</script>
+                          <a data-toggle='tooltip' class='btn-xs btn-info realizadaEtiqueta'>
+                            <span class='glyphicon glyphicon-tag'></span>
+                            <span>@etiqueta.nombre</span>
+                          </a>
+                        }
+                        <!-- Iconos abrir acordeón anotacinó -->
+                        <a id="iconoabriranotacion@tarea.id">
+                          <span class="glyphicon glyphicon-chevron-down iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                        <a id="iconocerraranotacion@tarea.id" class="iconoinvisible">
+                          <span class="glyphicon glyphicon-chevron-up iconoacordeon" aria-hidden="true"></span>
+                        </a>
+                      </td>
+                      <td class="botonesaccion">
+                          <a class="btn btn-primary btn-sm realizadab" href="@routes.Tareas.editarTarea(tarea.usuario.id,tarea.id)">
+                            <span class="glyphicon glyphicon-edit realizada" aria-hidden="true"></span>
+                          </a>
+                          <a class="btn btn-warning btn-sm realizadab" onclick="del('/tareas/' + '@tarea.id');">
+                            <span class="glyphicon glyphicon-trash realizada" aria-hidden="true"></span>
+                          </a>
+                          <a href="" class="btn btn-primary btn-sm realizadab" style="cursor: pointer;"
+                            onclick="modificarEstado('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.anotacion', '@tarea.prioridad', '@tarea.etiquetas'); return false;">
+                            <span class="glyphicon glyphicon-check realizada"></span>
                           </a>
                       </td>
                   </tr>
                   <!-- Anotacion de la tarea -->
-                  <tr class="accordion-content@tarea.id" id="anotacionacordeon">
-                    <td>- </td>
-                    <td id="anotacioneditar">
-                      <!-- Vista editable -->
-                      <div class="anotacioneditar">
-                        <textarea id="textoanotacion@tarea.id">@tarea.anotacion</textarea>
+                  <tr>
+                    <td class="accordion-content@tarea.id anotacioninvisible"></td>
+                    <td class="columna2anotacion  accordion-content@tarea.id anotacioninvisible"></td>
+                    <td class="accordion-content@tarea.id anotacioninvisible">
+                      <div class="accordion-content@tarea.id anotacioninvisible columnaanotacion">
+                        <textarea id="textoanotacion@tarea.id" class="form-control textanotacion realizada" placeholder="Escribe aquí la anotación.">@tarea.anotacion</textarea>
+                        <div class="botonesanotacion">
+                          <a id="botonguardarA" class="botonAnotacionizq" title="Guardar anotación"
+                              onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'modificar', '@tarea.prioridad', '@tarea.etiquetas'); return false;">
+                            <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
+                          </a>
+                          <a class="botonAnotacionder" title="Borrar anotación"
+                                onclick="modificarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad', '@tarea.etiquetas'); return false;">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                          </a>
+                        </div>
                       </div>
-                      <a id="botonguardarA" onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', '@tarea.prioridad'); return false;">
-                        <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span>
-                      </a>
-                      <a onclick="guardarTareaAnotacion('@routes.Tareas.grabaTareaModificada()', '@tarea.id', '@tarea.descripcion', '@tarea.estado', '@tarea.usuario.id', 'borrar', '@tarea.prioridad'); return false;">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                      </a>
                     </td>
+                    <td class="accordion-content@tarea.id anotacioninvisible"></td>
                   </tr>
                   }
                 }
             </tbody>
         </table>
 
-        <a class="btn btn-primary"
-            href="@routes.Tareas.formularioNuevaTarea(usuario.id)"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+        <a class="btn btn-primary btn-add-tarea" href="@routes.Tareas.formularioNuevaTarea(usuario.id)">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </a>
 
         <p>
         @if(mensaje!=null && mensaje!="") {
@@ -173,19 +183,4 @@
         </p>
     </div>
 
-    <!-- Para el acordeón de la anotación de cada tarea -->
-    <script>
-    function mostrarAcordeon(id) {
-        console.log("miraaaaa:"+id);
-         var contenido=$(".accordion-content"+id);
-         if(contenido.css("display")=="none"){ //open
-            contenido.slideDown(250);
-            $(this).addClass("open");
-         }
-         else{ //close
-            contenido.slideUp(250);
-            $(this).removeClass("open");
-        }
-      }
-    </script>
 }

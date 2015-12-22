@@ -16,7 +16,7 @@ public class Tarea {
         @JoinColumn(name="usuarioId")
         public Usuario usuario;
 
-        @ManyToMany(cascade=CascadeType.ALL)
+        @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
         @JoinTable(name="tarea_etiqueta", joinColumns=@JoinColumn(name="tarea_id"), inverseJoinColumns=@JoinColumn(name="etiqueta_id"))
         public List<Etiqueta> etiquetas;
 

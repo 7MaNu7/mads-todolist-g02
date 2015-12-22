@@ -126,7 +126,7 @@ public class EtiquetasTests {
                 Etiqueta etiqueta = EtiquetaDAO.find(1);
                 EtiquetaDAO.delete(etiqueta.id);
                 Usuario usuario = UsuarioDAO.find(1);
-                assertEquals(0,usuario.etiquetas.size());
+                assertEquals(1,usuario.etiquetas.size());
             });
         });
     }
@@ -170,11 +170,10 @@ public class EtiquetasTests {
                 Etiqueta etiqueta = EtiquetaDAO.find(1);
                 EtiquetaService.deleteEtiqueta(etiqueta.id);
                 Usuario usuario = UsuarioDAO.find(1);
-                assertEquals(0,usuario.etiquetas.size());
+                assertEquals(1,usuario.etiquetas.size());
             });
         });
     }
-
 
 
 

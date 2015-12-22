@@ -104,7 +104,7 @@ public class ModificarTareasTests {
                 .get()
                 .get(timeout);
             assertEquals(OK, response.getStatus());
-            assertTrue(response.getBody().contains("<h1>Modificar tarea 1 del usuario pepito</h1>"));
+            assertTrue(response.getBody().contains("<h3>Modificar tarea 1 del usuario pepito</h3>"));
 
             response = WS
                 .url("http://localhost:3333/usuarios/99/tareas/88/editar")
@@ -150,4 +150,82 @@ public class ModificarTareasTests {
 
         });
     }
+
+    @Test
+    public void testWebModificarTareaAnyadirTag() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                int timeout = 4000;
+                //cambia la descripcion de la tarea 1 del usuario 1
+                WSResponse response = WS
+                    .url("http://localhost:3333/tareas/modifica")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("id=1&estado=pendiente&descripcion=Hay que refactorizar amigos, la nueva moda es la cloud&id_usuario=1&tags=1;2;3;")
+                    .get(timeout);
+                assertEquals(UNAUTHORIZED, response.getStatus()); //la tag 2 no es suya
+
+                response = WS
+                    .url("http://localhost:3333/tareas/modifica")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("id=1&estado=pendiente&descripcion=Hay que refactorizar amigos&tags=hola;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(BAD_REQUEST, response.getStatus()); //"hola" no es una lista de tags valida
+
+                response = WS
+                    .url("http://localhost:3333/tareas/modifica")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("id=1&estado=pendiente&descripcion=Hay que refactorizar amigos&tags=1;3;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus()); //las tags 1 y 3 son suyas, asi que redirect
+
+                Tarea tarea = TareaDAO.find(1);
+                assertEquals(2,tarea.etiquetas.size()); //tendra 2 etiquetas
+            });
+        });
+    }
+
+    @Test
+    public void testWebModificarTareaQuitarTag() {
+        running(testServer(3333, app), () -> {
+            JPA.withTransaction(() -> {
+                int timeout = 4000;
+                //cambia la descripcion de la tarea 1 del usuario 1
+                WSResponse response = WS
+                    .url("http://localhost:3333/tareas/modifica")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("id=1&estado=pendiente&descripcion=Hay que refactorizar amigos&tags=1;3;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus()); //las tags 1 y 3 son suyas, asi que redirect
+
+                Tarea tarea = TareaDAO.find(1);
+                assertEquals(2,tarea.etiquetas.size()); //tendra 2 etiquetas
+
+                response = WS
+                    .url("http://localhost:3333/tareas/modifica")
+                    .setFollowRedirects(false)
+                    .setHeader("Cookie",WSUtils.getSessionCookie("pepito","perez"))
+                    .setContentType("application/x-www-form-urlencoded")
+                    .post("id=1&estado=pendiente&descripcion=Hay que refactorizar amigos&tags=1;&&id_usuario=1")
+                    .get(timeout);
+
+                assertEquals(303, response.getStatus());
+
+                Tarea tarea_cambiada = TareaDAO.find(1);
+                assertEquals(2,tarea_cambiada.etiquetas.size()); //Ahora la tarea solo tiene 1 etiqueta
+
+            });
+        });
+    }
+
 }

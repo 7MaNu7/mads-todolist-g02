@@ -5,10 +5,12 @@ import java.util.List;
 import play.*;
 import play.mvc.*;
 import views.html.*;
-import static play.libs.Json.*;
 import play.data.Form;
 import play.db.jpa.*;
 import play.data.DynamicForm;
+import play.libs.Json;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.*;
 
@@ -40,11 +42,40 @@ public class Etiquetas extends Controller {
         } catch(NullPointerException e) {
             return badRequest(error.render(BAD_REQUEST,"El usuario con id=" + usuarioId + " no existe."));
         }
-        //Usuario usuario = UsuarioService.findUsuario(usuarioId);
-        //String mensaje = flash("grabaTarea");
-        //return ok(listaTareas.render(tareas,usuario,mensaje));
+        ObjectNode result = Json.newObject();
+        for(Etiqueta e:etiquetas) {
+            result.put(e.id.toString(),e.nombre);
+        }
+        return ok(result);
+    }
 
-        return ok(etiquetas.toString());
+    @Transactional(readOnly = true)
+    // Devuelve una página con la lista de tareas
+    public Result listaEtiquetasTarea(Integer tareaId) {
+        String tipo = session("tipo");
+        if(tipo==null) //si no esta logeado
+            return ok(formLoginUsuario.render(new DynamicForm(),"¡Necesitas iniciar sesión para acceder a este recurso!"));
+
+        Tarea t = TareaService.findTarea(tareaId);
+        //si otro usuario (no admin) quiere acceder a una list que no es suya...
+        if(!tipo.equals("admin"))
+        {
+            if(Integer.parseInt(tipo)!=t.usuario.id)
+            {
+                return unauthorized(error.render(UNAUTHORIZED,"No tienes permiso para ver un recurso que no es tuyo."));
+            }
+        }
+        List<Etiqueta> etiquetas = null;
+        try {
+            etiquetas = EtiquetaService.findAllEtiquetasTarea(tareaId);
+        } catch(NullPointerException e) {
+            return badRequest(error.render(BAD_REQUEST,"La tarea con id=" + tareaId + " no existe."));
+        }
+        ObjectNode result = Json.newObject();
+        for(Etiqueta e:etiquetas) {
+            result.put(e.id.toString(),e.nombre);
+        }
+        return ok(result);
     }
 
     @Transactional
