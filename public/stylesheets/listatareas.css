@@ -166,3 +166,12 @@
 .realizadaEtiqueta {
   background-color: grey;
 }
+td:nth-child(1) {
+    width: 37px !important;
+}
+td:nth-child(2) {
+    width: 52px !important;
+}
+td:nth-child(4) {
+    width: 200px !important;
+}
