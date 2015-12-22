@@ -110,10 +110,14 @@ public class WebServiceTest {
             .get()
             .get(timeout);
 
+
             //comprobamos que es el usuario 1, es domingo y su nombre esta vacio de momento
-            assertTrue(response.getBody().contains("<h1>Datos del usuario 1</h1>"));
-            assertTrue(response.getBody().contains("<li><b>Login:</b> domingo</li>"));
-            assertTrue(response.getBody().contains("<li><b>Nombre:</b> </li>"));
+            assertTrue(response.getBody().contains("<h2 class='tituloContenido'>Detalle usuario 1</h2>"));
+            assertTrue(response.getBody().contains("<p class='etiqueta'>Login: </p>"));
+            assertTrue(response.getBody().contains("<h5 class='datos_u'>domingo</h5> </br>"));
+            assertTrue(response.getBody().contains("<p class='etiqueta'>Nombre: </p>"));
+            assertTrue(response.getBody().contains("<h5 class='datos_u'></h5> </br>"));
+
 
             //modificamos el nombre del usuario
             response = WS.url("http://localhost:3333/usuarios/modifica")
@@ -129,7 +133,10 @@ public class WebServiceTest {
             .get()
             .get(timeout);
 
-            assertTrue(response.getBody().contains("<li><b>Nombre:</b> Hector</li>"));
+
+            assertTrue(response.getBody().contains("<p class='etiqueta'>Nombre: </p>"));
+            assertTrue(response.getBody().contains("<h5 class='datos_u'>Hector</h5> </br>"));
+
         });
     }
 
@@ -146,8 +153,9 @@ public class WebServiceTest {
             .get(timeout);
 
             //comprobamos que es el usuario 1, es domingo y su nombre esta vacio de momento
-            assertTrue(response.getBody().contains("<h1>Datos del usuario 1</h1>"));
-            assertTrue(response.getBody().contains("<li><b>Login:</b> domingo</li>"));
+            assertTrue(response.getBody().contains("<h2 class='tituloContenido'>Detalle usuario 1</h2>"));
+            assertTrue(response.getBody().contains("<p class='etiqueta'>Login: </p>"));
+            assertTrue(response.getBody().contains("<h5 class='datos_u'>domingo</h5> </br>"));
 
             //borramos
             response = WS.url("http://localhost:3333/usuarios/1")
