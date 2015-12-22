@@ -1,3 +1,49 @@
+/* Contenidos div columna */
+
+.contenido-columna {
+  margin-left: 5px;
+}
+
+.col-xs-6 {
+  width: 40%;
+  margin-left: 65px;
+}
+
+.row {
+  margin-right: 0px !important;
+}
+
+.divcreareditaretiquetas {
+  height: 125px;
+}
+
+.divcrearetiqueta {
+  float: left;
+}
+
+.diveditaretiqueta {
+  float: left;
+  margin-left: 20px;
+}
+
+/* Titulos */
+
+h1 {
+  margin-top: 15px;
+}
+
+h3 {
+  margin-top: 15px;
+  padding-bottom: 10px;
+  font-size: 30px;
+}
+
+ #parrafo {
+  margin-top: 15px;
+}
+
+/* Elementos listas */
+
 .lista-tags {
     margin-left:0px;
     min-height:20px
@@ -9,4 +55,65 @@ ul:empty::after{
 
 .top-buffer {
     margin-top:20px;
+}
+
+.list-inline>li {
+    padding-left: 0px;
+}
+
+li {
+  text-decoration: none;
+  list-style: none;
+}
+
+/* Elementos inputs y sus botones */
+
+.editaretiqueta {
+  margin-top: 5px;
+}
+
+textarea.form-control {
+    border: 1px solid;
+    border-color: #9C9696;
+}
+
+/* Botones */
+
+.botones-tarea {
+}
+
+.boton-tarea {
+  height: 32px;
+  border-radius: 2px;
+}
+
+.boton-input {
+  float: left;
+}
+#basurita {
+    position: absolute;
+    top: 7px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+}
+
+.div-eliminar-etiqueta {
+  width: 500px;
+  height: 30px;
+  padding: 3px;
+  border-radius: 2px;
+  border: 2px solid rgb(222, 85, 81);
+  background-color: white;
+  color: rgb(210, 84, 80);
+  background-color: white;
+  position: relative;
+}
+
+/* Mensajes */
+
+.alert-danger {
+  margin: 10px 30px;
 }

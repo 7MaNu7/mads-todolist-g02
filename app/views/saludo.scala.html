@@ -1,5 +1,27 @@
 @(nombre: String)
 
+@(nombre: String)
+
 @main("Hola") {
-  <h1>Hola <em>@nombre</em></h1>
+
+  <head>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/saludo.css")">
+  </head>
+
+  <body>
+    <div class="divContenido">
+      <div class="divTituloContenido">
+        <h2 class="tituloContenido">
+          <h1 style="text-align: center;">
+            Hola @nombre, bienvenido a
+          </h1>
+        </h2>
+      </div>
+      <div class="tituloApp">
+        <p>
+          To-do List
+        </p>
+      </div>
+    </div>
+  </body>
 }

@@ -13,16 +13,6 @@
   width: 300px !important;
 }
 
-span.etiqueta {
-    border: solid 1px #6F6FAD;
-    margin-left: 20px;
-    padding: 3px;
-    padding-left: 12px;
-    border-radius: 7px;
-    padding-right: 16px;
-    background-color: rgba(24, 60, 90, 0.19);
-}
-
 .tddescripcion {
     width: 700px !important;
 }
@@ -30,6 +20,10 @@ span.etiqueta {
 .tdprioridad {
   width: 10px !important;
   padding-right: 40px;
+}
+
+.columnaanotacion {
+  margin-top: 8px;
 }
 
 /* Para las tareas realizadas */
@@ -46,7 +40,7 @@ span.etiqueta {
   border-color: rgba(128, 128, 128, 0.21) !important;
 }
 
-/* Acordeón anotacion de una tarea */
+/* Icono ver anotacion de una tarea */
 
 .iconoacordeon {
   margin-top: 3px;
@@ -58,39 +52,30 @@ span.etiqueta {
   display: none;
 }
 
-/* Acordeon mio */
 
-.anotacion {
-  background-color: rgba(51, 122, 183, 0.89);
-  width: 165px;
-  min-height: 20px;
-  padding: 8px 10px;
-  text-align: justify;
-  border-radius: 2px;
-  border: 1px solid;
-  border-color: rgba(217, 83, 79, 0.33);
-  color: white;
+/* Acordeón anotación de una tarea*/
+
+.anotacioninvisible {
+  display: none;
 }
 
-.anotacioneditar {
-  width: 700px;
-  text-align: justify;
+.columna2anotacion {
+  width: 235px !important;
 }
 
 .textanotacion {
   width: 665px;
   margin-top: -7px;
   float: left;
-}
-
-.columna2anotacion {
-  width: 238px !important;
+  text-align: justify;
 }
 
 /* Botones anotacion */
 
 .botonesanotacion {
   margin-top: 7px;
+  width: 5px;
+  float: left;
 }
 
 .botonAnotacionizq {
@@ -99,16 +84,16 @@ span.etiqueta {
 }
 
 .botonAnotacionder {
-  float: right;
-  margin-right: 10px;
+  margin-left: 10px;
   color: rgba(34, 34, 34, 0.83);
 }
 
-/* Para que al principio esté oculta */
-#anotacionacordeon {
-  display: none;
+.btn-add-tarea {
+  margin-left: 10px;
+  font-size: 15px;
+  width: 38px;
+  margin-top: -5px;
 }
-
 
 /* Estilo CSS para las prioridades */
 
@@ -135,6 +120,7 @@ span.etiqueta {
 .prioridades div {
     margin-top: 10px;
 }
+
 .prioridades {
   position: absolute;
   padding: 9px;
@@ -147,10 +133,10 @@ span.etiqueta {
   padding-top: 5px;
   height: 100px;
 }
+
 .prioridad1 {
     background-color: #D60000;
 }
-
 .prioridad2 {
     background-color: #D6D600;
 }
@@ -159,4 +145,39 @@ span.etiqueta {
 }
 .prioridad0 {
     background-color: #778678;
+}
+
+/* Etiquetas en la descripción */
+
+.btn-xs {
+    padding: 5px 4px;
+    margin-left: 10px;
+}
+
+.parrafoFiltroEtiquetas {
+    font-size: 16px;
+    margin-top: 15px;
+    margin-left: 4px;
+}
+
+.todasetiquetas {
+    float: right;
+}
+
+.filtroetiquetas {
+  margin-left: 10px;
+  font-size: 15px;
+}
+
+.realizadaEtiqueta {
+  background-color: grey;
+}
+td:nth-child(1) {
+    width: 37px !important;
+}
+td:nth-child(2) {
+    width: 52px !important;
+}
+td:nth-child(4) {
+    width: 200px !important;
 }
